@@ -1,20 +1,33 @@
 const USER = require("../models/user.model")
 const { verifyToken } = require("../services/auth")
 
-async function isAuthenticated(req,res,next){
+function isAuthenticated(req,res,next){
     try {
-        const token = req.cookes?.token
+        const token =req.cookies?.token;
+        console.log(token)
         if(!token) return res.status(400).json({message:"Token not Found. Unauthorized"})
         
-        const decoded = await verifyToken(token)
+        const decoded = verifyToken(token)
+        console.log(decoded)
         req.userId = decoded.userId;
+        req.userRole = decoded.role;
         next()
     } catch (error) {
         console.log('Error in authentication Middleware: ', error)
         res.status(500).json({message:"Internal Server Error"})
     }
-}
+} 
 
+
+function restrictedTo(roles= []){
+    return function (req,res,next){
+        if (!req.userId || !roles.includes(req.userRole)) {
+            return res.status(403).json({ message: "Access Denied" });
+        }
+        next();
+    }
+} 
 module.exports = {
-    isAuthenticated
+    isAuthenticated,
+    restrictedTo
 }

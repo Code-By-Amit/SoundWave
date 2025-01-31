@@ -22,7 +22,8 @@ const handleLogin = async (req, res, next) => {
         }
 
         const payload = {
-            userId: user._id
+            userId: user._id,
+            role: user.role
         }
 
         const token = await generateToken(payload)
@@ -35,7 +36,7 @@ const handleLogin = async (req, res, next) => {
         res.status(200).json({ user: userWithoutPassword, token })
 
     } catch (error) {
-        console.log(error)
+        console.log("Error in login up handeler : ", error.message)
         res.status(500).json({ message: "Internal Server Error", error: error.message })
     }
 }
@@ -52,7 +53,7 @@ const handleSignup = async (req, res) => {
         const { fullName, username, password } = req.body;
         let user = await USER.findOne({ username })
         if (user) {
-            return res.status(400).json({ message: "Username already exists" })
+            return res.status(409).json({ message: "Username already exists" })
         }
 
         user = await USER.create({
@@ -63,6 +64,7 @@ const handleSignup = async (req, res) => {
 
         const payload = {
             userId: user._id,
+            role: user.role
         }
 
         const token = await generateToken(payload);

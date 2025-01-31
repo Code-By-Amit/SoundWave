@@ -9,7 +9,7 @@ const artistSchema = new mongoose.Schema({
         type: String,
         trim: true, // Short biography of the artist/band
     },
-    songs:[
+    songs:[ 
         {
             type:mongoose.Schema.ObjectId,
             ref:"Song"
