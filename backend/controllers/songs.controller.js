@@ -60,9 +60,12 @@ async function likeSong(req, res, next) {
 }
 
 
-async function createSong(req, res, next) {
+async function uploadSong(req, res, next) {
     try {
         const { title, artist, songUrl, image } = req.body;
+        const userId = req.userId;
+
+        const user =await USER.findById(userId);
 
         if (!title || !songUrl) {
             return res.status(400).json({ message: "All fields are Necessary" })
@@ -75,10 +78,13 @@ async function createSong(req, res, next) {
             image
         });
 
-        res.status(201).json({ message: "Song Created Sucessfully", song: newSong })
+        user.songsUploaded.push(newSong._id);
+        await user.save();
+
+        res.status(201).json({ message: "Song Upload Sucessfully", song: newSong })
 
     } catch (error) {
-        console.error("Error in Create Songs handeler : ", error.message)
+        console.error("Error in Upload Songs handeler : ", error.message)
         res.status(500).json({ message: "Internal Server Error", error: error.message })
     }
 }
@@ -86,18 +92,28 @@ async function createSong(req, res, next) {
 
 async function deleteSong(req, res, next) {
     try {
-        const id = req.params.id;
+        const songId = req.params.id;
+        const userId = req.userId;
 
-        const song = await Songs.findByIdAndDelete(id);
+        const song = await Songs.findByIdAndDelete(songId);
         if (!song) {
             return res.status(404).json({ message: "Song Not Found" })
+        }
+        const user =await USER.findById(userId)
+        const songIndexinUser = user.songsUploaded.findIndex((s_id)=>s_id.toString() == songId.toString())
+
+        // Remove Song in User Also
+        if(songIndexinUser !== -1){   
+            user.songsUploaded.splice(songIndexinUser,1);
+            await user.save();
         }
 
         // Remove song _id from all users who liked it
         await USER.updateMany(
-           { songsLiked: id }, 
-           { $pull: { songsLiked: id } }  // Removes the song id from likedSongs array
+           { songsLiked: songId }, 
+           { $pull: { songsLiked: songId } }  // Removes the song id from likedSongs array
        );
+
 
         res.status(200).json({ message: "Song Deleted Sucessfully" })
     } catch (error) {
@@ -109,6 +125,6 @@ async function deleteSong(req, res, next) {
 module.exports = {
     getSongs,
     likeSong,
-    createSong,
+    uploadSong,
     deleteSong
 }

@@ -30,9 +30,13 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ['USER', 'ADMIN'],
         default: 'USER'
-    }
-},{
-    timestamps: true, 
+    },
+    songsUploaded: [{
+        type: mongoose.Schema.ObjectId,
+        ref: "Songs"
+    }]
+}, {
+    timestamps: true,
 })
 
 
@@ -49,5 +53,5 @@ userSchema.methods.comparePassword = async function (password) {
     return await bcrypt.compare(password, this.password)
 }
 
-const USER = mongoose.model('User',userSchema)
+const USER = mongoose.model('User', userSchema)
 module.exports = USER
