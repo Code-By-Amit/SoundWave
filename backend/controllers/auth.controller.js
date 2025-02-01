@@ -67,7 +67,7 @@ const handleSignup = async (req, res) => {
             role: user.role
         }
 
-        const token = await generateToken(payload);
+        const token = generateToken(payload);
 
         res.cookie('token', token, {
             httpOnly: true,
@@ -82,7 +82,18 @@ const handleSignup = async (req, res) => {
     }
 }
 
+async function logoutUser(req, res, next) {
+    try {
+        res.clearCookie('token');
+        res.status(200).json({message:"User Log-Out Sucessfully"})
+    } catch (error) {
+        console.log("Error in Logout handeler : ", error.message)
+        res.status(500).json({ message: "Internal Server Error", error: error.message })
+    }
+}
+
 module.exports = {
     handleLogin,
-    handleSignup
+    handleSignup,
+    logoutUser
 }
