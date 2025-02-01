@@ -4,6 +4,7 @@ const connectToDB = require('./config/connectToDB.js')
 
 const authRoute = require('./routes/auth.routes.js')
 const aritstRoute = require("./routes/artist.routes.js")
+const songRoute = require("./routes/song.routes.js")
 
 const app = express()
 require("dotenv/config")
@@ -17,6 +18,7 @@ app.use(cookieParser())
 
 app.use('/auth',authRoute)
 app.use("/artist",aritstRoute)
+app.use("/songs",songRoute)
 
 app.get("/", (req, res) => {
     res.send("Server is Running")
