@@ -4,12 +4,12 @@ const USER = require("../models/user.model");
 
 async function getSongs(req, res, next) {
     try {
-        const { search, limit = 10, page = 1, recent } = req.query
+        const { search, limit = 10, page = 1, all } = req.query
         const query = search ? { title: RegExp(search, 'i') } : {};
 
-        if (recent == "true") {
-            const songs = await Songs.find({}).sort({ createdAt: -1 }).limit(6)
-            return res.status(200).json({ message: "Recent Blogs Data", songs })
+        if (all == "true") {
+            const songs = await Songs.find({})
+            return res.status(200).json({ message: "All Songs", songs })
         }
         const songs = await Songs.find(query).skip((page - 1) * limit).limit(Number(limit))
 

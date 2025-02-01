@@ -4,11 +4,11 @@ const { verifyToken } = require("../services/auth")
 function isAuthenticated(req,res,next){
     try {
         const token =req.cookies?.token;
-        console.log(token)
+    
         if(!token) return res.status(400).json({message:"Token not Found. Unauthorized"})
         
         const decoded = verifyToken(token)
-        console.log(decoded)
+       
         req.userId = decoded.userId;
         req.userRole = decoded.role;
         next()

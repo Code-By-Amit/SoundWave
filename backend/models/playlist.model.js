@@ -16,6 +16,12 @@ const playlistSchema = new mongoose.Schema({
         ref: 'User',
         required: true,
     },
+    savedBy: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Users"
+        }
+    ],
     image: {
         type: String,
     },
