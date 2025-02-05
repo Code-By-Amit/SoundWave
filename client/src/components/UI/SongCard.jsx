@@ -1,14 +1,14 @@
 import React from 'react'
 import { FaPlay  } from "react-icons/fa6";
 
-export const SongCard = ({ title, image }) => {
+export const SongCard = ({ title, imgSrc }) => {
   return (
     <div className="card w-34 min-w-[8rem] min-h-50 bg-white rounded-lg shadow-md overflow-hidden">
 
       {/* Image Section */}
       <div className='relative'>
         <div className="w-full h-32 overflow-hidden flex justify-center items-center relative bg-gray-300">
-          <img className="h-full w-full object-cover" src={image} alt={title} />
+          <img className="h-full w-full object-cover" src={imgSrc} alt={title} />
         </div>
 
         <div className='absolute z-10 right-2 -bottom-2.5 p-1 bg-[var(--primary-color)] rounded-full flex justify-center items-center'>

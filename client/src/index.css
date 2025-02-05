@@ -7,13 +7,13 @@
     --font-roboto: "Roboto", "sans-serif";
 }
 
-.songscards {
+.songscards,.playlist {
     overflow-x: auto;
     -ms-overflow-style: none;  /* Hides scrollbar in Internet Explorer & Edge */
     scrollbar-width: none;     /* Hides scrollbar in Firefox */
   }
   
-.songscards::-webkit-scrollbar {
+.songscards::-webkit-scrollbar,.playlist::-webkit-scrollbar {
     display: none;  /* Hides scrollbar in Chrome, Safari, and Edge */
   }
   
