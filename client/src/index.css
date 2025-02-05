@@ -2,18 +2,67 @@
 @import "tailwindcss";
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
+/* --primary-color:#e90e0e; */
 @theme {
     --primary-color: #00b8db;
     --font-roboto: "Roboto", "sans-serif";
 }
 
-.songscards,.playlist {
+.songscards,
+.playlist {
     overflow-x: auto;
-    -ms-overflow-style: none;  /* Hides scrollbar in Internet Explorer & Edge */
-    scrollbar-width: none;     /* Hides scrollbar in Firefox */
-  }
-  
-.songscards::-webkit-scrollbar,.playlist::-webkit-scrollbar {
-    display: none;  /* Hides scrollbar in Chrome, Safari, and Edge */
-  }
-  
+    -ms-overflow-style: none;
+    /* Hides scrollbar in Internet Explorer & Edge */
+    scrollbar-width: none;
+    /* Hides scrollbar in Firefox */
+}
+
+.songscards::-webkit-scrollbar,
+.playlist::-webkit-scrollbar {
+    display: none;
+    /* Hides scrollbar in Chrome, Safari, and Edge */
+}
+
+
+
+.right-pannel {
+    --sb-track-color: #232E33;
+    --sb-thumb-color: var(--primary-color);
+    --sb-size: 11px;
+}
+
+/* Custom Scrollbar for Desktop */
+@media (min-width: 768px) { 
+    .right-pannel::-webkit-scrollbar {
+        width: var(--sb-size);
+    }
+
+    .right-pannel::-webkit-scrollbar-track {
+        background: var(--sb-track-color);
+        border-radius: 3px;
+    }
+
+    .right-pannel::-webkit-scrollbar-thumb {
+        background: var(--sb-thumb-color);
+        border-radius: 10px;
+    }
+
+    @supports not selector(::-webkit-scrollbar) {
+        .right-pannel {
+            scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+        }
+    }
+}
+
+/* Hide Scrollbar on Mobile */
+@media (max-width: 767px) { 
+    .right-pannel {
+        scrollbar-width: none; /* For Firefox */
+        -ms-overflow-style: none; /* For IE and Edge */
+    }
+
+    .right-pannel::-webkit-scrollbar {
+        display: none; /* For Chrome, Safari, and Opera */
+    }
+}
+

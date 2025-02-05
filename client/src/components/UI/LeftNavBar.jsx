@@ -27,7 +27,7 @@ export const LeftNavBar = () => {
         {/* Logo */}
         <div className="flex items-center gap-2 text-lg">
           <img className={`dark:invert w-10 transition-all duration-300 ${!isOpen && "hidden"}`} src="/logo.png" alt="Logo" />
-          <span className={`font-bold transition-all duration-300 tebg-[var(--primary-color)] ${!isOpen && "hidden"}`}> SoundWave </span>
+          <span className={`font-bold transition-all duration-300 text-[var(--primary-color)] ${!isOpen && "hidden"}`}> SoundWave </span>
         </div>
 
         {/* Toggle Button */}

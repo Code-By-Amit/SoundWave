@@ -7,15 +7,18 @@ import { MainLayout } from './components/Layout/MainLayout'
 import { Home } from './Pages/Home'
 import { Playlist } from './Pages/Playlist'
 import { Favourates } from './Pages/Favourites'
+import { RightLayout } from './components/Layout/RightLayout'
 
 function App() {
 
   return (
     <Routes>
       <Route path='/' element={<MainLayout />}>
-        <Route index element={<Home />} />
-        <Route path='/playlist' element={<Playlist/>}/>
-        <Route path='/favourites' element={<Favourates/>} />
+        <Route element={<RightLayout />} >
+          <Route index element={<Home />} />
+          <Route path='/playlist' element={<Playlist />} />
+          <Route path='/favourites' element={<Favourates />} />
+        </Route>
       </Route>
     </Routes>
   )

@@ -2,40 +2,24 @@ import React from 'react'
 import { IoSearch } from "react-icons/io5";
 import { SongCard } from '../components/UI/SongCard';
 import { PlaylistCard } from '../components/UI/PlaylistCard';
+import { NavLink } from 'react-router-dom';
+import { FaHeart } from 'react-icons/fa';
+import { SongTable } from '../components/UI/SongTable/SongTable';
 
 export const Home = () => {
   return (
     <>
       {/* Main Content Area */}
-      <div className=" w-full bg-gray-100 dark:bg-gray-800 p-1.5 overflow-auto">
-
-
-        <div className="flex items-center justify-between px-4 py-3 rounded-md bg-white dark:border-gray-700  dark:bg-gray-900">
-          {/* Search Input */}
-          <div className="flex-1 max-w-md relative  hidden sm:block">
-            <input
-              className="w-full py-2 px-4 bg-white dark:bg-gray-700 text-gray-800 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 border border-gray-300 dark:border-gray-600 outline-none rounded-md focus:ring-2 focus:ring-cyan-400 transition-all"
-              type="text"
-              placeholder="Search..."
-            /> <IoSearch className='absolute top-3 right-3 text-white text-xl' />
-          </div>
-
-          <div className="flex items-center gap-1 sm:hidden text-lg">
-            <img className={`dark:invert w-10 transition-all duration-300 `} src="/logo.png" alt="Logo" />
-            <span className={`font-bold transition-all text-md duration-300 dark:bg-[var(--primary-color)]`}> SoundWave </span>
-          </div>
-
-          {/* Login Button */}
-          <div className="ml-4">
-            <button className="px-3 py-1.5 bg-[var(--primary-color)] text-sm text-white font-semibold md:font-bold rounded-full transition-all hover:bg-cyan-600 focus:ring-2 focus:ring-cyan-400">
-              Login
-            </button>
-          </div>
-        </div>
-
+      <div className=" bg-gray-100 dark:bg-gray-800 p-1.5 overflow-auto">
+      
         {/* Songs Cards  */}
         <div className="Songs my-4">
-          <h1 className='font-bold text-2xl mx-4'>Top Songs</h1>
+          <div className='flex justify-between px-3 items-center '>
+            <h1 className='font-bold text-2xl mx-4 dark:text-white'>Top Songs</h1>
+            <NavLink to="/songs" >
+              <button className='text-gray-600 dark:text-gray-400 md:mx-4 hover:text-[var(--primary-color)] cursor-pointer'>View All</button>
+            </NavLink>
+          </div>
           <div className='songscards flex  overflow-x-auto flex-nowrap  items-center justify-start gap-4 p-4'>
             <SongCard
               imgSrc="https://c.saavncdn.com/527/My-Name-Is-Khan-Hindi-2010-20190617160533-500x500.jpg"
@@ -56,14 +40,31 @@ export const Home = () => {
           </div>
         </div>
 
-      {/* Playlist Card  */}
-      <div className="Playlist my-4">
-          <h1 className='font-bold text-2xl mx-4'>Top Playlist</h1>
+        {/* Playlist Card  */}
+        <div className="Playlist my-4 mb-10">
+          <div className='flex justify-between px-3 items-center'>
+            <h1 className='font-bold text-2xl mx-4 dark:text-white'>Top Playlist</h1>
+            <NavLink to="/playlist" >
+              <button className='text-gray-600 mx-4 dark:text-gray-400 md:mx-4 hover:text-[var(--primary-color)] cursor-pointer'>View All</button>
+            </NavLink>
+          </div>
           <div className='playlist flex  overflow-x-auto flex-nowrap  items-center justify-start gap-4 p-4'>
-            <PlaylistCard imageSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTTcOlodFZ-BbjcvK_kTkhO4G6a38b7QP6-Q&s" title="My Playlist"/>
+            <PlaylistCard imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTTcOlodFZ-BbjcvK_kTkhO4G6a38b7QP6-Q&s" title="My Playlist" />
+            <PlaylistCard imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTTcOlodFZ-BbjcvK_kTkhO4G6a38b7QP6-Q&s" title="My Playlist" />
+            <PlaylistCard imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTTcOlodFZ-BbjcvK_kTkhO4G6a38b7QP6-Q&s" title="My Playlist" />
+            <PlaylistCard imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTTcOlodFZ-BbjcvK_kTkhO4G6a38b7QP6-Q&s" title="My Playlist" />
+            <PlaylistCard imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTTcOlodFZ-BbjcvK_kTkhO4G6a38b7QP6-Q&s" title="My Playlist" />
+            <PlaylistCard imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTTcOlodFZ-BbjcvK_kTkhO4G6a38b7QP6-Q&s" title="My Playlist" />
+            <PlaylistCard imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTTcOlodFZ-BbjcvK_kTkhO4G6a38b7QP6-Q&s" title="My Playlist" />
+            <PlaylistCard imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTTcOlodFZ-BbjcvK_kTkhO4G6a38b7QP6-Q&s" title="My Playlist" />
           </div>
         </div>
 
+
+        {/* Top Songs  */}
+        <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+          <SongTable />
+        </div>
       </div>
     </>
   )
