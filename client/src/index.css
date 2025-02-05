@@ -1,2 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import "tailwindcss";
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+@theme {
+    --primary-color: #00b8db;
+    --font-roboto: "Roboto", "sans-serif";
+}
+
+.songscards {
+    overflow-x: auto;
+    -ms-overflow-style: none;  /* Hides scrollbar in Internet Explorer & Edge */
+    scrollbar-width: none;     /* Hides scrollbar in Firefox */
+  }
+  
+.songscards::-webkit-scrollbar {
+    display: none;  /* Hides scrollbar in Chrome, Safari, and Edge */
+  }
+  
