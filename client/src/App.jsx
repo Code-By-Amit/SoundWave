@@ -8,6 +8,7 @@ import { Home } from './Pages/Home'
 import { Playlist } from './Pages/Playlist'
 import { Favourates } from './Pages/Favourites'
 import { RightLayout } from './components/Layout/RightLayout'
+import { Explore } from './Pages/Explore'
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path='/playlist' element={<Playlist />} />
           <Route path='/favourites' element={<Favourates />} />
+          <Route path='/explore' element={<Explore />} />
         </Route>
       </Route>
     </Routes>

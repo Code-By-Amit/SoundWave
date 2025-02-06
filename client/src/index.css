@@ -26,7 +26,7 @@
 
 
 
-.right-pannel {
+.right-pannel-scrollbar {
     --sb-track-color: #232E33;
     --sb-thumb-color: var(--primary-color);
     --sb-size: 11px;
@@ -34,22 +34,22 @@
 
 /* Custom Scrollbar for Desktop */
 @media (min-width: 768px) { 
-    .right-pannel::-webkit-scrollbar {
+    .right-pannel-scrollbar::-webkit-scrollbar {
         width: var(--sb-size);
     }
 
-    .right-pannel::-webkit-scrollbar-track {
+    .right-pannel-scrollbar::-webkit-scrollbar-track {
         background: var(--sb-track-color);
         border-radius: 3px;
     }
 
-    .right-pannel::-webkit-scrollbar-thumb {
+    .right-pannel-scrollbar::-webkit-scrollbar-thumb {
         background: var(--sb-thumb-color);
         border-radius: 10px;
     }
 
     @supports not selector(::-webkit-scrollbar) {
-        .right-pannel {
+        .right-pannel-scrollbar {
             scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
         }
     }
@@ -57,12 +57,12 @@
 
 /* Hide Scrollbar on Mobile */
 @media (max-width: 767px) { 
-    .right-pannel {
+    .right-pannel-scrollbar {
         scrollbar-width: none; /* For Firefox */
         -ms-overflow-style: none; /* For IE and Edge */
     }
 
-    .right-pannel::-webkit-scrollbar {
+    .right-pannel-scrollbar::-webkit-scrollbar {
         display: none; /* For Chrome, Safari, and Opera */
     }
 }
