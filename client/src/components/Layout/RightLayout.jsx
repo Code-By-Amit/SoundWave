@@ -1,8 +1,33 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { IoSearch } from 'react-icons/io5'
 import { Outlet } from 'react-router-dom'
+import { DarkLightToggleButton } from '../UI/DarkLightToggleButton'
 
 export const RightLayout = () => {
+    const [isDarkMode, setIsDarkMode] = useState(()=>localStorage.getItem("theme")==="dark");
+
+    const toggleDarkMode = () => {
+        setIsDarkMode(!isDarkMode)
+        console.log("I am here")
+    }
+
+    useEffect(()=>{
+        let theme = localStorage.getItem('theme');
+        if(theme == "dark") setIsDarkMode(true);
+        else setIsDarkMode(false);
+    },[]);
+
+    useEffect(() => {
+        if (isDarkMode) {
+            document.documentElement.setAttribute("data-theme", "dark")
+            localStorage.setItem("theme","dark");
+        }
+        else {
+            document.documentElement.setAttribute("data-theme", "")
+            localStorage.removeItem("theme");
+        }
+    }, [isDarkMode])
+
     return (
         <div className='right-pannel w-full h-screen overflow-y-scroll'>
             <div className="flex items-center sticky top-0 z-10 justify-between px-4 py-3 bg-white dark:border-gray-700  dark:bg-gray-900">
@@ -19,15 +44,18 @@ export const RightLayout = () => {
                 </div>
 
                 {/* Login Button */}
-                <div className="ml-4">
-                    <button className="px-3 py-1.5 bg-[var(--primary-color)] text-sm text-white font-semibold md:font-bold rounded-full transition-all hover:bg-cyan-600 focus:ring-2 focus:ring-cyan-400">
-                        Login
-                    </button>
+                <div className="ml-4 flex gap-4 items-center">
+                    <DarkLightToggleButton toggleDarkMode={toggleDarkMode} />
+                    <div>
+                        <button className="px-3 py-1.5 bg-[var(--primary-color)] text-sm text-white font-semibold md:font-bold rounded-full transition-all hover:bg-cyan-600 focus:ring-2 focus:ring-cyan-400">
+                            Login
+                        </button>
+                    </div>
                 </div>
             </div>
-            
-                <Outlet />
-        
+
+            <Outlet />
+
         </div>
     )
 }
