@@ -4,12 +4,12 @@ import { LeftNavBar } from '../UI/LeftNavBar'
 
 export const MainLayout = () => {
   return (
-    <div>
-      <div className="flex gap-0.5 bg-[var(--background-color)] min-h-screen ">
-        <LeftNavBar />
+      <div className="flex gap-0.5 h-screen max-w-screen bg-[var(--background-color)]  ">
+        <LeftNavBar /> 
         {/* <div className='border rounded-2xl mx-1'></div> */}
-        <Outlet />
+        <div className=" bg-gray-100 dark:bg-gray-800 overflow-auto">
+          <Outlet />
+        </div>
       </div>
-    </div>
   )
 }

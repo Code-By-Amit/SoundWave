@@ -5,18 +5,15 @@ import { DarkLightToggleButton } from '../UI/DarkLightToggleButton'
 import { TopBar } from '../UI/TopBar'
 
 export const RightLayout = () => {
-    
+
 
     return (
-        <div className=' w-full h-screen flex flex-col'>
-
+        <div className='w-full h-screen flex flex-col'>
             <TopBar />
-
             {/* Content Area */}
-            <div className="right-pannel-scrollbar bg-gray-100 dark:bg-gray-800 h-full p-1.5 overflow-auto">
-                <Outlet />
+            <div className='right-pannel-scrollbar overflow-auto'>
+            <Outlet />
             </div>
-
         </div>
     )
 }

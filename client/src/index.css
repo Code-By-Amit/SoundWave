@@ -8,7 +8,9 @@
     --background-color:#52525f;
     --font-roboto: "Roboto", "sans-serif";
 }
-
+html, body, #root {
+    height: 100vh;
+}
 .songscards,
 .playlist {
     overflow-x: auto;

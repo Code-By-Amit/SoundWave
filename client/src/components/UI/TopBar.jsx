@@ -30,7 +30,7 @@ export const TopBar = () => {
         <div className="flex items-center sticky top-0 z-10 justify-between px-4 py-3 bg-white dark:border-gray-700  dark:bg-gray-900">
             {/* Search Input */}
             <div className="flex-1 max-w-md relative hidden sm:block">
-                <input className="w-full py-2 px-4 ml-3 dark:bg-gray-700 text-gray-800 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 border border-gray-300 dark:border-gray-600 outline-none rounded-md focus:ring-2 focus:ring-cyan-400 transition-all" type="text"
+                <input className="w-full py-2 px-4 ml-3 shadow-sm dark:bg-gray-700 text-gray-800 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 border border-gray-300 dark:border-gray-600 outline-none rounded-md focus:ring-2 focus:ring-cyan-400 transition-all" type="text"
                     placeholder="Search..."
                 /> <IoSearch className='absolute top-3 right-3 dark:text-white text-gray-500 text-xl' />
             </div>
