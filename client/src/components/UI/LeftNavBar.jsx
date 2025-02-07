@@ -17,7 +17,7 @@ export const LeftNavBar = () => {
 
   return (
     <div
-      className={`dark:bg-gray-900 dark:text-white bg-white pt-4  flex flex-col transition-all ease-in-out duration-300
+      className={`dark:bg-gray-900 dark:text-white bg-white pt-4 h-screen flex flex-col transition-all ease-in-out duration-300
           md:relative top-0 left-0 z-50 ${isOpen ? "w-74 p-5 fixed" : "w-16 p-3"}
           min-w-[4rem] md:flex shrink-0`} >
       {/* Top Section */}

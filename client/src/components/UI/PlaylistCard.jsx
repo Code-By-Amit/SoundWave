@@ -2,12 +2,12 @@ import React from 'react'
 
 export const PlaylistCard = ({ imgSrc, title }) => {
     return (
-        <div className="card min-w-[8rem] h-fit bg-white rounded-lg group overflow-hidden transition ease-in-out 
+        <div className="card w-34 min-w-[8rem] h-fit bg-white rounded-lg group overflow-hidden transition ease-in-out 
                         duration-105 dark:bg-[#141e32] dark:hover:bg-[#1c2944]  hover:shadow-md
-                          hover:bg-gray-50 hover:scale-105 shrink-0">
+                          hover:bg-gray-50 hover:scale-105 flex-shrink-0">
 
             {/* Image Section */}
-            <div className="w-32 h-32 overflow-hidden flex justify-center group items-center relative bg-gray-300">
+            <div className="w-full h-32 overflow-hidden flex justify-center group items-center relative bg-gray-300">
                 <img className="h-full w-full object-cover  transform transition-all duration-300 group-hover:scale-105" src={imgSrc} alt={title} />
             </div>
 

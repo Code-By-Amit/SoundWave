@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { DarkLightToggleButton } from './DarkLightToggleButton'
 import { IoSearch } from 'react-icons/io5'
+import { NavLink } from 'react-router-dom';
 
 export const TopBar = () => {
     const [isDarkMode, setIsDarkMode] = useState(() => localStorage.getItem("theme") === "dark");
 
     const toggleDarkMode = () => {
         setIsDarkMode(!isDarkMode)
-        console.log("I am here")
     }
 
     useEffect(() => {
@@ -19,10 +19,12 @@ export const TopBar = () => {
     useEffect(() => {
         if (isDarkMode) {
             document.documentElement.setAttribute("data-theme", "dark")
+            document.documentElement.style.setProperty('--sb-track-color', '#232e33')
             localStorage.setItem("theme", "dark");
         }
         else {
             document.documentElement.setAttribute("data-theme", "")
+            document.documentElement.style.setProperty("--sb-track-color", '#f3f4f6')
             localStorage.removeItem("theme");
         }
     }, [isDarkMode])
@@ -43,11 +45,12 @@ export const TopBar = () => {
             {/* Login Button */}
             <div className="ml-4 flex gap-4 items-center">
                 <DarkLightToggleButton toggleDarkMode={toggleDarkMode} />
-                <div>
-                    <button className="px-3 py-1.5 bg-[var(--primary-color)] text-sm text-white font-semibold md:font-bold rounded-full transition-all hover:bg-cyan-600 focus:ring-2 focus:ring-cyan-400">
+
+                <NavLink to="/login">
+                    <button className=" cursor-pointer px-3 py-1.5 bg-[var(--primary-color)] text-sm text-white font-semibold md:font-bold rounded-full transition-all hover:opacity-80 focus:ring-2">
                         Login
                     </button>
-                </div>
+                </NavLink>
             </div>
         </div>
     )

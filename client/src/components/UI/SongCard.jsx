@@ -3,7 +3,7 @@ import { FaPlay  } from "react-icons/fa6";
 
 export const SongCard = ({ title, imgSrc }) => {
   return (
-    <div className="card w-34 min-w-[8rem] min-h-50 group bg-white rounded-lg hover:scale-105 transition ease-in-out duration-200 hover:shadow-md dark:bg-[#141e32] hover:bg-gray-50 dark:hover:bg-[#1c2944] shadow group overflow-hidden">
+    <div className="card w-34 min-w-[8rem] min-h-50 group bg-white rounded-lg hover:scale-105 transition ease-in-out duration-200 hover:shadow-md dark:bg-[#141e32] hover:bg-gray-50 dark:hover:bg-[#1c2944] shadow group overflow-hidden shrink-0">
 
       {/* Image Section */}
       <div className='relative group '>

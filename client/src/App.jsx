@@ -9,11 +9,15 @@ import { Playlist } from './Pages/Playlist'
 import { Favourates } from './Pages/Favourites'
 import { RightLayout } from './components/Layout/RightLayout'
 import { Explore } from './Pages/Explore'
+import { LoginPage } from './Pages/LoginPage'
+import { SignUpPage } from './Pages/SignUpPage'
 
 function App() {
 
   return (
     <Routes>
+      <Route path='/login' element={<LoginPage/>} />
+      <Route path='/signup' element={<SignUpPage/>} />
       <Route path='/' element={<MainLayout />}>
         <Route element={<RightLayout />} >
           <Route index element={<Home />} />

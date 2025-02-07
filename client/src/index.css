@@ -2,9 +2,9 @@
 @import "tailwindcss";
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
-/* --primary-color:#e90e0e; */
 @theme {
     --primary-color: #00b8db;
+    /* --primary-color:#e90e0e; */
     --background-color:#52525f;
     --font-roboto: "Roboto", "sans-serif";
 }
@@ -29,7 +29,7 @@ html, body, #root {
 
 
 .right-pannel-scrollbar {
-    --sb-track-color: #232E33;
+    
     --sb-thumb-color: var(--primary-color);
     --sb-size: 11px;
 }
