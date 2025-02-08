@@ -17,13 +17,13 @@ export const SongRow = ({ title, imgSrc, duration, noOfPlay, artist }) => {
             <td className="px-2 py-3 text-center md:px-6 md:py-4">{duration}</td>
 
             {/* Number of Plays */}
-            <td className="px-2 py-3 text-center md:px-6 md:py-4">{noOfPlay}</td>
+            <td className="px-2 py-3 text-center md:px-6 md:py-4">
+            <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+            </td>
 
             {/* Like (Heart Icon) - Fixed Centering */}
-            <td className="px-2 py-3 md:px-6 md:py-4">
-                <div className="flex justify-center items-center w-full h-full">
-                    <FaRegHeart className="text-xl" />
-                </div>
+            <td className="px-2 py-3 text-center md:px-6 md:py-4">
+            <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</a>
             </td>
         </tr>
     )

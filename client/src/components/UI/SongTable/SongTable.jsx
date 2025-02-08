@@ -9,8 +9,8 @@ export const SongTable = () => {
         {/* <th scope='col' className='px-6 py-4'>#</th> */}
         <th scope='col' className='px-5 py-2 md:px-8 md:py-4 flex items-center'>Track/Artist</th>
         <th scope='col' className='px-3 py-2 md:px-6 md:py-4 text-center'>Time</th>
-        <th scope='col' className='px-3 py-2 md:px-6 md:py-4 text-center'>Plays</th>
-        <th scope='col' className='px-3 py-2 md:px-6 md:py-4 text-center'>Add</th>
+        <th scope='col' className='px-3 py-2 md:px-6 md:py-4 text-center'>Edit</th>
+        <th scope='col' className='px-3 py-2 md:px-6 md:py-4 text-center'>Delete</th>
       </tr>
     </thead>
     <tbody>

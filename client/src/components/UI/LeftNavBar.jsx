@@ -31,7 +31,7 @@ export const LeftNavBar = () => {
 
         {/* Toggle Button */}
         <button
-          className="dark:bg-gray-800 bg-gray-100 dark:text-white text-black h-9 flex justify-center items-center transition ease-in-out duration-1000 w-9 p-2 rounded-md cursor-pointer"
+          className="dark:bg-gray-800 bg-gray-100 dark:text-white text-black h-9 flex justify-center items-center transition ease-in-out duration-300 w-9 p-2 rounded-md cursor-pointer"
           onClick={toggleSidebar}
         >
            {isOpen ? <RxCross2 size={25} /> : <FiMenu size={25} />}

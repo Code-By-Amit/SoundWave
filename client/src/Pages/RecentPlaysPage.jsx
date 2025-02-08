@@ -1,14 +1,13 @@
 import React from 'react'
-import { SongBar } from '../components/UI/SongBar'
 import { FaHeart } from 'react-icons/fa'
 
-export const Favourates = () => {
+export const RecentPlaysPage = () => {
   return (
     <>
       {/* Favourate Songs  */}
       <div className="songs min-h-96 p-3">
 
-        <h1 className="text-2xl font-bold  md:mx-7 my-4 dark:text-white">Favourate Songs</h1>
+        <h1 className="text-2xl font-bold  md:mx-7 my-4 dark:text-white">Recent play's</h1>
 
 
 
@@ -23,7 +22,7 @@ export const Favourates = () => {
             </div>
           </div>
           <div className='flex items-center justify-between w-20 md:w-30 mx-3 md:mx-5'>
-            <p className='dark:text-white px-3 text-gray-500'>3:44</p>
+            <p className='text-white px-3'>3:44</p>
             <FaHeart className='text-red-600 cursor-pointer' />
           </div>
         </div>
@@ -39,7 +38,7 @@ export const Favourates = () => {
             </div>
           </div>
           <div className='flex items-center justify-between w-20 md:w-30 mx-3 md:mx-5'>
-            <p className='dark:text-white px-3 text-gray-500'>3:44</p>
+            <p className='text-white px-3'>3:44</p>
             <FaHeart className='text-red-600 cursor-pointer' />
           </div>
         </div>
@@ -55,7 +54,7 @@ export const Favourates = () => {
             </div>
           </div>
           <div className='flex items-center justify-between w-20 md:w-30 mx-3 md:mx-5'>
-            <p className='dark:text-white px-3 text-gray-500'>3:44</p>
+            <p className='text-white px-3'>3:44</p>
             <FaHeart className='text-red-600 cursor-pointer' />
           </div>
         </div>

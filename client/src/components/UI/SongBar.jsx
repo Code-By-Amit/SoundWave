@@ -3,7 +3,7 @@ import { FaRegHeart } from 'react-icons/fa'
 
 export const SongBar = ({ title, imgSrc, duration, noOfPlay, artist }) => {
     return (
-        <div className="song shadow-md p-3 pr-2 rounded flex mx-2 md:mx-4 mb-2 group hover:bg-[var(--primary-color)] transition ease-in-out duration-300 hover:shadow-2xl justify-between bg-white items-center space-x-4 dark:bg-gray-600 ">
+        <div className="song shadow-md md:p-3 md:pr-2 p-2  rounded flex  mb-2 group hover:bg-[var(--primary-color)] transition ease-in-out duration-300 hover:shadow-2xl justify-between bg-white items-center space-x-4 dark:bg-gray-600 ">
             {/* image and title */}
             <div className="flex items-center gap-3 w-1/2 sm:w-auto group flex-1 max-w-84">
         
