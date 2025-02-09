@@ -7,9 +7,11 @@
     --primary-color: #00b8db;
     --background-color:#52525f;
     --font-roboto: "Roboto", "sans-serif";
+    --primary-range-dark: color-mix(in srgb, var(--primary-color) 70%, black);
 }
 html, body, #root {
     height: 100vh;
+    overflow: hidden;
 }
 .songscards,
 .playlist,.artistcards {
@@ -122,4 +124,28 @@ html, body, #root {
     .icon--moon svg{
         transform: scale(0.6);
     }
+}
+
+input[type="range"] {
+    accent-color: var(--primary-range-dark);
+    height: 6px;
+    border-radius: 5px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 10px;
+    height: 10px;
+    background-color: #fff;
+    border-radius: 50%;
+    opacity: 0;
+    z-index: 43;
+    position: relative;
+}
+
+input[type="range"]:hover::-webkit-slider-thumb {
+    opacity: 1;
+}
+input[type="range"]:active:-webkit-slider-thumb {
+    opacity: 1;
 }

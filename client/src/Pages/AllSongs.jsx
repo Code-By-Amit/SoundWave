@@ -1,9 +1,24 @@
 import React from 'react'
 import { SongBar } from '../components/UI/SongBar'
 import { useNavigate } from 'react-router-dom'
+import { fetchSong } from '../apis/SongApi'
+import { useQuery } from '@tanstack/react-query'
 
 export const AllSongs = () => {
     let navigate = useNavigate()
+    
+    const {data,isError,isLoading,error} = useQuery({
+        queryKey:['allSongs'],
+        queryFn:fetchSong,
+        staleTime:1000 * 60 * 15
+    })
+
+    const handleOnClick = () => {
+
+    }
+
+    if(isLoading) return <div>Loading.......</div>
+    if(error) return <div>Error.......</div>
     return (
         <div className="songs p-4">
 
@@ -27,11 +42,14 @@ export const AllSongs = () => {
                 </div>
             </div>
 
-            <SongBar imgSrc="https://i.scdn.co/image/ab67616d0000b27344aa56e23e3a89802e6c6347" title="Dildara(Stand By Me)" artist="Arijit Singh" duration="3:12" noOfPlay="1434" />
+            {data.map((song)=>{
+                return <SongBar key={song._id} onClick={handleOnClick} imgSrc={song.image} title={song.title} artist="Arijit Singh" duration="3:12" noOfPlay="1434"/>
+            })}
+            {/* <SongBar imgSrc="https://i.scdn.co/image/ab67616d0000b27344aa56e23e3a89802e6c6347" title="Dildara(Stand By Me)" artist="Arijit Singh" duration="3:12" noOfPlay="1434" />
             <SongBar imgSrc="https://c.saavncdn.com/527/My-Name-Is-Khan-Hindi-2010-20190617160533-500x500.jpg" duration="5:03" title='Sajda (From "My Name is Khan")' noOfPlay="1201" />
             <SongBar imgSrc="https://i.scdn.co/image/ab67616d0000b27344aa56e23e3a89802e6c6347" duration="3:33" title="Dildara (Stand By me)" noOfPlay="1101" />
             <SongBar imgSrc="https://i.ytimg.com/vi/O8h4GU95aZA/maxresdefault.jpg" duration="4:43" title="Mitwa" noOfPlay="1233201" artist="Shafqat Amanat Ali" />
-            <SongBar imgSrc="https://res.cloudinary.com/dk6waforl/image/upload/v1722673827/apna-bana-le-lyrics_hcp6le.webp" duration="3:12" title="Aapna Banale Piya tu jo sath merer to ye jaha so lage muje" noOfPlay="9201" artist="Arijit Sing" />
+            <SongBar imgSrc="https://res.cloudinary.com/dk6waforl/image/upload/v1722673827/apna-bana-le-lyrics_hcp6le.webp" duration="3:12" title="Aapna Banale Piya tu jo sath merer to ye jaha so lage muje" noOfPlay="9201" artist="Arijit Sing" /> */}
         </div>
     )
 }
