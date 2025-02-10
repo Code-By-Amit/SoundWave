@@ -4,12 +4,20 @@ const USER = require("../models/user.model");
 
 async function getSongs(req, res, next) {
     try {
-        const { search, limit = 10, page = 1, all } = req.query
+        const { search, limit = 10, page = 1, all, top, some } = req.query
         const query = search ? { title: RegExp(search, 'i') } : {};
 
         if (all == "true") {
             const songs = await Songs.find({})
             return res.status(200).json({ message: "All Songs", songs })
+        }
+        if (top == 'true') {
+            const songs = await Songs.find().sort({ noOfPlays: -1 }).limit(Number(limit))
+            return res.status(200).json({ message: "Top Songs", songs })
+        }
+        if (some == 'true') {
+            const songs = await Songs.aggregate([{ $sample: { size: limit } }])
+            return res.status(200).json({ message: "some Songs", songs })
         }
         const songs = await Songs.find(query).skip((page - 1) * limit).limit(Number(limit))
 
@@ -32,18 +40,18 @@ async function likeSong(req, res, next) {
 
         const song = await Songs.findById(id);
         const user = await USER.findById(userId);
-        if(!song){
-            return res.status(404).json({message:`Song Not Found With id ${id}`})
+        if (!song) {
+            return res.status(404).json({ message: `Song Not Found With id ${id}` })
         }
 
-        if(song.likes.includes(userId)){
+        if (song.likes.includes(userId)) {
             song.likes = song.likes.filter((u_id) => u_id.toString() !== userId.toString());
             user.songsLiked = user.songsLiked.filter((s_id) => s_id.toString() !== id.toString());
 
             await song.save()
             await user.save()
-            return res.status(200).json({message:"Unliked Song Sucessfully"})
-        }else{
+            return res.status(200).json({ message: "Unliked Song Sucessfully" })
+        } else {
             song.likes.push(userId);
             user.songsLiked.push(song._id);
         }
@@ -65,7 +73,7 @@ async function uploadSong(req, res, next) {
         const { title, artist, songUrl, image } = req.body;
         const userId = req.userId;
 
-        const user =await USER.findById(userId);
+        const user = await USER.findById(userId);
 
         if (!title || !songUrl) {
             return res.status(400).json({ message: "All fields are Necessary" })
@@ -99,20 +107,20 @@ async function deleteSong(req, res, next) {
         if (!song) {
             return res.status(404).json({ message: "Song Not Found" })
         }
-        const user =await USER.findById(userId)
-        const songIndexinUser = user.songsUploaded.findIndex((s_id)=>s_id.toString() == songId.toString())
+        const user = await USER.findById(userId)
+        const songIndexinUser = user.songsUploaded.findIndex((s_id) => s_id.toString() == songId.toString())
 
         // Remove Song in User Also
-        if(songIndexinUser !== -1){   
-            user.songsUploaded.splice(songIndexinUser,1);
+        if (songIndexinUser !== -1) {
+            user.songsUploaded.splice(songIndexinUser, 1);
             await user.save();
         }
 
         // Remove song _id from all users who liked it
         await USER.updateMany(
-           { songsLiked: songId }, 
-           { $pull: { songsLiked: songId } }  // Removes the song id from likedSongs array
-       );
+            { songsLiked: songId },
+            { $pull: { songsLiked: songId } }  // Removes the song id from likedSongs array
+        );
 
 
         res.status(200).json({ message: "Song Deleted Sucessfully" })

@@ -17,6 +17,10 @@ const songSchema = new mongoose.Schema({
     image:{
         type:String,
     },
+    noOfPlays:{
+        type:Number
+    }
+    ,
     likes:[
         {
             type:mongoose.Schema.ObjectId,

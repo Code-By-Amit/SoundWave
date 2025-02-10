@@ -8,21 +8,18 @@ export const SongProvider = ({ children }) => {
     const [duration, setDuration] = useState(0);
     const [volume, setVolume] = useState(40);
     const [currentTime, setCurrentTime] = useState(0);
-    const [currentSong, setCurrentSong] = useState({
-        title:"Dildara",
-        url:"https://aac.saavncdn.com/026/8f6adbb630f288113eab4753d3da5217_160.mp4",
-        songImg:"https://www.makemykaraoke.com/images/detailed/19/ra_one21364025293514d5fcd07387.jpg"
-    });
+    const [currentSong, setCurrentSong] = useState(null);
 
-    let audioRef = useRef(null)
+    let audioRef = useRef(new Audio())
 
     useEffect(() => {
         if (currentSong) {
             if (audioRef.current) {
                 audioRef.current.pause(); // Pause any existing audio
+                audioRef.current.src = ""
             }
-            audioRef.current = new Audio(currentSong.url)
-            console.log(audioRef.current)
+            audioRef.current.src = currentSong.url
+            
             const audio = audioRef.current
             const handelMetaData = () => setDuration(audio.duration)
             const handelTimeUpdate = () => setCurrentTime(audio.currentTime)
@@ -30,12 +27,15 @@ export const SongProvider = ({ children }) => {
             audio.addEventListener('loadedmetadata', handelMetaData);
             audio.addEventListener('timeupdate', handelTimeUpdate);
 
+            audio.play()
+            setIsPlaying(true)
+
             return () => {
                 audio.removeEventListener('loadedmetadata', handelMetaData);
                 audio.removeEventListener('timeupdate', handelTimeUpdate);
             }
         }
-    }, [])
+    }, [currentSong])
 
     useEffect(() => {
         if (audioRef.current) {

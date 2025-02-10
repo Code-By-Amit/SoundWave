@@ -28,12 +28,24 @@ const Artist = require("../models/artist.model");
 
 const getAllArtist =  async (req,res,next) => {
     try {
-        const artist = await Artist.find({});
-        if (!artist) {
-            return res.status(404).json({ message: "Artist not Found" })
+        const { search, limit = 10, page = 1, all, some } = req.query
+        const query = search ? { title: RegExp(search, 'i') } : {};
+
+        if (all == "true") {
+            const artists = await Artist.find({})
+            return res.status(200).json({ message: "All Artists", artists })
+        }
+        if (some == 'true') {
+            const artists = await Artist.aggregate([{ $sample: { size: limit } }])
+            return res.status(200).json({ message: "Some Artist", artists })
+        }
+        const artist = await Artist.find(query).skip((page - 1) * limit).limit(Number(limit))
+
+        if (!songs) {
+            return res.status(404).json({ message: "Failed to Get Artist" })
         }
 
-        res.status(200).json({ artist })
+        res.status(200).json({ message: `Page ${page} Artist`, artist })
     } catch (error) {
         console.log("Error in getAllArtist handeler : ", error.message)
         res.status(500).json({ message: "Internal Server Error", error: error.message })

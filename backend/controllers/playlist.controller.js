@@ -5,20 +5,24 @@ const USER = require("../models/user.model");
 
 async function getPlaylist(req, res, next) {
     try {
-        const { search, limit = 10, page = 1, all } = req.query
+        const { search, limit = 10, page = 1, all ,top} = req.query
         const query = search ? { title: RegExp(search, 'i') } : {};
 
         if (all == "true") {
             const playlist = await Playlist.find({})
             return res.status(200).json({ message: "All Playlist", playlist })
         }
-        const playlist = await Playlist.find(query).skip((page - 1) * limit).limit(Number(limit))
+        if(top == 'true'){
+            const playlists = await Playlist.find().sort({createdAt:-1}).limit(Number(limit))
+            return res.status(200).json({ message: "Top Playlist", playlists })
+        }
+        const playlists = await Playlist.find(query).skip((page - 1) * limit).limit(Number(limit))
 
-        if (!playlist) {
+        if (!playlists) {
             return res.status(404).json({ message: "Failed to Get songs" })
         }
 
-        res.status(200).json({ message: `Page ${page} playlist`, playlist })
+        res.status(200).json({ message: `Page ${page} playlist`, playlists })
     } catch (error) {
         console.error("Error in Get Playlist handeler : ", error.message)
         res.status(500).json({ message: "Internal Server Error", error: error.message })

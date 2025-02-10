@@ -34,19 +34,19 @@ export const PlayBar = () => {
                 {/* Controls  */}
                 <div className="flex flex-col items-center flex-1">
                     <div className='flex md:gap-4 gap-9 flex-1 text-xl mb-2 text-white justify-center items-center'>
-                        <IoPlaySkipBackSharp />
+                        <IoPlaySkipBackSharp className='cursor-pointer' />
                         {isPlaying ?
                             <button onClick={() => setIsPlaying(false)} className="flex items-center rounded-[50%] bg-white  justify-center p-2" >
-                                <FaPause className="text-[var(--primary-color)] text-lg" />
+                                <FaPause className="text-[var(--primary-color)] text-lg cursor-pointer" />
                             </button>
                             : <button onClick={() => setIsPlaying(true)} className="flex items-center rounded-[50%] bg-white justify-center p-2" >
-                                <FaPlay className="text-[var(--primary-color)] text-lg" />
+                                <FaPlay className="text-[var(--primary-color)] text-lg cursor-pointer" />
                             </button>}
-                        <IoPlaySkipForwardSharp />
+                        <IoPlaySkipForwardSharp className='cursor-pointer' />
                     </div>
                     <div className='md:w-[70%] w-[96%] mx-2 absolute bottom-1 right-0 md:static flex justify-center items-center gap-3'>
                         <p className='text-xs text-white font-semibold h-4 items-center'>{formatTime(currentTime)}</p>
-                        <input type="range" className="slider w-full" max={duration} value={currentTime} onChange={(e) => seek(e.target.value)} />
+                        <input type="range" className="cursor-pointer slider w-full" max={duration} value={currentTime} onChange={(e) => seek(e.target.value)} />
                         <p className='text-xs text-white font-semibold h-4 items-center'>{formatTime(duration)}</p>
                     </div>
                 </div>
@@ -56,7 +56,7 @@ export const PlayBar = () => {
             {/* Range  */}
             <div className='w-34 hidden md:flex items-center justify-center gap-2 text-white'>
                 <FaVolumeHigh size={32} />
-                <input type="range" className=' slider w-full' value={volume} onChange={(e)=>adjustVolume(e.target.value)} />
+                <input type="range" className=' slider cursor-pointer w-full' value={volume} onChange={(e)=>adjustVolume(e.target.value)} />
             </div>
         </div>
     )
