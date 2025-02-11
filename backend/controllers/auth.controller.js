@@ -26,7 +26,7 @@ const handleLogin = async (req, res, next) => {
             role: user.role
         }
 
-        const token = await generateToken(payload)
+        const token = generateToken(payload)
 
         res.cookie('token', token, {
             httpOnly: true,
@@ -48,16 +48,16 @@ const handleSignup = async (req, res) => {
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
-
     try {
-        const { fullName, username, password } = req.body;
+        const { firstName,lastName, username, password } = req.body;
         let user = await USER.findOne({ username })
         if (user) {
             return res.status(409).json({ message: "Username already exists" })
         }
 
         user = await USER.create({
-            fullName,
+            firstName,
+            lastName,
             username,
             password
         })
@@ -85,15 +85,25 @@ const handleSignup = async (req, res) => {
 async function logoutUser(req, res, next) {
     try {
         res.clearCookie('token');
-        res.status(200).json({message:"User Log-Out Sucessfully"})
+        res.status(200).json({ message: "User Log-Out Sucessfully" })
     } catch (error) {
         console.log("Error in Logout handeler : ", error.message)
         res.status(500).json({ message: "Internal Server Error", error: error.message })
     }
 }
 
+async function getAuthUser(req, res, next) {
+    try {
+        const user = await USER.findById(req.userId).select('-password')
+        res.status(200).json({ message: "Authenticated user", user })
+    } catch (error) {
+        console.log("Error in Logout handeler : ", error.message)
+        res.status(500).json({ message: "Internal Server Error", error: error.message })
+    }
+}
 module.exports = {
     handleLogin,
     handleSignup,
-    logoutUser
+    logoutUser,
+    getAuthUser
 }

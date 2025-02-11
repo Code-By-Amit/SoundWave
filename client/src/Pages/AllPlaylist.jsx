@@ -19,7 +19,7 @@ export const AllPlaylist = () => {
 
 
                 <h1 className='font-bold text-2xl my-5 mx-4 dark:text-white'>Playlist</h1>
-                <div className='playlist flex max-w-full flex-wrap gap-4 items-center justify-center md:justify-start  p-4'>
+                <div className='playlist flex max-w-full flex-wrap gap-4 items-center  justify-center md:justify-start  p-4'>
                     <PlaylistCard imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTTcOlodFZ-BbjcvK_kTkhO4G6a38b7QP6-Q&s" title="My Playlist" />
                     <PlaylistCard imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTTcOlodFZ-BbjcvK_kTkhO4G6a38b7QP6-Q&s" title="My Playlist" />
                     <PlaylistCard imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTTcOlodFZ-BbjcvK_kTkhO4G6a38b7QP6-Q&s" title="My Playlist" />

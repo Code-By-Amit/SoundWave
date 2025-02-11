@@ -2,11 +2,15 @@ const mongoose = require('mongoose')
 const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema({
-    fullName: {
+    firstName: {
+        type: String
+    },
+    lastName: {
         type: String
     },
     profileImg: {
-        type: String
+        type: String,
+        default:"https://static.vecteezy.com/system/resources/thumbnails/010/260/479/small/default-avatar-profile-icon-of-social-media-user-in-clipart-style-vector.jpg"
     },
     username: {
         type: String,
