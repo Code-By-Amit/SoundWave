@@ -81,7 +81,7 @@ export const Explore = () => {
         <div className='playlist flex max-w-full flex-nowrap gap-4 mb-40 items-center justify-start p-4'>
           {
             playlists.map((playlist) => {
-              return <PlaylistCard key={playlist._id} imgSrc={playlist.image} title={playlist.name} />
+              return <PlaylistCard key={playlist._id} id={playlist._id} songsLength={playlist.songs.length} imgSrc={playlist.image} title={playlist.name} />
             })
           }
         </div>

@@ -1,10 +1,26 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { PlaylistCard } from '../components/UI/PlaylistCard'
-import { NavLink } from 'react-router-dom'
-import { MdFileUpload, MdOutlineCreateNewFolder } from 'react-icons/md'
-import { IoCreate, IoCreateOutline } from 'react-icons/io5'
+import { MdOutlineCreateNewFolder } from 'react-icons/md'
+import { fetchUserCreatedSavedPlaylist } from '../apis/playlistApi'
+import { useQuery } from '@tanstack/react-query'
 
 export const Playlist = () => {
+  const [token, setToken] = useState(localStorage.getItem('token') || null)
+
+  // Fetch Playlists
+  const { data, isLoading: loadingPlaylists, isError: errorPlaylists } = useQuery({
+    queryKey: ["user-Created/Saved-Playlist"],
+    queryFn: () => fetchUserCreatedSavedPlaylist(token),
+    enabled: !!token
+  });
+
+  if (loadingPlaylists) return <div>Loading .....</div>
+  if (errorPlaylists) return <div>Error .....</div>
+
+  const userSavedPlaylist = data?.userSavedPlaylist || [];
+  const userCreatedPlaylist = data?.userCreatedPlaylist || [];
+
+
   return (
     <>
       < div className="Playlist my-4 flex flex-col gap-5" >
@@ -16,10 +32,11 @@ export const Playlist = () => {
           </div>
 
           <div className='playlist flex flex-nowrap  gap-4 items-center justify-start p-4'>
-            <PlaylistCard imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTTcOlodFZ-BbjcvK_kTkhO4G6a38b7QP6-Q&s" title="My Playlist" />
-            <PlaylistCard imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTTcOlodFZ-BbjcvK_kTkhO4G6a38b7QP6-Q&s" title="My Playlist" />
-            <PlaylistCard imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTTcOlodFZ-BbjcvK_kTkhO4G6a38b7QP6-Q&s" title="My Playlist" />
-            <PlaylistCard imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTTcOlodFZ-BbjcvK_kTkhO4G6a38b7QP6-Q&s" title="My Playlist" />
+            {
+              userSavedPlaylist.map((playlist) => {
+                return <PlaylistCard key={playlist._id} id={playlist._id} songsLength={playlist.songs.length} imgSrc={playlist.image} title={playlist.name} />
+              })
+            }
           </div>
         </div>
 
@@ -31,10 +48,11 @@ export const Playlist = () => {
           </div>
 
           <div className='playlist flex flex-wrap  gap-4 items-center justify-start p-4'>
-            <PlaylistCard imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTTcOlodFZ-BbjcvK_kTkhO4G6a38b7QP6-Q&s" title="My Playlist" />
-            <PlaylistCard imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTTcOlodFZ-BbjcvK_kTkhO4G6a38b7QP6-Q&s" title="My Playlist" />
-            <PlaylistCard imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTTcOlodFZ-BbjcvK_kTkhO4G6a38b7QP6-Q&s" title="My Playlist" />
-            <PlaylistCard imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTTcOlodFZ-BbjcvK_kTkhO4G6a38b7QP6-Q&s" title="My Playlist" />
+            {
+              userCreatedPlaylist.map((playlist) => {
+                return <PlaylistCard key={playlist._id} id={playlist._id} songsLength={playlist.songs.length} imgSrc={playlist.image} title={playlist.name} />
+              })
+            }
           </div>
         </div>
 

@@ -9,7 +9,6 @@ export const TopBar = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     const { user, logout } = authUser();
-    console.log(user)
 
     const toggleDarkMode = () => {
         setIsDarkMode(!isDarkMode)
@@ -70,7 +69,7 @@ export const TopBar = () => {
                                 <div className="w-6 h-6 md:w-7 md:h-7 rounded-full overflow-hidden">
                                     <img className="w-full h-full object-cover" src={user.profileImg} alt="user photo" crossOrigin="anonymous" />
                                 </div>
-                                <div className='whitespace-nowrap mx-1 text-xs md:text-base dark:text-white'>{user.firstName + " " + user.lastName}</div>
+                                <div className='whitespace-nowrap mx-1 text-xs md:text-base dark:text-white'>{user.firstName}</div>
                             </button>
 
                             {/* Dropdown menu */}

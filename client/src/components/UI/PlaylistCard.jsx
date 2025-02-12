@@ -1,8 +1,10 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
-export const PlaylistCard = ({ imgSrc, title }) => {
+export const PlaylistCard = ({ imgSrc, title,id ,songsLength}) => {
+
     return (
-        <div className="card w-25 md:w-34 md:min-w-[8rem]  h-fit bg-white rounded-lg group overflow-hidden transition ease-in-out 
+        <Link to={`/playlist-page/${id}`} className="card w-25 md:w-34 md:min-w-[8rem]  h-fit bg-white rounded-lg group overflow-hidden transition ease-in-out 
                         duration-105 dark:bg-[#141e32] dark:hover:bg-[#1c2944]  hover:shadow-md
                           hover:bg-gray-50 hover:scale-105">
 
@@ -14,8 +16,8 @@ export const PlaylistCard = ({ imgSrc, title }) => {
             {/* Title Section */}
             <div className="title mt-0.5 p-2">
                 <p className='font-semibold dark:text-white text-sm group mb-1 font-roboto line-clamp-2'>{title}</p>
-                <p className='text-gray-400 text-xs'>15 Songs</p>
+                <p className='text-gray-400 text-xs'>{songsLength} Songs</p>
             </div>
-        </div>
+        </Link>
     )
 }
