@@ -36,7 +36,7 @@ export const AllArtist = () => {
                 {/* Enable horizontal scroll */}
                 <div className="space-x-4 flex flex-wrap max-w-full items-center p-4 justify-center md:justify-start">
                     {
-                        artists.map((artist) => <ArtistCard key={artist._id} imgSrc={artist.image} name={artist.name} /> )
+                        artists.map((artist) => <ArtistCard key={artist._id} id={artist._id} imgSrc={artist.image} name={artist.name} /> )
                     }
                 </div>
             </div>

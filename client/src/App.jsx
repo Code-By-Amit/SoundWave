@@ -16,6 +16,7 @@ import { AllPlaylist } from './Pages/AllPlaylist'
 import { AllArtist } from './Pages/AllArtist'
 import { PlayBar } from './components/UI/PlayBar'
 import { PlaylistPage } from './Pages/PlaylistPage'
+import { ArtistPage } from './Pages/ArtistPage'
 
 function App() {
 
@@ -36,6 +37,7 @@ function App() {
             <Route path='/all-playlist' element={<AllPlaylist />} />
             <Route path='/all-artist' element={<AllArtist />} />
             <Route path='/playlist-page/:id' element={<PlaylistPage />} />
+            <Route path='/artist-page/:id' element={<ArtistPage />} />
           </Route>
         </Route>
       </Routes>

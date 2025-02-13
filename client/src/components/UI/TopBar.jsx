@@ -51,8 +51,8 @@ export const TopBar = () => {
             </div>
 
             <div className="flex items-center gap-1 sm:hidden text-lg">
-                <img className={`dark:invert w-10 transition-all duration-300 `} src="/logo.png" alt="Logo" />
-                <span className={`font-bold transition-all text-md duration-300 text-[var(--primary-color)]`}> SoundWave </span>
+                <img className={`dark:invert w-6 md:w-10 transition-all duration-300 `} src="/logo.png" alt="Logo" />
+                <span className={`font-bold transition-all text-base md:text-md duration-300 text-[var(--primary-color)]`}> SoundWave </span>
             </div>
 
             {/* Login Button */}
@@ -76,9 +76,9 @@ export const TopBar = () => {
                             {isOpen && (
                                 <div className="z-10 absolute mt-2 bg-white divide-y dark:bg-gray-600 divide-gray-100 rounded-lg shadow md:w-44 min-w-max right-0 lg:left-auto">
                                     <div className="py-0.5 md:py-1">
-                                        <button onClick={handleLogout} className="w-full text-start px-4 py-0.5 md:py-2 text-md font-semibold text-red-500 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white" >
+                                        <button onClick={handleLogout} className="w-full text-start px-4 py-0.5 md:py-2 text-xs md:text-md font-semibold text-red-500 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white" >
                                             Sign out
-                                            <p className='text-sm font-mono font-light text-gray-600 dark:text-white'>{user.username}</p>
+                                            {/* <p className='text-sm font-mono font-light text-gray-600 dark:text-white'>{user.username}</p> */}
                                         </button>
                                     </div>
                                 </div>

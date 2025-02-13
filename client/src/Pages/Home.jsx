@@ -38,7 +38,7 @@ export const Home = () => {
         </div>
 
         {/* Enable horizontal scroll and prevent overflow */}
-        <div className='playlist flex max-w-full flex-nowrap gap-4 items-center justify-start p-4'>
+        <div className='playlist flex max-w-full flex-nowrap overflow-scroll gap-4 items-center justify-start p-4'>
           {
             playlists.map((playlist) => {
               return <PlaylistCard key={playlist._id} id={playlist._id} songsLength={playlist.songs.length} imgSrc={playlist.image} title={playlist.name} />
@@ -49,8 +49,8 @@ export const Home = () => {
 
 
       {/* Top Songs  */}
-      <div className="songs min-h-96 p-4">
-        <h1 className="text-2xl font-bold md:mx-4 my-2  dark:text-white">Top Songs</h1>
+      <div className="songs min-h-96 p-4 mb-20">
+        <h1 className="text-2xl font-bold md:mx-4 my-2 dark:text-white">Top Songs</h1>
 
         {/* Heading for songs  */}
         <div className="song p-3 py-1  pr-1 rounded flex mx-2 md:mx-4 mb-1 transition ease-in-out duration-300 justify-between items-center space-x-4 ">
@@ -61,6 +61,11 @@ export const Home = () => {
             <p>Favourate</p>
           </div>
         </div>
+        {
+          songs.map((song) => {
+            return <SongBar key={song._id} song={song} />
+          })
+        }
         {
           songs.map((song) => {
             return <SongBar key={song._id} song={song} />

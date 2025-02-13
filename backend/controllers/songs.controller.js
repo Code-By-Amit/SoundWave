@@ -1,4 +1,5 @@
 
+const Artist = require("../models/artist.model");
 const Songs = require("../models/song.model");
 const USER = require("../models/user.model");
 
@@ -89,6 +90,12 @@ async function uploadSong(req, res, next) {
         user.songsUploaded.push(newSong._id);
         await user.save();
 
+        if(artist){
+            const artistSongs = await Artist.findById(artist).select('songs');
+            artistSongs.songs.push(newSong._id);
+            await artistSongs.save();
+        }
+
         res.status(201).json({ message: "Song Upload Sucessfully", song: newSong })
 
     } catch (error) {
@@ -114,6 +121,12 @@ async function deleteSong(req, res, next) {
         if (songIndexinUser !== -1) {
             user.songsUploaded.splice(songIndexinUser, 1);
             await user.save();
+        }
+        if(song.artist){
+            const artist = await Artist.findById(song.artist)
+            songIndexInArtist = artist.songs.findIndex((s_id)=>s_id.toString() === songId.toString())
+            artist.songs.splice(songIndexInArtist,1)
+            await artist.save();
         }
 
         // Remove song _id from all users who liked it

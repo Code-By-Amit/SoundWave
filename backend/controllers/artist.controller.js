@@ -56,12 +56,12 @@ const getArtistById = async (req, res, next) => {
     try {
         const id = req.params.id
 
-        const artist = await Artist.findById(id)
+        const artist = await Artist.findById(id).populate('songs')
         if (!artist) {
             return res.status(404).json({ message: "Artist not Found" })
         }
 
-        res.status(200).json({ artist })
+        res.status(200).json({message:`Artist By id ${id}`, artist })
     } catch (error) {
         console.log("Error in getArtistById handeler : ", error.message)
         res.status(500).json({ message: "Internal Server Error", error: error.message })

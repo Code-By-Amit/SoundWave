@@ -30,7 +30,7 @@ export const AllPlaylist = () => {
 
 
                 <h1 className='font-bold text-2xl my-5 mx-4 dark:text-white'>Playlist</h1>
-                <div className='playlist flex max-w-full flex-wrap gap-4 items-center  justify-center md:justify-start  p-4'>
+                <div className='playlist flex max-w-full flex-wrap  gap-2 md:gap-4 items-center  justify-center md:justify-start  md:p-4'>
                     {
                         playlists.map((playlist) => {
                             return <PlaylistCard key={playlist._id} songsLength={playlist.songs.length} imgSrc={playlist.image} title={playlist.name} />

@@ -46,7 +46,7 @@ export const Explore = () => {
 
           {
             artists.map((artist)=>{
-              return <ArtistCard key={artist._id} imgSrc={artist.image} name={artist.name} />
+              return <ArtistCard key={artist._id}  id={artist._id} imgSrc={artist.image} name={artist.name} />
             })
           }
         </div>

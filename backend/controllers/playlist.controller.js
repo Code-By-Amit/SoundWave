@@ -105,19 +105,20 @@ async function createPlaylist(req, res, next) {
 
 async function deletePlaylist(req, res, next) {
     try {
+        const userId = req.userId;
         const playlistId = req.params.playlistId;
         // Ensure user exists
         const user = await USER.findById(userId);
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
-        const playlist = await findByIdAndDelete(playlistId)
+        const playlist = await Playlist.findByIdAndDelete(playlistId)
         if (!playlist) {
             return res.status(404).json({ message: "Playlist Not Found" })
         }
 
-        let playlistIndex = user.playlist.findIndex(playlist._id)
-        user.playlist.slice(playlistIndex, 1);
+        let playlistIndex = user.playlist.findIndex(p_Id=>p_Id.toString()===playlistId)
+        user.playlist.splice(playlistIndex, 1);
         await user.save()
 
         res.status(200).json({ message: "Playlist Deleted Sucessfully!", playlist })

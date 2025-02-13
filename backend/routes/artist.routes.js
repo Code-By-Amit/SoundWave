@@ -7,7 +7,7 @@ const { restrictedTo, isAuthenticated } = require("../middlewares/auth")
 
 router.get('/',getAllArtist)
 router.post('/', isAuthenticated ,restrictedTo(['ADMIN']), body('name').notEmpty().withMessage("Please Provide name of Artist"), createArtist)
-router.get('/:id', isAuthenticated, getArtistById)
+router.get('/:id', getArtistById)
 router.delete("/:id", isAuthenticated, restrictedTo(["ADMIN"]), deleteArtistById)
 router.patch("/:id",isAuthenticated,restrictedTo(['ADMIN']),updateArtistInfo)
 
