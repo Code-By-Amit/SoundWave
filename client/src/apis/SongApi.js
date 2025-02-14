@@ -16,3 +16,4 @@ export const addtoRecentPlays = (id, token) =>
     }).then(res => res.data.message);
 
 export const getRecentPlays = (token) => api.get('/recent', { withCredentials: true, headers: { Authorization: `Bearer ${token}` } }).then(res => res.data.recentSong)
+export const fetchFavourates = (token) => api.get('/favourates', { withCredentials: true, headers: { Authorization: `Bearer ${token}` } }).then(res => res.data.favourates)

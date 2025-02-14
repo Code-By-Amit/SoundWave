@@ -33,6 +33,19 @@ async function getSongs(req, res, next) {
     }
 }
 
+async function getFavourates(req, res, next) {
+    try {
+        const userId = req.userId;
+        const favourates = await USER.findById(userId).populate('songsLiked').select('songsLiked')
+        if (!favourates) {
+            res.status(404).json({ message: 'User Not Found' })
+        }
+        res.status(200).json({ message: "user Favourate Songs", favourates })
+    } catch (error) {
+        console.error("Error in get Songs handeler : ", error.message)
+        res.status(500).json({ message: "Internal Server Error", error: error.message })
+    }
+}
 
 async function likeSong(req, res, next) {
     try {
@@ -190,5 +203,6 @@ module.exports = {
     uploadSong,
     deleteSong,
     addSongToRecentPlays,
-    getRecentPlays
+    getRecentPlays,
+    getFavourates
 }
