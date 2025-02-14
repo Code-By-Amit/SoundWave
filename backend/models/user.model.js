@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
     },
     profileImg: {
         type: String,
-        default:"https://static.vecteezy.com/system/resources/thumbnails/010/260/479/small/default-avatar-profile-icon-of-social-media-user-in-clipart-style-vector.jpg"
+        default: "https://static.vecteezy.com/system/resources/thumbnails/010/260/479/small/default-avatar-profile-icon-of-social-media-user-in-clipart-style-vector.jpg"
     },
     username: {
         type: String,
@@ -37,7 +37,11 @@ const userSchema = new mongoose.Schema({
     },
     songsUploaded: [{
         type: mongoose.Schema.ObjectId,
-        ref: "Songs"
+        ref: "Song"
+    }],
+    recentPlays: [{
+        type: mongoose.Schema.ObjectId,
+        ref: "Song"
     }]
 }, {
     timestamps: true,

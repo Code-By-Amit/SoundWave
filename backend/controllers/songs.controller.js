@@ -90,7 +90,7 @@ async function uploadSong(req, res, next) {
         user.songsUploaded.push(newSong._id);
         await user.save();
 
-        if(artist){
+        if (artist) {
             const artistSongs = await Artist.findById(artist).select('songs');
             artistSongs.songs.push(newSong._id);
             await artistSongs.save();
@@ -122,10 +122,10 @@ async function deleteSong(req, res, next) {
             user.songsUploaded.splice(songIndexinUser, 1);
             await user.save();
         }
-        if(song.artist){
+        if (song.artist) {
             const artist = await Artist.findById(song.artist)
-            songIndexInArtist = artist.songs.findIndex((s_id)=>s_id.toString() === songId.toString())
-            artist.songs.splice(songIndexInArtist,1)
+            songIndexInArtist = artist.songs.findIndex((s_id) => s_id.toString() === songId.toString())
+            artist.songs.splice(songIndexInArtist, 1)
             await artist.save();
         }
 
@@ -143,9 +143,52 @@ async function deleteSong(req, res, next) {
     }
 }
 
+async function addSongToRecentPlays(req, res, next) {
+    try {
+        const songId = req.params.id;
+        const userId = req.userId;
+
+        const user = await USER.findById(userId).select('-password')
+
+        const existingSong = user.recentPlays.findIndex(sId => sId.toString() === songId.toString())
+        if (existingSong !== -1) {
+            user.recentPlays.splice(existingSong, 1);
+        }
+
+        user.recentPlays.unshift(songId)
+
+        if (user.recentPlays.length > 10) {
+            user.recentPlays.pop();
+        }
+
+        await user.save();
+        res.status(200).json({ message: "Song Added To Recent Plays" })
+    } catch (error) {
+        console.error("Error in Add Sont To Recent handeler : ", error.message)
+        res.status(500).json({ message: "Internal Server Error", error: error.message })
+    }
+}
+
+async function getRecentPlays(req, res, next) {
+    try {
+        const userId = req.userId;
+        const user = await USER.findById(userId).populate('recentPlays').select('-password');
+        console.log(user)
+        if (!user) {
+            return res.status(200).json({ message: "User Not Found" })
+        }
+        res.status(200).json({ message: "Recent Plays Song", recentSong: user.recentPlays })
+    } catch (error) {
+        console.error("Error in Get Recent Plays handeler : ", error.message)
+        res.status(500).json({ message: "Internal Server Error", error: error.message })
+    }
+}
+
 module.exports = {
     getSongs,
     likeSong,
     uploadSong,
-    deleteSong
+    deleteSong,
+    addSongToRecentPlays,
+    getRecentPlays
 }

@@ -11,7 +11,7 @@ import { UserContextProvider } from './context/AuthUserContext.jsx'
 const queryClient = new QueryClient()
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  // <StrictMode>  
     <QueryClientProvider client={queryClient}>
       <UserContextProvider>
 
@@ -24,5 +24,5 @@ createRoot(document.getElementById('root')).render(
       </UserContextProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
-  </StrictMode>,
+  
 )

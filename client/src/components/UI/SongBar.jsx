@@ -7,6 +7,7 @@ export const SongBar = ({ song }) => {
     const { setCurrentSong } = useSong()
     const setCurrentSongHandler = () => {
         setCurrentSong({
+            _id:song._id,
             title: song.title,
             songImg: song.image,
             url: song.songUrl

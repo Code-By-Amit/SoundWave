@@ -66,11 +66,6 @@ export const Home = () => {
             return <SongBar key={song._id} song={song} />
           })
         }
-        {
-          songs.map((song) => {
-            return <SongBar key={song._id} song={song} />
-          })
-        }
       </div>
     </>
   )
