@@ -173,11 +173,14 @@ async function addSongToRecentPlays(req, res, next) {
         if (user.recentPlays.length > 10) {
             user.recentPlays.pop();
         }
+        const song = await Songs.findById(songId)
+        song.noOfPlays += 1;
+        song.save();
 
         await user.save();
         res.status(200).json({ message: "Song Added To Recent Plays" })
     } catch (error) {
-        console.error("Error in Add Sont To Recent handeler : ", error.message)
+        console.error("Error in Add Song To Recent handeler : ", error.message)
         res.status(500).json({ message: "Internal Server Error", error: error.message })
     }
 }
@@ -186,7 +189,7 @@ async function getRecentPlays(req, res, next) {
     try {
         const userId = req.userId;
         const user = await USER.findById(userId).populate('recentPlays').select('-password');
-        console.log(user)
+        
         if (!user) {
             return res.status(200).json({ message: "User Not Found" })
         }

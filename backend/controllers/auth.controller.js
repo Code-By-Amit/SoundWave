@@ -29,9 +29,10 @@ const handleLogin = async (req, res, next) => {
         const token = generateToken(payload)
         console.log("token Generated",token)
         res.cookie('token', token, {
-            httpOnly: true,
-            maxage: 7 * 24 * 60 * 70 * 1000
-        })
+            httpOnly: true,          // Prevents JavaScript from accessing cookies
+            secure: process.env.NODE_ENV === 'production',  // Use HTTPS in production
+            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+        });
         let { password: _, ...userWithoutPassword } = user.toObject();
         res.status(200).json({ user: userWithoutPassword, token })
 
@@ -70,9 +71,10 @@ const handleSignup = async (req, res) => {
         const token = generateToken(payload);
 
         res.cookie('token', token, {
-            httpOnly: true,
-            maxage: 7 * 24 * 60 * 60 * 1000,       // 7 Days                  
-        })
+            httpOnly: true,          // Prevents JavaScript from accessing cookies
+            secure: process.env.NODE_ENV === 'production',  // Use HTTPS in production
+            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+        });
 
         let { password: _, ...userWithoutPassword } = user.toObject();
         res.status(200).json({ user: userWithoutPassword, token })

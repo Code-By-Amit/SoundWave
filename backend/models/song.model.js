@@ -18,7 +18,8 @@ const songSchema = new mongoose.Schema({
         type:String,
     },
     noOfPlays:{
-        type:Number
+        type:Number,
+        default:0
     }
     ,
     likes:[

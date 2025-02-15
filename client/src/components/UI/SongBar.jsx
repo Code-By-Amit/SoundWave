@@ -1,17 +1,49 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaRegHeart } from 'react-icons/fa'
 import { useSong } from '../../context/SongContext'
+import { authUser } from '../../context/AuthUserContext'
+import { LikeUnlike } from '../LikeUnlike'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { likeUnlikeSong } from '../../apis/SongApi'
 
 export const SongBar = ({ song }) => {
-
     const { setCurrentSong } = useSong()
+    const { user } = authUser();
+
+    const [isLiked, setIsLiked] = useState(user?.songsLiked?.includes(song._id))
+    const [token, setToken] = useState(localStorage.getItem('token') || null)
+    
+    const queryClient = useQueryClient()
+
+    useEffect(() => {
+        if (user && song) {
+          setIsLiked(user?.songsLiked?.includes(song._id));
+        }
+      }, [user, song]);
+
     const setCurrentSongHandler = () => {
         setCurrentSong({
-            _id:song._id,
-            title: song.title,
-            songImg: song.image,
-            url: song.songUrl
+            _id: song?._id,
+            title: song?.title,
+            songImg: song?.image,
+            url: song?.songUrl
         })
+    }
+
+    const likeUnlike = useMutation({
+        mutationKey: ['likeUnlike'],
+        mutationFn: ({ id, token }) => likeUnlikeSong(id, token),
+        onSuccess: () => {
+            setIsLiked((prev) => !prev)
+            queryClient.invalidateQueries(['favourates'])
+        },
+        onError: (error) => {
+            console.error('Error liking/unliking song:', error)
+        }
+    })
+
+    const toggleLike = () => {
+        likeUnlike.mutate({ id: song._id, token })
     }
 
     return (
@@ -30,7 +62,8 @@ export const SongBar = ({ song }) => {
             <div className="flex sm:mr-5 *:mx-3 w-44 text-gray-500 md:w-84 justify-between group-hover:text-white dark:text-white items-center text-xs sm:text-sm">
                 <p>{song.duration}</p>
                 <p>{song.noOfPlay}</p>
-                <FaRegHeart className="text-xl hover:text-red-500 cursor-pointer" />
+                <LikeUnlike isLiked={isLiked} toggleLike={toggleLike} />
+                {/* <FaRegHeart className="text-xl hover:text-red-500 cursor-pointer" /> */}
             </div>
         </div>
     )

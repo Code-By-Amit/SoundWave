@@ -4,8 +4,8 @@ const api = axios.create({
     baseURL: "http://localhost:3000/auth"
 })
 
-export const loginUser = (data) => api.post('/login', data).then(res => res.data)
-export const signupUser = (data) => api.post('/signup', data).then(res => res.data)
+export const loginUser = (data) => api.post('/login', data,{withCredentials:true}).then(res => res.data)
+export const signupUser = (data) => api.post('/signup', data,{withCredentials:true}).then(res => res.data)
 
 export const fetchAuthUser = (token) => api.get('/me',
     {
