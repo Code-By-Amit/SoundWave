@@ -2,6 +2,8 @@
 const Artist = require("../models/artist.model");
 const Songs = require("../models/song.model");
 const USER = require("../models/user.model");
+const { uploadOnCloudinary, deleteFromCloudinary } = require("../services/uploadOnCloudinary");
+const {uploadMusicFile,deleteMusicFromSuperbase} = require("../services/uploadOnSuperBase");
 
 async function getSongs(req, res, next) {
     try {
@@ -84,20 +86,41 @@ async function likeSong(req, res, next) {
 
 async function uploadSong(req, res, next) {
     try {
-        const { title, artist, songUrl, image } = req.body;
+        const { title, artist, duration } = req.body;
         const userId = req.userId;
 
         const user = await USER.findById(userId);
 
-        if (!title || !songUrl) {
-            return res.status(400).json({ message: "All fields are Necessary" })
+        const songFile = req.files?.song?.[0];
+        const imageFile = req.files?.image?.[0];
+
+        if (!title || !songFile) {
+            return res.status(400).json({ message: "Name and Song fields are Necessary" })
+        }
+
+        let songUrl, image
+        // Upload song to Cloudinary
+        if (songFile?.path) {
+            const publicUrl = await uploadMusicFile(songFile.path);
+            songUrl = publicUrl;
+        }
+
+        // Upload image if provided
+        if (imageFile?.path) {
+            const uploadResponse = await uploadOnCloudinary(imageFile.path);
+            image = uploadResponse.secure_url;
+        }
+
+        if (!songUrl) {
+            return res.status(500).json({ message: "Failed to upload song" });
         }
 
         const newSong = await Songs.create({
             title,
             artist,
             songUrl,
-            image
+            image,
+            duration
         });
 
         user.songsUploaded.push(newSong._id);
@@ -122,11 +145,18 @@ async function deleteSong(req, res, next) {
     try {
         const songId = req.params.id;
         const userId = req.userId;
-
+        console.log('delete request')
         const song = await Songs.findByIdAndDelete(songId);
         if (!song) {
             return res.status(404).json({ message: "Song Not Found" })
         }
+        if (song.image) {
+            deleteFromCloudinary(song.image)
+        }
+        if (song.songUrl) {
+           deleteMusicFromSuperbase(song.songUrl)
+        }
+
         const user = await USER.findById(userId)
         const songIndexinUser = user.songsUploaded.findIndex((s_id) => s_id.toString() == songId.toString())
 
@@ -189,11 +219,26 @@ async function getRecentPlays(req, res, next) {
     try {
         const userId = req.userId;
         const user = await USER.findById(userId).populate('recentPlays').select('-password');
-        
+
         if (!user) {
-            return res.status(200).json({ message: "User Not Found" })
+            return res.status(404).json({ message: "User Not Found" })
         }
         res.status(200).json({ message: "Recent Plays Song", recentSong: user.recentPlays })
+    } catch (error) {
+        console.error("Error in Get Recent Plays handeler : ", error.message)
+        res.status(500).json({ message: "Internal Server Error", error: error.message })
+    }
+}
+
+async function getUserUploads(req, res, next) {
+    try {
+        const userUploadedSongs = await USER.findById(req.userId).populate('songsUploaded').select('songsUploaded')
+
+        if (!userUploadedSongs) {
+            return res.status(404).json({ message: "User Not Found" })
+        }
+        res.status(200).json({ message: "User Uploaded Songs", userUploads: userUploadedSongs.songsUploaded })
+
     } catch (error) {
         console.error("Error in Get Recent Plays handeler : ", error.message)
         res.status(500).json({ message: "Internal Server Error", error: error.message })
@@ -207,5 +252,6 @@ module.exports = {
     deleteSong,
     addSongToRecentPlays,
     getRecentPlays,
-    getFavourates
+    getFavourates,
+    getUserUploads
 }

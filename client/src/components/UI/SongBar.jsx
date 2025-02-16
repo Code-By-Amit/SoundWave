@@ -26,7 +26,8 @@ export const SongBar = ({ song }) => {
             _id: song?._id,
             title: song?.title,
             songImg: song?.image,
-            url: song?.songUrl
+            url: song?.songUrl,
+            artist: song?.artist?.name || null
         })
     }
 

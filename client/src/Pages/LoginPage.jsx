@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { authUser } from '../context/AuthUserContext'
+import toast from 'react-hot-toast'
+import { LoadingDots } from '../components/LoadingDots'
 
 export const LoginPage = () => {
     let navigate = useNavigate()
@@ -12,6 +14,12 @@ export const LoginPage = () => {
         loginMutation.mutate(crediantials,{
             onSuccess:()=>{
                 navigate('/')
+                toast.success("Login Sucessful")
+                setCrediantials({ username: "", password: "" })
+            },
+            onError:(error)=>{
+                toast.error(`Error: ${error.message}`)
+                setCrediantials({ username: "", password: "" })
             }
         })
     }
@@ -51,7 +59,7 @@ export const LoginPage = () => {
                             <input type="text" placeholder='username' value={crediantials.username} name="username" onChange={(e) => setCrediantials({...crediantials,username:e.target.value})} />
                             <input type="text" placeholder='password' value={crediantials.password} name="password" onChange={(e) => setCrediantials({...crediantials,password:e.target.value})} />
                         </div>
-                        <button className='bg-[var(--primary-color)] w-full text-white font-bold py-2 rounded-md mt-9 hover:opacity-85' type='submit'>{loginMutation.isLoading ? "Logging in..." : "Login"}</button>
+                        <button className='bg-[var(--primary-color)] w-full text-white font-bold py-2 rounded-md mt-9 hover:opacity-85' type='submit'>{loginMutation.isPending ?( <>Logging in<LoadingDots /></>)  : "Login"}</button>
                         {loginMutation.isError && <p>Error: {loginMutation.error.message}</p>}
                     </form>
                 </div>

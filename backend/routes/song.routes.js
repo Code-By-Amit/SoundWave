@@ -1,13 +1,19 @@
-const { getSongs,likeSong ,uploadSong, deleteSong, addSongToRecentPlays,getRecentPlays, getFavourates} = require("../controllers/songs.controller")
+const { getSongs,likeSong ,uploadSong, deleteSong, addSongToRecentPlays,getRecentPlays, getFavourates,getUserUploads} = require("../controllers/songs.controller")
 const { isAuthenticated } = require("../middlewares/auth")
+const upload = require("../middlewares/multer")
 
 const router = require("express").Router()
 
-router.delete("/:id",isAuthenticated,deleteSong)
+router.delete("/delete/:id",isAuthenticated,deleteSong)
 router.get("/",getSongs)
 router.post("/like/:id",isAuthenticated,likeSong)
-router.post("/",isAuthenticated,uploadSong)
+router.post("/",isAuthenticated,
+    upload.fields([
+        { name: 'song', maxCount: 1 },
+        { name: 'image', maxCount: 1 }
+    ]),uploadSong)
 router.post('/recent/:id',isAuthenticated,addSongToRecentPlays)
 router.get('/recent',isAuthenticated,getRecentPlays)
 router.get('/favourates',isAuthenticated,getFavourates)
-module.exports = router
+router.get('/useruploads',isAuthenticated,getUserUploads)
+module.exports = router 

@@ -2,6 +2,7 @@ const { findByIdAndDelete } = require("../models/artist.model");
 const Playlist = require("../models/playlist.model");
 const USER = require("../models/user.model");
 const { trace } = require("../routes/playlist.routes");
+const { uploadOnCloudinary, deleteFromCloudinary } = require("../services/uploadOnCloudinary");
 
 
 async function getPlaylist(req, res, next) {
@@ -77,12 +78,18 @@ async function getUserPlaylist(req, res, next) {
 async function createPlaylist(req, res, next) {
     try {
         const userId = req.userId;
-        const { name, image, isPrivate } = req.body;
+        const { name, isPrivate } = req.body;
 
         // Ensure user exists
         const user = await USER.findById(userId);
         if (!user) {
             return res.status(404).json({ message: "User not found" });
+        }
+
+        let image
+        if(req.file){
+            const response = await uploadOnCloudinary(req.file.path)
+            image = response.secure_url  
         }
 
         const playlist = await Playlist.create({
@@ -115,6 +122,9 @@ async function deletePlaylist(req, res, next) {
         const playlist = await Playlist.findByIdAndDelete(playlistId)
         if (!playlist) {
             return res.status(404).json({ message: "Playlist Not Found" })
+        }
+        if(playlist.image){
+             deleteFromCloudinary(playlist.image)
         }
 
         let playlistIndex = user.playlist.findIndex(p_Id=>p_Id.toString()===playlistId)

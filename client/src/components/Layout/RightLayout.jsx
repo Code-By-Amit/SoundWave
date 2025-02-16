@@ -3,7 +3,7 @@ import { IoSearch } from 'react-icons/io5'
 import { Outlet } from 'react-router-dom'
 import { DarkLightToggleButton } from '../UI/DarkLightToggleButton'
 import { TopBar } from '../UI/TopBar'
-
+import { Toaster } from 'react-hot-toast';
 export const RightLayout = () => {
 
 
@@ -13,6 +13,7 @@ export const RightLayout = () => {
             {/* Content Area */}
             <div className='right-pannel-scrollbar overflow-auto'>
             <Outlet />
+            <Toaster position='top-center'/>
             </div>
         </div>
     )

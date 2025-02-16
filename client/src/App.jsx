@@ -17,6 +17,8 @@ import { AllArtist } from './Pages/AllArtist'
 import { PlayBar } from './components/UI/PlayBar'
 import { PlaylistPage } from './Pages/PlaylistPage'
 import { ArtistPage } from './Pages/ArtistPage'
+import { CreateEditPlaylist } from './components/CreateEditPlaylist'
+import { UploadEditSong } from './components/uploadEditSong'
 
 function App() {
 
@@ -38,6 +40,8 @@ function App() {
             <Route path='/all-artist' element={<AllArtist />} />
             <Route path='/playlist-page/:id' element={<PlaylistPage />} />
             <Route path='/artist-page/:id' element={<ArtistPage />} />
+            <Route path='/create-playlist' element={<CreateEditPlaylist />} />
+            <Route path='/upload-song' element={<UploadEditSong />} />
           </Route>
         </Route>
       </Routes>

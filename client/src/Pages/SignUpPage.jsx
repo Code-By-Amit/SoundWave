@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { authUser } from '../context/AuthUserContext';
+import { LoadingDots } from '../components/LoadingDots';
 
 export const SignUpPage = () => {
     let navigate = useNavigate();
@@ -17,9 +18,15 @@ export const SignUpPage = () => {
         }
 
         signupMutation.mutate(formData, {
-            onSuccess: () => {
+            onSuccess:()=>{
                 navigate('/')
+                toast.success("Signup Sucessful")
+                setFormData({ firstName: "", lastName: "", username: "", password: "", confirmPswd: "" })
             },
+            onError:(error)=>{
+                toast.error(`Error: ${error.message}`)
+                setFormData({ firstName: "", lastName: "", username: "", password: "", confirmPswd: "" })
+            }
         })
     }
     
@@ -70,7 +77,7 @@ export const SignUpPage = () => {
                             <input className='bg-gray-100 p-3 rounded' type="text" placeholder='Password' name='password' value={formData.password} onChange={handleInputChange} />
                             <input className='bg-gray-100 p-3 rounded' type="text" placeholder='Confirm Password' name='confirmPswd' value={formData.confirmPswd} onChange={handleInputChange} />
                         </div>
-                        <button className={`bg-[var(--primary-color)] w-full text-white font-bold py-2 rounded-md mt-13 ${signupMutation.isPending ? "disabled:opacity-50":""} hover:opacity-85`} type='submit'>{signupMutation.isPending ? "Signing Up..." : "Sign Up"}</button>
+                        <button className={`bg-[var(--primary-color)] w-full text-white font-bold py-2 rounded-md mt-13 ${signupMutation.isPending ? "disabled:opacity-50":""} hover:opacity-85`} type='submit'>{signupMutation.isPending ? ( <>Signing<LoadingDots /></>)  : "Sign Up"}</button>
                         {errors &&  <p  className="text-sm text-red-600"> {errors} </p> }
                         {signupMutation.isError && <p className='text-sm text-red-600'>Error: {signupMutation.error.message}</p>}
                     </form>

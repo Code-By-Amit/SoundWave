@@ -12,3 +12,4 @@ export const fetchUserCreatedSavedPlaylist = (token) => api.get('/user-playlists
         withCredentials: true,
         headers: { Authorization: `Bearer ${token}` }
     }).then(res => res.data)
+export const createPlaylist = (data) => api.post('/create',data,{withCredentials:true})

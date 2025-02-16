@@ -10,7 +10,8 @@ export const SongCard = ({ song }) => {
       title: song.title,
       songImg: song.image,
       url: song.songUrl,
-      _id: song._id
+      _id: song._id,
+      artist: song?.artist?.name || null
     })
   }
   return (

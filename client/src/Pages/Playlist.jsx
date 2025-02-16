@@ -3,6 +3,7 @@ import { PlaylistCard } from '../components/UI/PlaylistCard'
 import { MdOutlineCreateNewFolder } from 'react-icons/md'
 import { fetchUserCreatedSavedPlaylist } from '../apis/playlistApi'
 import { useQuery } from '@tanstack/react-query'
+import { Link } from 'react-router-dom'
 
 export const Playlist = () => {
   const [token, setToken] = useState(localStorage.getItem('token') || null)
@@ -57,10 +58,12 @@ export const Playlist = () => {
         </div>
 
         <div className=' mx-7 mb-19'>
+          <Link to='/create-playlist'>
           <button className='text-white rounded shadow-md py-2.5 px-3 text-base md:text-md font-semibold bg-[var(--primary-color)] flex items-center gap-3 hover:opacity-75 active:opacity-75'>
             <MdOutlineCreateNewFolder className='text-2xl md:text-3xl' />
             Create a Playlist
           </button>
+          </Link>
         </div>
       </div >
     </>
