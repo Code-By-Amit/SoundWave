@@ -3,6 +3,7 @@ import { DarkLightToggleButton } from './DarkLightToggleButton'
 import { IoSearch } from 'react-icons/io5'
 import { NavLink } from 'react-router-dom';
 import { authUser } from '../../context/AuthUserContext';
+import { ColorPiker } from './ColorPicker';
 
 export const TopBar = () => {
     const [isDarkMode, setIsDarkMode] = useState(() => localStorage.getItem("theme") === "dark");
@@ -42,7 +43,7 @@ export const TopBar = () => {
         toggleDropdown()
     }
     return (
-        <div className="flex items-center sticky top-0 z-10 justify-between px-4 py-3 bg-white dark:border-gray-700  dark:bg-gray-900">
+        <div className="flex items-center sticky top-0 z-10 justify-between p-3 md:px-4 md:py-3 bg-white dark:border-gray-700  dark:bg-gray-900">
             {/* Search Input */}
             <div className="flex-1 max-w-md relative hidden sm:block">
                 <input className="w-full py-1.5 md:py-2 px-4 ml-3 shadow-sm dark:bg-gray-700 text-gray-800 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 border border-gray-300 dark:border-gray-600 outline-none rounded-md focus:ring-2 focus:ring-cyan-400 transition-all" type="text"
@@ -57,6 +58,7 @@ export const TopBar = () => {
 
             {/* Login Button */}
             <div className="ml-4 flex gap-2 md:gap-4 items-center">
+            <ColorPiker />
                 <DarkLightToggleButton toggleDarkMode={toggleDarkMode} />
 
                 {
@@ -69,7 +71,7 @@ export const TopBar = () => {
                                 <div className="w-6 h-6 md:w-7 md:h-7 rounded-full overflow-hidden">
                                     <img className="w-full h-full object-cover" src={user.profileImg} alt="user photo" crossOrigin="anonymous" />
                                 </div>
-                                <div className='whitespace-nowrap mx-1 text-xs md:text-base dark:text-white'>{user.firstName}</div>
+                                <div className='whitespace-nowrap mx-1 text-xs hidden sm:block md:text-base dark:text-white'>{user.firstName}</div>
                             </button>
 
                             {/* Dropdown menu */}

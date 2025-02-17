@@ -1,10 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { fetchPlaylistById, saveUnsavePlaylist } from '../apis/playlistApi'
+import { deletePlaylist, fetchPlaylistById, saveUnsavePlaylist } from '../apis/playlistApi'
 import { SongBar } from '../components/UI/SongBar'
 import { authUser } from '../context/AuthUserContext'
-import { FaHeart } from 'react-icons/fa'
+import { RiDeleteBin6Line } from "react-icons/ri";
+import toast from 'react-hot-toast'
 
 export const PlaylistPage = () => {
     const [isSaved, setIsSaved] = useState(false)
@@ -27,24 +28,47 @@ export const PlaylistPage = () => {
             if (playlist.author === user._id) {
                 setDisplaySaveUnsave(false);
             }
-    
+
             if (user?.playlist?.includes(id)) {
                 setIsSaved(true);
-            } 
+            }
         }
     }, [playlist, user.playlist, id, user._id]);
-    
+
 
     const saveUnsaveMutation = useMutation({
-        mutationKey: ['saveUnsave',id],
+        mutationKey: ['saveUnsave', id],
         mutationFn: (id) => saveUnsavePlaylist(id),
-        onSuccess: () => {
+        onMutate: async (id) => {
+            const toastId = toast.loading('Saving playlist...');
+            return { toastId };
+        },
+        onSuccess: (data, variable, context) => {
             setIsSaved((prev) => !prev)
+            toast.success(data.message, { id: context.toastId })
             queryClient.invalidateQueries(['user-Created/Saved-Playlist'])
         },
-        onError: (error) => {
+        onError: (error, variable, context) => {
+            toast.error(error.message, { id: context.toastId })
             console.error('Error savingUnsaving song:', error)
         }
+    })
+
+    const deleteMutation = useMutation({
+        mutationKey: ['deletePlaylist', id],
+        mutationFn: (id) => deletePlaylist(id),
+        enabled: !!id,
+        onMutate: async (id) => {
+            const toastId = toast.loading('Deleting playlist...');
+            return { toastId };
+        },
+        onSuccess: (data, variable, context) => {
+            navigate('/playlist')
+            toast.success(data.message, { id: context.toastId })
+        },
+        onError: (error, variable, context) => {
+            toast.error(error.message, { id: context.toastId })
+        },
     })
 
     const toggleSave = (e) => {
@@ -69,29 +93,42 @@ export const PlaylistPage = () => {
             </button>
 
             <div className='p-4'>
-                <div className='mx-auto w-60 mt-18 h-60 overflow-hidden rounded dark:shadow-black hover:scale-105 transition ease-in-out duration-300 shadow-2xl'>
+                <div className='mx-auto w-50 h-50 md:w-60 mt-18 md:h-60 overflow-hidden rounded dark:shadow-black hover:scale-105 transition ease-in-out duration-300 shadow-2xl'>
                     <img className='w-full h-full object-cover ' src={playlist.image} alt="" />
                 </div>
                 <div className='text-center text-md my-4 font-semibold dark:text-white text-gray-800'>
                     <p>{playlist.name}</p>
                 </div>
                 {
-                    displaySaveUnsave ? 
-                    <div onClick={toggleSave} className={`likes cursor-pointer w-fit hover:scale-105 md:m-4 px-2 transition ease-in-out duration-300 bg-[var(--primary-color)] text-white p-1 rounded`}>
-                        <p>
-                            {isSaved ? (
-                                <>
-                                    Unsave <img src="/unsave.png" className="w-4 inline-block" alt="Unsave" />
-                                </>
-                            ) : (
-                                <>
-                                    Save <img src="/save.png" className="w-4 inline-block invert" alt="Save" />
-                                </>
-                            )}
-                        </p>
+                    displaySaveUnsave ?
+                        <div onClick={toggleSave} className={`likes cursor-pointer w-fit hover:scale-105 md:m-4 px-2 transition ease-in-out duration-300 bg-[var(--primary-color)] text-white p-1 rounded`}>
+                            <p>
+                                {isSaved ? (
+                                    <>
+                                        Unsave <img src="/save.png" className="w-4 inline-block invert" alt="Unsave" />
+                                    </>
+                                ) : (
+                                    <>
+                                        Save <img src="/save.png" className="w-4 inline-block invert" alt="Save" />
+                                    </>
+                                )}
+                            </p>
 
-                    </div>
-                    : <h1 className='font-bold text-2xl mx-3'>Your Playlist</h1>
+                        </div>
+                        : (<>
+                            <div onClick={() => {
+                                let a = confirm("Are you sure? Playlist will be permanently deleted.")
+                                if (a) {
+                                    deleteMutation.mutate(id)
+                                }
+                            }} className={`likes cursor-pointer w-fit hover:scale-105 md:m-4 px-2 transition ease-in-out duration-300 bg-red-600 text-white p-1 rounded`}>
+                                <p className='flex items-center gap-2'>
+                                    Delete <RiDeleteBin6Line />
+                                </p>
+
+                            </div>
+
+                        </>)
                 }
 
                 {/* Top Songs  */}

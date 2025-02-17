@@ -32,6 +32,8 @@ async function uploadOnCloudinary(inputPathOrUrl) {
 }
 
 async function deleteFromCloudinary(url, resourceType = 'image') {
+    const cloudinaryPattern = /^https?:\/\/(?:res\.cloudinary\.com|.*\.cloudinary\.com)\//;
+    if(!cloudinaryPattern.test(url)) return
     try {
         // Extract public_id from the URL
         const regex = /\/upload\/v\d+\/(.+?)(\.[a-zA-Z]+)?$/;

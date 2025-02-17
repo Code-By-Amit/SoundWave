@@ -130,8 +130,11 @@ async function deletePlaylist(req, res, next) {
         let playlistIndex = user.playlist.findIndex(p_Id=>p_Id.toString()===playlistId)
         user.playlist.splice(playlistIndex, 1);
         await user.save()
-
-        res.status(200).json({ message: "Playlist Deleted Sucessfully!", playlist })
+        setTimeout(
+            ()=>{
+                res.status(200).json({ message: "Playlist Deleted Sucessfully!", playlist })
+            },5000
+        )
     } catch (error) {
         console.error("Error in Delete Playlist handeler : ", error.message)
         res.status(500).json({ message: "Internal Server Error", error: error.message })
@@ -211,14 +214,14 @@ async function togglePlaylistSave(req, res, next) {
 
             await user.save();
             await playlist.save();
-            return res.status(200).json({ message: "User Unsaved Playlist", playlist })
+            return res.status(200).json({ message: "Playlist Unsaved", playlist })
         }
 
         playlist.savedBy.push(userId);
         user.playlist.push(playlistId);
         await playlist.save();
         await user.save();
-        return res.status(200).json({ message: "User Saved Playlist", playlist })
+        return res.status(200).json({ message: "Playlist Saved", playlist })
 
     } catch (error) {
         console.error("Error in Toggle Song handler:", error.message);

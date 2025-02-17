@@ -14,3 +14,4 @@ export const fetchUserCreatedSavedPlaylist = (token) => api.get('/user-playlists
     }).then(res => res.data)
 export const createPlaylist = (data) => api.post('/create',data,{withCredentials:true})
 export const saveUnsavePlaylist = (playlistId) => api.patch(`/${playlistId}/toggle-save`,{},{withCredentials:true}).then(res => res.data)
+export const deletePlaylist = (playlistId) => api.delete(`/${playlistId}`,{withCredentials:true}).then(res => res.data)
