@@ -15,12 +15,12 @@ async function getPlaylist(req, res, next) {
             return res.status(200).json({ message: "All Playlist", playlists })
         }
         if (top == 'true') {
-            const playlists = await Playlist.find({isPrivate: false}).sort({ createdAt: -1 }).limit(Number(limit))
+            const playlists = await Playlist.find({ isPrivate: false }).sort({ createdAt: -1 }).limit(Number(limit))
             return res.status(200).json({ message: "Top Playlist", playlists })
         }
         const playlists = await Playlist.find({ ...query, isPrivate: false }).skip((page - 1) * limit).limit(Number(limit))
 
-        if(!playlists){
+        if (!playlists) {
             return res.status(404).json({ message: "Playlist Not Found" })
         }
 
@@ -31,17 +31,17 @@ async function getPlaylist(req, res, next) {
     }
 }
 
-async function getPlaylisById(req,res,next) {
-    try{
+async function getPlaylisById(req, res, next) {
+    try {
         const id = req.params.playlistId;
-        
+
         const playlist = await Playlist.findById(id).populate('songs');
-        if(!playlist){
+        if (!playlist) {
             return res.status(404).json({ message: "Playlist Not Found" })
         }
-        res.status(200).json({message:`Playlist by id ${id}`,playlist})
+        res.status(200).json({ message: `Playlist by id ${id}`, playlist })
 
-    }catch(error){
+    } catch (error) {
         console.error("Error in Get Playlist By Id handeler : ", error.message)
         res.status(500).json({ message: "Internal Server Error", error: error.message })
     }
@@ -87,9 +87,9 @@ async function createPlaylist(req, res, next) {
         }
 
         let image
-        if(req.file){
+        if (req.file) {
             const response = await uploadOnCloudinary(req.file.path)
-            image = response.secure_url  
+            image = response.secure_url
         }
 
         const playlist = await Playlist.create({
@@ -123,18 +123,15 @@ async function deletePlaylist(req, res, next) {
         if (!playlist) {
             return res.status(404).json({ message: "Playlist Not Found" })
         }
-        if(playlist.image){
-             deleteFromCloudinary(playlist.image)
+        if (playlist.image) {
+            deleteFromCloudinary(playlist.image)
         }
 
-        let playlistIndex = user.playlist.findIndex(p_Id=>p_Id.toString()===playlistId)
+        let playlistIndex = user.playlist.findIndex(p_Id => p_Id.toString() === playlistId)
         user.playlist.splice(playlistIndex, 1);
         await user.save()
-        setTimeout(
-            ()=>{
-                res.status(200).json({ message: "Playlist Deleted Sucessfully!", playlist })
-            },5000
-        )
+        res.status(200).json({ message: "Playlist Deleted Sucessfully!", playlist })
+        
     } catch (error) {
         console.error("Error in Delete Playlist handeler : ", error.message)
         res.status(500).json({ message: "Internal Server Error", error: error.message })

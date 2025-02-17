@@ -12,16 +12,18 @@ export const SongProvider = ({ children }) => {
     const [currentTime, setCurrentTime] = useState(0);
     const [currentSong, setCurrentSong] = useState(null);
     const [token, setToken] = useState(localStorage.getItem('token') || null);
+    const [songList, setSongList] = useState(null);
+    const [currentSongIndex, setCurrentSongIndex] = useState(0);
 
     let audioRef = useRef(new Audio())
     let addToRecentPlays = useMutation({
         mutationKey: ['addToRecentPlays'],
-        mutationFn:({id,token}) => addtoRecentPlays(id,token)
+        mutationFn: ({ id, token }) => addtoRecentPlays(id, token)
     })
 
     useEffect(() => {
         if (currentSong) {
-            addToRecentPlays.mutate({id:currentSong._id,token})
+            addToRecentPlays.mutate({ id: currentSong._id, token })
             if (audioRef.current) {
                 audioRef.current.pause(); // Pause any existing audio
                 audioRef.current.src = ""
@@ -70,8 +72,29 @@ export const SongProvider = ({ children }) => {
         }
     }
 
+    const playSong = (song, songs) => {
+        setCurrentSong(song)
+        setSongList(songs)
+        const index = songs.findIndex(s => s._id.toString() === song._id.toString())
+        setCurrentSongIndex(index)
+    }
+
+    const playForward = () => {
+        if (currentSongIndex < songList.length - 1) {
+            setCurrentSongIndex((prev) => prev + 1);
+            setCurrentSong(songList[currentSongIndex + 1])
+        }
+    }
+
+    const playPrevious = () => {
+        if (currentSongIndex > 0) {
+            setCurrentSongIndex((prev) => prev - 1)
+            setCurrentSong(songList[currentSongIndex - 1])
+        }
+    }
+
     return (
-        <SongContext.Provider value={{ isPlaying, setIsPlaying, volume, adjustVolume, currentSong, currentTime, duration, seek, setCurrentSong }}>
+        <SongContext.Provider value={{ isPlaying, setIsPlaying, volume, adjustVolume, playSong, playPrevious, playForward, currentSong, currentTime, duration, seek, setCurrentSong }}>
             {children}
         </SongContext.Provider>
     )
