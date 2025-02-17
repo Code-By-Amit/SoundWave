@@ -8,7 +8,7 @@ export const UploadEditSong = () => {
     const [song, setSong] = useState(null)
     const [title, setTitle] = useState()
     const [image, setImage] = useState(null)
-    const [duration,setDuration] = useState(0);
+    const [duration, setDuration] = useState(0);
 
     const mutation = useMutation({
         mutationKey: ['uploadSong'],
@@ -43,18 +43,21 @@ export const UploadEditSong = () => {
             toast.error("Please provide all required fields!");
             return;
         }
-        const audio = new Audio(URL.createObjectURL(song));
+        const audioUrl = URL.createObjectURL(song);
+        const audio = new Audio(audioUrl);
         audio.addEventListener('loadedmetadata', () => {
             const durationInSeconds = audio.duration;
             const formattedDuration = formatTime(durationInSeconds);
-    
+
             const formData = new FormData();
             formData.append('image', image);
             formData.append('song', song);
             formData.append('title', title);
             formData.append('duration', formattedDuration);
-    
+
             mutation.mutate(formData);
+
+            URL.revokeObjectURL(audioUrl);
         });
     }
 
@@ -107,7 +110,7 @@ export const UploadEditSong = () => {
                         disabled={mutation.isLoading}
                         className={`w-full py-2 px-4 ${mutation.isLoading ? 'opacity-70' : ''} bg-[var(--primary-color)] hover:opacity-80 text-white font-semibold rounded-lg shadow-md transition-all`}
                     >
-                        {mutation.isPending ? ( <>Uploading<LoadingDots /></>) : "Upload Song"}
+                        {mutation.isPending ? (<>Uploading<LoadingDots /></>) : "Upload Song"}
                     </button>
                 </form>
             </div>

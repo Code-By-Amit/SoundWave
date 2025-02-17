@@ -2,15 +2,15 @@ import { createContext, useContext, useState } from "react";
 import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { fetchAuthUser, loginUser, signupUser } from "../apis/userApi";
+import { fetchAuthUser, loginUser, logoutUser, signupUser } from "../apis/userApi";
 const UserContext = createContext();
 
 export const UserContextProvider = ({ children }) => {
     const [token, setToken] = useState(localStorage.getItem('token') || null);
- 
+
     const queryClient = useQueryClient()
 
-    const { data:user, isLoading } = useQuery({
+    const { data: user, isLoading } = useQuery({
         queryKey: ['authUser'],
         queryFn: () => fetchAuthUser(token),
         enabled: !!token
@@ -42,13 +42,21 @@ export const UserContextProvider = ({ children }) => {
         },
     })
 
-    const logout = ()=>{
-        localStorage.removeItem('token')
-        setToken(null)
-        queryClient.removeQueries(['authUser'])
+    const logoutMutation = useMutation({
+        mutationKey: ['logout'],
+        mutationFn: logoutUser,
+        onSuccess: () => {
+            localStorage.removeItem('token')
+            setToken(null)
+            queryClient.removeQueries(['authUser'])
+        }
+    })
+    
+    const logout = () => {
+        logoutMutation.mutate()
     }
 
-    return <UserContext.Provider value={{ user, loginMutation, signupMutation, logout}}>
+    return <UserContext.Provider value={{ user, loginMutation, signupMutation, logout }}>
         {children}
     </UserContext.Provider>
 }

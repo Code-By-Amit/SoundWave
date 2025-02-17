@@ -34,7 +34,7 @@ async function getPlaylist(req, res, next) {
 async function getPlaylisById(req,res,next) {
     try{
         const id = req.params.playlistId;
-        console.log("id is :",id)
+        
         const playlist = await Playlist.findById(id).populate('songs');
         if(!playlist){
             return res.status(404).json({ message: "Playlist Not Found" })

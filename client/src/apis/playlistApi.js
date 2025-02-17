@@ -13,3 +13,4 @@ export const fetchUserCreatedSavedPlaylist = (token) => api.get('/user-playlists
         headers: { Authorization: `Bearer ${token}` }
     }).then(res => res.data)
 export const createPlaylist = (data) => api.post('/create',data,{withCredentials:true})
+export const saveUnsavePlaylist = (playlistId) => api.patch(`/${playlistId}/toggle-save`,{},{withCredentials:true}).then(res => res.data)

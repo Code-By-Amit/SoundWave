@@ -3,14 +3,17 @@ import { NavLink } from 'react-router-dom';
 import { AiFillHome } from "react-icons/ai";
 import { MdLibraryMusic } from "react-icons/md";
 import { IoCloudUploadSharp, IoReload } from "react-icons/io5";
-import { FaHeart } from "react-icons/fa";
+import { FaHeart, FaUserCog } from "react-icons/fa";
 import { PiPlaylistDuotone } from "react-icons/pi";
 import { FiMenu } from "react-icons/fi";
 import { RxCross2 } from "react-icons/rx"
+import { GoSignOut } from "react-icons/go";
+import { authUser } from '../../context/AuthUserContext';
+
 
 export const LeftNavBar = () => {
   const [isOpen, setIsOpen] = useState(window.innerWidth > 768); // Sidebar toggle state
-
+  const { user, logout } = authUser()
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
@@ -34,7 +37,7 @@ export const LeftNavBar = () => {
           className="dark:bg-gray-800 bg-gray-100 dark:text-white text-black h-9 flex justify-center items-center transition ease-in-out duration-300 w-9 p-2 rounded-md cursor-pointer"
           onClick={toggleSidebar}
         >
-           {isOpen ? <RxCross2 size={25} /> : <FiMenu size={25} />}
+          {isOpen ? <RxCross2 size={25} /> : <FiMenu size={25} />}
         </button>
       </div>
 
@@ -45,12 +48,26 @@ export const LeftNavBar = () => {
           <NavItem to="/explore" text="Explore" isOpen={isOpen} icon={<MdLibraryMusic />} />
           <NavItem to="/favourites" text="Favourites" isOpen={isOpen} icon={<FaHeart />} />
           <NavItem to="/playlist" text="Your Playlists" isOpen={isOpen} icon={<PiPlaylistDuotone />} />
-
-          {/* Divider
-            <div className="border border-gray-500 rounded-2xl my-2"></div> */}
-
           <NavItem to="/recent" text="Recent" isOpen={isOpen} icon={<IoReload />} />
           <NavItem to="/uploads" text="Uploads" isOpen={isOpen} icon={<IoCloudUploadSharp />} />
+          {/* Divider */}
+          {
+            user &&
+            (<>
+              <div className="border border-gray-300 rounded-2xl my-3"></div>
+              <NavItem to="/edit-profile" text="Edit Profile" isOpen={isOpen} icon={<FaUserCog />} />
+              <li>
+                <div onClick={logout} className={`flex items-center ${isOpen ? "gap-3" : "justify-center"}  p-2 rounded-md mb-2 transition duration-300 text-gray-600 hover:bg-gray-300 dark:text-white dark:hover:bg-gray-800`}>
+                  <div className="w-7 h-7 min-w-[28px] min-h-[28px] flex justify-center items-center">
+                    <GoSignOut color='red' />
+                  </div>
+                  <span className={`text-sm text-red-500 transition-all duration-300 overflow-hidden whitespace-nowrap  ${isOpen ? "opacity-100 max-w-full" : "opacity-0 max-w-0"}`}>
+                    Logout
+                  </span>
+                </div>
+              </li>
+            </>)
+          }
         </ul>
       </nav>
     </div>
@@ -61,10 +78,10 @@ export const LeftNavBar = () => {
 const NavItem = ({ to, text, icon, isOpen }) => {
   return (
     <li>
-      <NavLink to={to} className={({ isActive }) => `flex items-center ${isOpen ? "gap-3" : "justify-center"}  p-2 rounded-md mb-2 transition duration-300  ${isActive ? "bg-[var(--primary-color)] text-white" : "text-gray-600 hover:bg-gray-300 dark:text-white"} dark:hover:bg-gray-800` }>
+      <NavLink to={to} className={({ isActive }) => `flex items-center ${isOpen ? "gap-3" : "justify-center"}  p-2 rounded-md mb-2 transition duration-300  ${isActive ? "bg-[var(--primary-color)] text-white" : "text-gray-600 hover:bg-gray-300 dark:text-white"} dark:hover:bg-gray-800`}>
         <div className="w-7 h-7 min-w-[28px] min-h-[28px] flex justify-center items-center">
           {icon}
-        </div>  
+        </div>
         <span className={`text-sm transition-all duration-300 overflow-hidden whitespace-nowrap 
                         ${isOpen ? "opacity-100 max-w-full" : "opacity-0 max-w-0"}`}>
           {text}
@@ -73,4 +90,3 @@ const NavItem = ({ to, text, icon, isOpen }) => {
     </li>
   );
 };
-  

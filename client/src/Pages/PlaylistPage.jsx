@@ -1,20 +1,62 @@
-import { useQuery } from '@tanstack/react-query'
-import React from 'react'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { fetchPlaylistById } from '../apis/playlistApi'
+import { fetchPlaylistById, saveUnsavePlaylist } from '../apis/playlistApi'
 import { SongBar } from '../components/UI/SongBar'
+import { authUser } from '../context/AuthUserContext'
+import { FaHeart } from 'react-icons/fa'
 
 export const PlaylistPage = () => {
+    const [isSaved, setIsSaved] = useState(false)
+    const { user } = authUser()
+    const [displaySaveUnsave, setDisplaySaveUnsave] = useState(true)
+
     const { id } = useParams()
     const navigate = useNavigate()
+    const queryClient = useQueryClient()
+
     const { data: playlist, isLoading, error, isError } = useQuery({
         queryKey: [`playlist/${id}`],
         queryFn: () => fetchPlaylistById(id),
         enabled: !!id
     })
 
+    useEffect(() => {
+        if (playlist) {
+
+            if (playlist.author === user._id) {
+                setDisplaySaveUnsave(false);
+            }
+    
+            if (user?.playlist?.includes(id)) {
+                setIsSaved(true);
+            } 
+        }
+    }, [playlist, user.playlist, id, user._id]);
+    
+
+    const saveUnsaveMutation = useMutation({
+        mutationKey: ['saveUnsave',id],
+        mutationFn: (id) => saveUnsavePlaylist(id),
+        onSuccess: () => {
+            setIsSaved((prev) => !prev)
+            queryClient.invalidateQueries(['user-Created/Saved-Playlist'])
+        },
+        onError: (error) => {
+            console.error('Error savingUnsaving song:', error)
+        }
+    })
+
+    const toggleSave = (e) => {
+        e.stopPropagation()
+        saveUnsaveMutation.mutate(id)
+    }
+
     if (isLoading) return <div>Loading...........</div>
     if (isError) return <div>{error}...........</div>
+
+
+
 
     return (
         <>
@@ -33,10 +75,28 @@ export const PlaylistPage = () => {
                 <div className='text-center text-md my-4 font-semibold dark:text-white text-gray-800'>
                     <p>{playlist.name}</p>
                 </div>
+                {
+                    displaySaveUnsave ? 
+                    <div onClick={toggleSave} className={`likes cursor-pointer w-fit hover:scale-105 md:m-4 px-2 transition ease-in-out duration-300 bg-[var(--primary-color)] text-white p-1 rounded`}>
+                        <p>
+                            {isSaved ? (
+                                <>
+                                    Unsave <img src="/unsave.png" className="w-4 inline-block" alt="Unsave" />
+                                </>
+                            ) : (
+                                <>
+                                    Save <img src="/save.png" className="w-4 inline-block invert" alt="Save" />
+                                </>
+                            )}
+                        </p>
+
+                    </div>
+                    : <h1 className='font-bold text-2xl mx-3'>Your Playlist</h1>
+                }
 
                 {/* Top Songs  */}
                 <div className="songs min-h-96">
-                    <h1 className="text-2xl font-bold md:mx-4 my-2  dark:text-white">{playlist?.songs.length === 0 ? "No Songs" : "Songs"}</h1>
+                    <h1 className="text-2xl font-semibold md:mx-4 my-2  dark:text-white">{playlist?.songs.length === 0 ? "No Songs" : "Songs"}</h1>
                     {/* Heading for songs  */}
                     <div className="song p-3 py-1  pr-1 rounded flex mx-2 md:mx-4 mb-1 transition ease-in-out duration-300 justify-between items-center space-x-4 ">
                     </div>

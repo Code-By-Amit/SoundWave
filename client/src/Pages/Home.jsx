@@ -55,11 +55,6 @@ export const Home = () => {
         {/* Heading for songs  */}
         <div className="song p-3 py-1  pr-1 rounded flex mx-2 md:mx-4 mb-1 transition ease-in-out duration-300 justify-between items-center space-x-4 ">
           <p className="line-clamp-1 text-gray-400 text-md ">Track/Artist</p>
-          <div className="flex sm:mr-1 md:*:mx-3 *:mx-1 text-gray-400  w-44 md:w-91 justify-between items-center text-xs sm:text-sm">
-            <p>Duration</p>
-            <p>Play's</p>
-            <p>Favourate</p>
-          </div>
         </div>
         {
           songs.map((song) => {
