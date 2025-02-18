@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 export const ColorPiker = () => {
-  const [color,setColor] = useState(null)
+  const [color,setColor] = useState(getComputedStyle(document.documentElement).getPropertyValue('--primary-color') || null)
 
   useEffect(()=>{
     const root = getComputedStyle(document.documentElement);

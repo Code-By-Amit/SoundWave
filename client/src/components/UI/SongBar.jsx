@@ -6,7 +6,7 @@ import { LikeUnlike } from '../LikeUnlike'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { likeUnlikeSong } from '../../apis/SongApi'
 
-export const SongBar = ({ song }) => {
+export const SongBar = ({ song ,setSongHandler }) => {
     const { setCurrentSong } = useSong()
     const { user } = authUser();
 
@@ -21,15 +21,15 @@ export const SongBar = ({ song }) => {
         }
       }, [user, song]);
 
-    const setCurrentSongHandler = () => {
-        setCurrentSong({
-            _id: song?._id,
-            title: song?.title,
-            songImg: song?.image,
-            url: song?.songUrl,
-            artist: song?.artist?.name || null
-        })
-    }
+    // const setCurrentSongHandler = () => {
+    //     setCurrentSong({
+    //         _id: song?._id,
+    //         title: song?.title,
+    //         songImg: song?.image,
+    //         url: song?.songUrl,
+    //         artist: song?.artist?.name || null
+    //     })
+    // }
 
     const likeUnlike = useMutation({
         mutationKey: ['likeUnlike'],
@@ -48,7 +48,7 @@ export const SongBar = ({ song }) => {
     }
 
     return (
-        <div onClick={setCurrentSongHandler} className="song shadow-md md:p-3 md:pr-2 p-2  rounded flex  mb-2 group hover:bg-[var(--primary-color)] transition ease-in-out duration-300 hover:shadow-2xl justify-between bg-white items-center space-x-4 dark:bg-gray-600 ">
+        <div onClick={()=>setSongHandler(song)} className="song shadow-md md:p-3 md:pr-2 p-2  rounded flex  mb-2 group hover:bg-[var(--primary-color)] transition ease-in-out duration-300 hover:shadow-2xl justify-between bg-white items-center space-x-4 dark:bg-gray-600 ">
             {/* image and title */}
             <div className="flex items-center gap-3 w-1/2 sm:w-auto group flex-1 max-w-84">
 

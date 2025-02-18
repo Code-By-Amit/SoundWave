@@ -7,21 +7,19 @@ import { useSong } from '../context/SongContext'
 
 export const AllSongs = () => {
     let navigate = useNavigate()
-    let { setCurrentSong } = useSong()
+    const { playSong } = useSong()
 
-    const { data, isError, isLoading, error } = useQuery({
+    const { data:songs, isError, isLoading, error } = useQuery({
         queryKey: ['allSongs'],
         queryFn: fetchSong,
         staleTime: 1000 * 60 * 15
     })
 
-    const handleOnClick = (song) => {
-        setCurrentSong({
-            title:song.title,
-            songImg:song.image,
-            url:song.songUrl
-        })
-    }
+    const setSongHandler = (song) => {
+        if(songs){
+          playSong(song,songs)
+        }
+      }
 
     if (isLoading) return <div>Loading.......</div>
     if (isError) return <div>Error.......</div>
@@ -43,8 +41,8 @@ export const AllSongs = () => {
                 <p className="line-clamp-1 text-gray-400 text-md ">Track/Artist</p>
             </div>
 
-            {data.map((song) => {
-                return <SongBar key={song._id} song={song} />
+            {songs.map((song) => {
+                return <SongBar key={song._id} song={song} setSongHandler={setSongHandler} />
             })}
              </div>
     )

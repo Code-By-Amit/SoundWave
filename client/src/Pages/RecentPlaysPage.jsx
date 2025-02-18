@@ -3,14 +3,23 @@ import React, { useState } from 'react'
 import { FaHeart } from 'react-icons/fa'
 import { getRecentPlays } from '../apis/SongApi'
 import { SongBar } from '../components/UI/SongBar'
+import { useSong } from '../context/SongContext'
 
 export const RecentPlaysPage = () => {
   const [token, setToken] = useState(localStorage.getItem('token') || null)
-  const { data, isLoading, isError, error } = useQuery({
+  const { playSong } = useSong()
+
+  const { data:songs, isLoading, isError, error } = useQuery({
     queryKey: ['recentPlays'],
     queryFn: () => getRecentPlays(token),
     enabled: !!token
   })
+
+  const setSongHandler = (song) => {
+    if(songs){
+      playSong(song,songs)
+    }
+  }
 
   if (isLoading) return <div>Loading.......</div>
   if (isError) return <div>Error.......</div>
@@ -23,8 +32,8 @@ export const RecentPlaysPage = () => {
         <h1 className="text-2xl font-bold  md:mx-7 my-4 dark:text-white">Recent play's</h1>
 
         {
-          data.map(song=>{
-            return <SongBar key={song._id} song={song} />
+          songs.map(song=>{
+            return <SongBar key={song._id} song={song} setSongHandler={setSongHandler}/>
           })
         }
 

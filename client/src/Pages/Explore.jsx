@@ -10,7 +10,10 @@ import { fetchTopPlaylists } from '../apis/playlistApi'
 import { useQuery } from '@tanstack/react-query'
 import { fetchSomeSongs } from '../apis/SongApi'
 import { fetchSomeArtist } from '../apis/artistApi'
+import { useSong } from '../context/SongContext'
 export const Explore = () => {
+
+  const { playSong } = useSong()
 
   // Fetch Top Songs
   const { data: songs, isLoading: loadingSongs, isError: errorSongs } = useQuery({
@@ -28,7 +31,13 @@ export const Explore = () => {
     queryKey: ["artists"],
     queryFn: fetchSomeArtist
   });
-  console.log(artists)
+  
+  const setSongHandler = (song) => {
+    if(songs){
+      playSong(song,songs)
+    }
+  }
+
   if (loadingSongs || loadingPlaylists || loadingArtist) return <div>Loading .....</div>
   if (errorSongs || errorPlaylists|| errorArtist) return <div>Error .....</div>
 
@@ -64,7 +73,7 @@ export const Explore = () => {
         <div className="songscards flex max-w-full overflow-x-auto items-center gap-4 p-4 justify-start">
           {
             songs.map((song)=>{
-              return  <SongCard key={song._id} song={song} />
+              return  <SongCard key={song._id} song={song} setSongHandler={setSongHandler} />
             })
           }
        </div>

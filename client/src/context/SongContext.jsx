@@ -73,7 +73,13 @@ export const SongProvider = ({ children }) => {
     }
 
     const playSong = (song, songs) => {
-        setCurrentSong(song)
+        setCurrentSong({
+            _id: song?._id,
+            title: song?.title,
+            songImg: song?.image,
+            url: song?.songUrl,
+            artist: song?.artist?.name || null
+        })
         setSongList(songs)
         const index = songs.findIndex(s => s._id.toString() === song._id.toString())
         setCurrentSongIndex(index)
@@ -81,16 +87,35 @@ export const SongProvider = ({ children }) => {
 
     const playForward = () => {
         if (currentSongIndex < songList.length - 1) {
+            const forwardIndex = currentSongIndex + 1;
             setCurrentSongIndex((prev) => prev + 1);
-            setCurrentSong(songList[currentSongIndex + 1])
+            setCurrentSongByCurrentSongIndex(forwardIndex)
+        } else {
+            setCurrentSongIndex(0)
+            setCurrentSongByCurrentSongIndex(0)
         }
     }
 
     const playPrevious = () => {
         if (currentSongIndex > 0) {
+            const previousIndex = currentSongIndex -1;
             setCurrentSongIndex((prev) => prev - 1)
-            setCurrentSong(songList[currentSongIndex - 1])
+            setCurrentSongByCurrentSongIndex(previousIndex)
+        } else {
+            const index = songList.length -1;
+            setCurrentSongIndex(songList.length - 1);
+            setCurrentSongByCurrentSongIndex(index)
         }
+    }
+
+    const setCurrentSongByCurrentSongIndex = (index) =>{
+         setCurrentSong({
+                _id: songList[index]?._id,
+                title: songList[index]?.title,
+                songImg: songList[index]?.image,
+                url: songList[index]?.songUrl,
+                artist: songList[index]?.artist?.name || null
+            })
     }
 
     return (

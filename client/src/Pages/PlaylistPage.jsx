@@ -6,8 +6,12 @@ import { SongBar } from '../components/UI/SongBar'
 import { authUser } from '../context/AuthUserContext'
 import { RiDeleteBin6Line } from "react-icons/ri";
 import toast from 'react-hot-toast'
+import { useSong } from '../context/SongContext'
 
 export const PlaylistPage = () => {
+
+    const { playSong } = useSong()
+
     const [isSaved, setIsSaved] = useState(false)
     const { user } = authUser()
     const [displaySaveUnsave, setDisplaySaveUnsave] = useState(true)
@@ -76,6 +80,12 @@ export const PlaylistPage = () => {
         saveUnsaveMutation.mutate(id)
     }
 
+    const setSongHandler = (song) => {
+        if(playlist?.songs){
+          playSong(song,playlist?.songs)
+        }
+      }
+
     if (isLoading) return <div>Loading...........</div>
     if (isError) return <div>{error}...........</div>
 
@@ -139,7 +149,7 @@ export const PlaylistPage = () => {
                     </div>
                     {
                         playlist.songs.map((song) => {
-                            return <SongBar key={song._id} song={song} />
+                            return <SongBar key={song._id} song={song} setSongHandler={setSongHandler} />
                         })
                     }
                 </div>

@@ -3,19 +3,28 @@ import React from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { fetchArtistById } from '../apis/artistApi'
 import { SongBar } from '../components/UI/SongBar'
+import { useSong } from '../context/SongContext'
 
 export const ArtistPage = () => {
     const { id } = useParams()
+    const { playSong } = useSong()
     const navigate = useNavigate()
+
     const { data: artist, isLoading, error, isError } = useQuery({
         queryKey: [`playlist/${id}`],
         queryFn: () => fetchArtistById(id),
         enabled: !!id
     })
 
+    const setSongHandler = (song) => {
+        if(artist?.songs){
+          playSong(song,artist?.songs)
+        }
+      }
+
     if (isLoading) return <div>Loading...........</div>
     if (isError) return <div>{error}...........</div>
-    console.log(artist)
+    
     return (
         <>
             <button onClick={() => navigate(-1)} className="mx-5 absolute my-5 flex items-center gap-2 bg-white px-2.5 py-1.5 md:px-4 md:py-2 rounded-full text-sm md:text-base shadow-md  hover:bg-gray-100 dark:hover:bg-gray-500 active:bg-gray-200 dark:bg-gray-600 transition-all" aria-label="Go back">
@@ -42,7 +51,7 @@ export const ArtistPage = () => {
                     </div>
                     {
                         artist.songs.map((song) => {
-                            return <SongBar key={song._id} song={song} />
+                            return <SongBar key={song._id} song={song} setSongHandler={setSongHandler} />
                         })
                     }
                 </div>

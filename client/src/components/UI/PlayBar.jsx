@@ -5,7 +5,7 @@ import { IoPlaySkipBackSharp, IoPlaySkipForwardSharp } from 'react-icons/io5'
 import { useSong } from '../../context/SongContext'
 
 export const PlayBar = () => {
-    const { isPlaying, setIsPlaying, volume, adjustVolume, currentSong, currentTime, duration, seek } = useSong();
+    const { isPlaying, setIsPlaying, volume, adjustVolume, currentSong, currentTime, duration, seek, playPrevious,playForward } = useSong();
 
     const formatTime = (time) => {
         if (isNaN(time) || time === Infinity) return "0:00";
@@ -34,7 +34,7 @@ export const PlayBar = () => {
                 {/* Controls  */}
                 <div className="flex flex-col items-center flex-1">
                     <div className='flex md:gap-4 gap-9 flex-1 text-xl mb-2 text-white justify-center items-center'>
-                        <IoPlaySkipBackSharp className='cursor-pointer' />
+                        <IoPlaySkipBackSharp onClick={playPrevious} className='cursor-pointer' />
                         {isPlaying ?
                             <button onClick={() => setIsPlaying(false)} className="flex items-center rounded-[50%] bg-white  justify-center p-2" >
                                 <FaPause className="text-[var(--primary-color)] text-lg cursor-pointer" />
@@ -42,7 +42,7 @@ export const PlayBar = () => {
                             : <button onClick={() => setIsPlaying(true)} className="flex items-center rounded-[50%] bg-white justify-center p-2" >
                                 <FaPlay className="text-[var(--primary-color)] text-lg cursor-pointer" />
                             </button>}
-                        <IoPlaySkipForwardSharp className='cursor-pointer' />
+                        <IoPlaySkipForwardSharp onClick={playForward} className='cursor-pointer' />
                     </div>
                     <div className='md:w-[70%] w-[96%] mx-2 absolute bottom-1 right-0 md:static flex justify-center items-center gap-3'>
                         <p className='text-xs text-white font-semibold h-4 items-center'>{formatTime(currentTime)}</p>

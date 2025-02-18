@@ -10,9 +10,10 @@ import { SeeAllButton } from '../components/UI/SeeAllButton';
 import { useQuery } from '@tanstack/react-query';
 import { fetchTopSongs } from '../apis/SongApi';
 import { fetchTopPlaylists } from '../apis/playlistApi';
+import { useSong } from '../context/SongContext';
 
 export const Home = () => {
-
+  const { playSong } = useSong()
   // Fetch Top Songs
   const { data: songs, isLoading: loadingSongs, isError: errorSongs } = useQuery({
     queryKey: ["topSongs"],
@@ -25,6 +26,12 @@ export const Home = () => {
     queryFn: fetchTopPlaylists
   });
 
+  const setSongHandler = (song) => {
+    if(songs){
+      playSong(song,songs)
+    }
+  }
+  
   if (loadingSongs || loadingPlaylists) return <div>Loading .....</div>
   if (errorSongs || errorPlaylists) return <div>Error .....</div>
 
@@ -58,7 +65,7 @@ export const Home = () => {
         </div>
         {
           songs.map((song) => {
-            return <SongBar key={song._id} song={song} />
+            return <SongBar key={song._id} song={song} setSongHandler={setSongHandler} />
           })
         }
       </div>

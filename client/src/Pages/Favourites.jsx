@@ -3,9 +3,11 @@ import { FaHeart } from 'react-icons/fa'
 import { fetchFavourates } from '../apis/SongApi'
 import { useQuery } from '@tanstack/react-query'
 import { SongBar } from '../components/UI/SongBar'
+import { useSong } from '../context/SongContext'
 
 export const Favourates = () => {
   const [token, setToken] = useState(localStorage.getItem('token') || null)
+  const { playSong } = useSong()
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['favourates'],
@@ -13,10 +15,17 @@ export const Favourates = () => {
     enabled: !!token
   })
 
+  
   if (isLoading) return <div>Loading.......</div>
   if (isError) return <div>Error.......</div>
-
-  const { songsLiked: songsLiked } = data;
+  
+  const { songsLiked } = data;
+  
+  const setSongHandler = (song) => {
+    if (songsLiked) {
+      playSong(song, songsLiked)
+    }
+  }
 
   return (
     <>
@@ -27,7 +36,7 @@ export const Favourates = () => {
         {songsLiked.length === 0 && (<p className='dark:text-white text-center my-9 text-md'>No Favourate Song</p>)}
         {
           songsLiked.map(song => {
-            return <SongBar key={song._id} song={song} />
+            return <SongBar key={song._id} song={song} setSongHandler={setSongHandler} />
           })
         }
         {/* 
