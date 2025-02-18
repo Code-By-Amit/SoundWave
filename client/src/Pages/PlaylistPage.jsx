@@ -7,6 +7,7 @@ import { authUser } from '../context/AuthUserContext'
 import { RiDeleteBin6Line } from "react-icons/ri";
 import toast from 'react-hot-toast'
 import { useSong } from '../context/SongContext'
+import { Loader } from '../components/UI/Loader'
 
 export const PlaylistPage = () => {
 
@@ -86,8 +87,8 @@ export const PlaylistPage = () => {
         }
       }
 
-    if (isLoading) return <div>Loading...........</div>
-    if (isError) return <div>{error}...........</div>
+    if (isLoading) return <div className='w-full h-full flex justify-center items-center'><Loader /></div>
+    if (isError) return <div className='w-full h-full flex justify-center items-center'> <Error errors={[error]} /> </div>
 
 
 

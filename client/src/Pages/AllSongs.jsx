@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { fetchSong } from '../apis/SongApi'
 import { useQuery } from '@tanstack/react-query'
 import { useSong } from '../context/SongContext'
+import { Loader } from '../components/UI/Loader'
 
 export const AllSongs = () => {
     let navigate = useNavigate()
@@ -21,8 +22,8 @@ export const AllSongs = () => {
         }
       }
 
-    if (isLoading) return <div>Loading.......</div>
-    if (isError) return <div>Error.......</div>
+    if (isLoading) return <div className='w-full h-full flex justify-center items-center'><Loader /></div>
+    if (isError) return <div className='w-full h-full flex justify-center items-center'> <Error errors={[error]} /> </div>
     return (
         <div className="songs p-4">
 

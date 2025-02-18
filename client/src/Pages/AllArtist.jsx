@@ -3,6 +3,7 @@ import { ArtistCard } from '../components/UI/ArtistCard'
 import { useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { fetchAllArtist } from '../apis/artistApi'
+import { Loader } from '../components/UI/Loader'
 
 export const AllArtist = () => {
 
@@ -11,8 +12,8 @@ export const AllArtist = () => {
         queryFn: fetchAllArtist
       });
 
-      if (loadingArtist) return <div>Loading .....</div>
-      if (errorArtist) return <div>Error .....</div>
+      if (loadingArtist) return <div className='w-full h-full flex justify-center items-center'><Loader /></div>
+      if (errorArtist) return <div className='w-full h-full flex justify-center items-center'> <Error errors={[errorArtist]} /> </div>
 
     let navigate = useNavigate()
     return (

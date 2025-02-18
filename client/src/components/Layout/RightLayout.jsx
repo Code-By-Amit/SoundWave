@@ -11,7 +11,7 @@ export const RightLayout = () => {
         <div className='w-full h-screen flex flex-col'>
             <TopBar />
             {/* Content Area */}
-            <div className='right-pannel-scrollbar overflow-auto'>
+            <div className='right-pannel-scrollbar h-full overflow-auto'>
             <Outlet />
             <Toaster position='top-center'/>
             </div>

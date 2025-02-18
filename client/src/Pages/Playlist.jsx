@@ -4,6 +4,7 @@ import { MdOutlineCreateNewFolder } from 'react-icons/md'
 import { fetchUserCreatedSavedPlaylist } from '../apis/playlistApi'
 import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
+import { Loader } from '../components/UI/Loader'
 
 export const Playlist = () => {
   const [token, setToken] = useState(localStorage.getItem('token') || null)
@@ -15,8 +16,8 @@ export const Playlist = () => {
     enabled: !!token
   });
 
-  if (loadingPlaylists) return <div>Loading .....</div>
-  if (errorPlaylists) return <div>Error .....</div>
+  if (loadingPlaylists) return <div className='w-full h-full flex justify-center items-center'><Loader /></div>
+  if (errorPlaylists) return <div className='w-full h-full flex justify-center items-center'> <Error errors={[errorPlaylists]} /> </div>
 
   const userSavedPlaylist = data?.userSavedPlaylist || [];
   const userCreatedPlaylist = data?.userCreatedPlaylist || [];

@@ -3,6 +3,7 @@ import { PlaylistCard } from '../components/UI/PlaylistCard'
 import { useNavigate } from 'react-router-dom'
 import { fetchAllPlaylist } from '../apis/playlistApi';
 import { useQuery } from '@tanstack/react-query';
+import { Loader } from '../components/UI/Loader';
 
 export const AllPlaylist = () => {
     const navigate = useNavigate()
@@ -12,8 +13,8 @@ export const AllPlaylist = () => {
         queryFn: fetchAllPlaylist
     });
 
-    if (loadingPlaylists) return <div>Loading .....</div>
-    if (errorPlaylists) return <div>Error .....</div>
+    if (loadingPlaylists) return <div className='w-full h-full flex justify-center items-center'><Loader /></div>
+    if (errorPlaylists) return <div className='w-full h-full flex justify-center items-center'> <Error errors={[errorPlaylists]} /> </div>
 
     return (
         <>

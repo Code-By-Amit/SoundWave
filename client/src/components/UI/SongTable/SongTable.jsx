@@ -3,6 +3,7 @@ import { SongRow } from './SongRow'
 import { useQuery } from '@tanstack/react-query'
 import { fetchUserUploads } from '../../../apis/SongApi'
 import toast from 'react-hot-toast'
+import { Loader } from '../Loader'
 
 export const SongTable = () => {
   const { data, isLoading, isError,error } = useQuery({
@@ -13,7 +14,7 @@ export const SongTable = () => {
   }
   })
   
-  if (isLoading) return <div>Loading.......</div>
+  if (isLoading) return <div className='w-full h-full flex justify-center items-center'><Loader /></div>
   if (isError) return <div>Error.......{error.message}</div>
   
   return (
@@ -27,7 +28,6 @@ export const SongTable = () => {
       </tr>
     </thead>
     <tbody>
-        {/* <SongRow imgSrc="https://c.saavncdn.com/527/My-Name-Is-Khan-Hindi-2010-20190617160533-500x500.jpg" duration="5:03" title='Sajda (From "My Name is Khan")' noOfPlay="1201" /> */}
        {
         data.map((song)=>{
         return  <SongRow key={song._id} song={song} />

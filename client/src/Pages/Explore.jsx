@@ -11,6 +11,7 @@ import { useQuery } from '@tanstack/react-query'
 import { fetchSomeSongs } from '../apis/SongApi'
 import { fetchSomeArtist } from '../apis/artistApi'
 import { useSong } from '../context/SongContext'
+import { Loader } from '../components/UI/Loader'
 export const Explore = () => {
 
   const { playSong } = useSong()
@@ -38,8 +39,8 @@ export const Explore = () => {
     }
   }
 
-  if (loadingSongs || loadingPlaylists || loadingArtist) return <div>Loading .....</div>
-  if (errorSongs || errorPlaylists|| errorArtist) return <div>Error .....</div>
+  if (loadingSongs || loadingPlaylists || loadingArtist) return <div className='w-full h-full flex justify-center items-center'><Loader /></div>
+  if (errorSongs || errorPlaylists|| errorArtist) return <div className='w-full h-full flex justify-center items-center'> <Error errors={[errorArtist,errorPlaylists,errorSongs]} /> </div>
 
   return (
     <>

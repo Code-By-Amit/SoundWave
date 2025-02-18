@@ -11,6 +11,8 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchTopSongs } from '../apis/SongApi';
 import { fetchTopPlaylists } from '../apis/playlistApi';
 import { useSong } from '../context/SongContext';
+import { Loader } from '../components/UI/Loader';
+import { Error } from '../components/UI/Error';
 
 export const Home = () => {
   const { playSong } = useSong()
@@ -27,14 +29,13 @@ export const Home = () => {
   });
 
   const setSongHandler = (song) => {
-    if(songs){
-      playSong(song,songs)
+    if (songs) {
+      playSong(song, songs)
     }
   }
-  
-  if (loadingSongs || loadingPlaylists) return <div>Loading .....</div>
-  if (errorSongs || errorPlaylists) return <div>Error .....</div>
 
+  if (loadingSongs || loadingPlaylists) return <div className='w-full h-full flex justify-center items-center'><Loader /></div>
+  if (true) return <div className='w-full h-full flex justify-center items-center'> <Error errors={[errorSongs,errorPlaylists]} /> </div>
   return (
     <>
       {/* Playlist Card  */}

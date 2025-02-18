@@ -4,6 +4,7 @@ import { FaHeart } from 'react-icons/fa'
 import { getRecentPlays } from '../apis/SongApi'
 import { SongBar } from '../components/UI/SongBar'
 import { useSong } from '../context/SongContext'
+import { Loader } from '../components/UI/Loader'
 
 export const RecentPlaysPage = () => {
   const [token, setToken] = useState(localStorage.getItem('token') || null)
@@ -21,8 +22,8 @@ export const RecentPlaysPage = () => {
     }
   }
 
-  if (isLoading) return <div>Loading.......</div>
-  if (isError) return <div>Error.......</div>
+  if (isLoading) return <div className='w-full h-full flex justify-center items-center'><Loader /></div>
+  if (isError) return <div className='w-full h-full flex justify-center items-center'> <Error errors={[error]} /> </div>
 
   return (
     <>
