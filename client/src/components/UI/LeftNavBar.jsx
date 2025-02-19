@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { AiFillHome } from "react-icons/ai";
 import { MdLibraryMusic } from "react-icons/md";
 import { IoCloudUploadSharp, IoReload } from "react-icons/io5";
-import { FaHeart, FaUserCog } from "react-icons/fa";
+import { FaHeart, FaPlusSquare, FaUserCog } from "react-icons/fa";
 import { PiPlaylistDuotone } from "react-icons/pi";
 import { FiMenu } from "react-icons/fi";
 import { RxCross2 } from "react-icons/rx"
@@ -55,6 +55,11 @@ export const LeftNavBar = () => {
             user &&
             (<>
               <div className="border border-gray-300 rounded-2xl my-3"></div>
+              
+              {
+                (user && user.role == 'ADMIN') && <NavItem to="/create-artist" text="Create Artist" isOpen={isOpen} icon={<FaPlusSquare />} />
+              }
+
               <NavItem to="/edit-profile" text="Edit Profile" isOpen={isOpen} icon={<FaUserCog />} />
               <li>
                 <div onClick={logout} className={`flex items-center ${isOpen ? "gap-3" : "justify-center"}  p-2 rounded-md mb-2 transition duration-300 text-gray-600 hover:bg-gray-300 dark:text-white dark:hover:bg-gray-800`}>

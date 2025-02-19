@@ -20,6 +20,7 @@ import { ArtistPage } from './Pages/ArtistPage'
 import { CreateEditPlaylist } from './components/CreateEditPlaylist'
 import { UploadEditSong } from './components/uploadEditSong'
 import { EditUserProfile } from './components/EditUserProfile'
+import { CreateArtistForm } from './components/CreateArtistForm'
 
 function App() {
 
@@ -44,6 +45,7 @@ function App() {
             <Route path='/create-playlist' element={<CreateEditPlaylist />} />
             <Route path='/upload-song' element={<UploadEditSong />} />
             <Route path='/edit-profile' element={<EditUserProfile />} />
+            <Route path='/create-artist' element={<CreateArtistForm />} />
           </Route>
         </Route>
       </Routes>
