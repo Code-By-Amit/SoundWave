@@ -6,14 +6,13 @@ import { fetchAuthUser, loginUser, logoutUser, signupUser } from "../apis/userAp
 const UserContext = createContext();
 
 export const UserContextProvider = ({ children }) => {
-    const [token, setToken] = useState(localStorage.getItem('token') || null);
 
     const queryClient = useQueryClient()
 
     const { data: user, isLoading } = useQuery({
         queryKey: ['authUser'],
-        queryFn: () => fetchAuthUser(token),
-        enabled: !!token
+        queryFn: () => fetchAuthUser(),
+        staleTime:Infinity
     })
 
     const loginMutation = useMutation({
@@ -51,7 +50,7 @@ export const UserContextProvider = ({ children }) => {
             queryClient.removeQueries(['authUser'])
         }
     })
-    
+
     const logout = () => {
         logoutMutation.mutate()
     }

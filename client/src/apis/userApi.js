@@ -7,11 +7,5 @@ const api = axios.create({
 export const loginUser = (data) => api.post('/login', data,{withCredentials:true}).then(res => res.data)
 export const signupUser = (data) => api.post('/signup', data,{withCredentials:true}).then(res => res.data)
 export const logoutUser = () => api.post('/logout',{},{withCredentials:true}).then(res => res.data)
-
-export const fetchAuthUser = (token) => api.get('/me',
-    {
-        withCredentials: true,
-        headers: { Authorization: `Bearer ${token}` }
-    }).then((res =>{
-        return res.data.user
-    } ))
+export const updateUserProfile = (data) => api.patch('/update',data,{withCredentials:true}).then(res => res.data)
+export const fetchAuthUser = () => api.get('/me',{ withCredentials: true, }).then((res => res.data.user))

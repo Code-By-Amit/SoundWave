@@ -15,7 +15,7 @@ export const SongTable = () => {
   })
   
   if (isLoading) return <div className='w-full h-full flex justify-center items-center'><Loader /></div>
-  if (isError) return <div>Error.......{error.message}</div>
+  if (isError) return <div className='w-full h-full flex justify-center items-center'> <Error errors={[error]} /> </div>
   
   return (
     <table className='w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400'>

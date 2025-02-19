@@ -35,7 +35,7 @@ export const Home = () => {
   }
 
   if (loadingSongs || loadingPlaylists) return <div className='w-full h-full flex justify-center items-center'><Loader /></div>
-  if (true) return <div className='w-full h-full flex justify-center items-center'> <Error errors={[errorSongs,errorPlaylists]} /> </div>
+  if (errorSongs || errorPlaylists) return <div className='w-full h-full flex justify-center items-center'> <Error errors={[errorSongs,errorPlaylists]} /> </div>
   return (
     <>
       {/* Playlist Card  */}

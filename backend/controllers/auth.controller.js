@@ -1,7 +1,7 @@
 const USER = require('../models/user.model')
 const { validationResult } = require('express-validator');
 const { generateToken } = require('../services/auth');
-const bcrypt = require('bcrypt')
+const { deleteFromCloudinary, uploadOnCloudinary } = require('../services/uploadOnCloudinary');
 
 const handleLogin = async (req, res, next) => {
 
@@ -50,7 +50,7 @@ const handleSignup = async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
     try {
-        const { firstName,lastName, username, password } = req.body;
+        const { firstName, lastName, username, password } = req.body;
         let user = await USER.findOne({ username })
         if (user) {
             return res.status(409).json({ message: "Username already exists" })
@@ -103,9 +103,55 @@ async function getAuthUser(req, res, next) {
         res.status(500).json({ message: "Internal Server Error", error: error.message })
     }
 }
+
+async function updateUserProfile(req, res, next) {
+    try {
+        const { firstName, lastName, username } = req.body;
+        const user = await USER.findById(req.userId).select('-password');
+
+        if (!user) {
+            return res.status(404).json({ message: "User Not Found" })
+        }
+
+        if(username && user.username !== username){
+            const existingUser = await USER.find({username});
+            if(existingUser){
+               return res.status(400).json({message:"Username Already Exists"})
+            }
+            user.username = username
+        }
+        
+        if (req.file) {
+            deleteFromCloudinary(user.profileImg)
+            const response = await uploadOnCloudinary(req.file.path)
+            let profileImg = response.secure_url;
+            user.profileImg = profileImg;
+        }
+
+        if (firstName) {
+            user.firstName = firstName;
+        }
+        if (lastName) {
+            user.lastName = lastName;
+        }
+        if(username){
+            user.username = username;
+        }
+
+        await user.save();
+
+        res.status(200).json({ message: "Profile Updated Sucessfully", user })
+
+    } catch (error) {
+        console.log("Error in Update Profile handeler : ", error.message)
+        res.status(500).json({ message: "Internal Server Error", error: error.message })
+    }
+}
+
 module.exports = {
     handleLogin,
     handleSignup,
     logoutUser,
-    getAuthUser
+    getAuthUser,
+    updateUserProfile
 }
