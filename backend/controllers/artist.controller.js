@@ -10,7 +10,7 @@ const createArtist = async (req, res, next) => {
 
     try {
         const { name, bio } = req.body;
-        
+
         let image
         if (req.file) {
             const response = await uploadOnCloudinary(req.file.path)
@@ -32,24 +32,31 @@ const createArtist = async (req, res, next) => {
 
 const getAllArtist = async (req, res, next) => {
     try {
-        const { search, limit = 10, page = 1, all, some } = req.query
-        const query = search ? { title: RegExp(search, 'i') } : {};
+        const { search, limit = 10, page = 1, all, some, fields } = req.query
+        const query = search ? { name: RegExp(search, 'i') } : {};
 
         if (all == "true") {
             const artists = await Artist.find({})
             return res.status(200).json({ message: "All Artists", artists })
         }
+
         if (some == 'true') {
-            const artists = await Artist.aggregate([{ $sample: { size: limit } }])
+            const artists = await Artist.aggregate([{ $sample: { size: Number(limit) } }])
             return res.status(200).json({ message: "Some Artist", artists })
         }
-        const artist = await Artist.find(query).skip((page - 1) * limit).limit(Number(limit))
 
-        if (!songs) {
+        if (fields) {
+            const artists = await Artist.find(query).skip((page - 1) * limit).limit(Number(limit)).select(fields.replace(/,/g, ' '));  // Convert comma to space for Mongoose
+            return res.status(200).json({ message: `Artists`, artists })
+        }
+
+        const artists = await Artist.find(query).skip((page - 1) * limit).limit(Number(limit))
+
+        if (!artists) {
             return res.status(404).json({ message: "Failed to Get Artist" })
         }
 
-        res.status(200).json({ message: `Page ${page} Artist`, artist })
+        res.status(200).json({ message: `Page ${page} Artist`, artists })
     } catch (error) {
         console.log("Error in getAllArtist handeler : ", error.message)
         res.status(500).json({ message: "Internal Server Error", error: error.message })

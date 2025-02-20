@@ -12,6 +12,8 @@ export const fetchUserCreatedSavedPlaylist = (token) => api.get('/user-playlists
         withCredentials: true,
         headers: { Authorization: `Bearer ${token}` }
     }).then(res => res.data)
-export const createPlaylist = (data) => api.post('/create',data,{withCredentials:true})
-export const saveUnsavePlaylist = (playlistId) => api.patch(`/${playlistId}/toggle-save`,{},{withCredentials:true}).then(res => res.data)
-export const deletePlaylist = (playlistId) => api.delete(`/${playlistId}`,{withCredentials:true}).then(res => res.data)
+export const createPlaylist = (data) => api.post('/create', data, { withCredentials: true })
+export const saveUnsavePlaylist = (playlistId) => api.patch(`/${playlistId}/toggle-save`, {}, { withCredentials: true }).then(res => res.data)
+export const deletePlaylist = (playlistId) => api.delete(`/${playlistId}`, { withCredentials: true }).then(res => res.data)
+export const fetchUserPlaylistNameAndID = () => api.get(`/user-playlists?fields=_id,name,songs`, { withCredentials: true }).then(res => res.data.playlists)
+export const addOrRemoveToPlaylist = (playlistID,songId) => api.patch(`/${playlistID}/toggle-song-save`, {songId}, { withCredentials: true }).then(res =>res.data)

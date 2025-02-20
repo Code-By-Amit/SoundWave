@@ -49,7 +49,7 @@ async function getPlaylisById(req, res, next) {
 
 async function getUserPlaylist(req, res, next) {
     try {
-        const { saved, yours } = req.query;
+        const { saved, yours,fields } = req.query;
         let userCreatedPlaylist = [];
         let userSavedPlaylist = [];
 
@@ -57,6 +57,11 @@ async function getUserPlaylist(req, res, next) {
         const user = await USER.findById(req.userId);
         if (!user) {
             return res.status(404).json({ message: "User not found" });
+        }
+
+        if (fields) {
+            const playlists = await Playlist.find({author:req.userId}).select(fields.replace(/,/g, ' '));  // Convert comma to space for Mongoose
+            return res.status(200).json({ message: `User Playlists`, playlists })
         }
 
         if (saved == 'true') {
@@ -165,12 +170,13 @@ async function toggleSongInPlaylist(req, res, next) {
     try {
         const { playlistId } = req.params;
         const { songId } = req.body;
-
+        
         const playlist = await Playlist.findById(playlistId);
+
         if (!playlist) {
             return res.status(404).json({ message: "Playlist Not Found" });
         }
-
+        
         const songIndex = playlist.songs.findIndex((s_id) => s_id.toString() === songId.toString());
 
         if (songIndex !== -1) {
