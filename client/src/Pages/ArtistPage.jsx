@@ -14,18 +14,23 @@ export const ArtistPage = () => {
     const { data: artist, isLoading, error, isError } = useQuery({
         queryKey: [`playlist/${id}`],
         queryFn: () => fetchArtistById(id),
-        enabled: !!id
+        enabled: !!id,
+        staleTime: 60 * 60 * 1000,  // 1 hour → Data remains fresh for 1 hour
+        cacheTime: 2 * 60 * 60 * 1000, // 2 hours → Keep cached data for 2 hours
+        refetchOnWindowFocus: false, // No unnecessary refetching when switching tabs
+        refetchOnReconnect: false, // No refetching when network reconnects
+        keepPreviousData: true, // Keep old data while fetching new data
     })
 
     const setSongHandler = (song) => {
-        if(artist?.songs){
-          playSong(song,artist?.songs)
+        if (artist?.songs) {
+            playSong(song, artist?.songs)
         }
-      }
+    }
 
     if (isLoading) return <div className='w-full h-full flex justify-center items-center'><Loader /></div>
     if (isError) return <div className='w-full h-full flex justify-center items-center'> <Error errors={[error]} /> </div>
-    
+
     return (
         <>
             <button onClick={() => navigate(-1)} className="mx-5 absolute my-5 flex items-center gap-2 bg-white px-2.5 py-1.5 md:px-4 md:py-2 rounded-full text-sm md:text-base shadow-md  hover:bg-gray-100 dark:hover:bg-gray-500 active:bg-gray-200 dark:bg-gray-600 transition-all" aria-label="Go back">

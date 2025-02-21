@@ -19,28 +19,43 @@ export const Explore = () => {
   // Fetch Top Songs
   const { data: songs, isLoading: loadingSongs, isError: errorSongs } = useQuery({
     queryKey: ["someSongs"],
-    queryFn: fetchSomeSongs
+    queryFn: fetchSomeSongs,
+    staleTime: 60 * 60 * 1000,  // 1 hour → Data remains fresh for 1 hour
+    cacheTime: 2 * 60 * 60 * 1000, // 2 hours → Keep cached data for 2 hours
+    refetchOnWindowFocus: false, // No unnecessary refetching when switching tabs
+    refetchOnReconnect: false, // No refetching when network reconnects
+    keepPreviousData: true, // Keep old data while fetching new data
   });
 
   // Fetch Playlists
   const { data: playlists, isLoading: loadingPlaylists, isError: errorPlaylists } = useQuery({
     queryKey: ["playlists"],
-    queryFn: fetchTopPlaylists
+    queryFn: fetchTopPlaylists,
+    staleTime: 60 * 60 * 1000,  // 1 hour → Data remains fresh for 1 hour
+    cacheTime: 2 * 60 * 60 * 1000, // 2 hours → Keep cached data for 2 hours
+    refetchOnWindowFocus: false, // No unnecessary refetching when switching tabs
+    refetchOnReconnect: false, // No refetching when network reconnects
+    keepPreviousData: true, // Keep old data while fetching new data
   });
 
   const { data: artists, isLoading: loadingArtist, isError: errorArtist } = useQuery({
     queryKey: ["artists"],
-    queryFn: fetchSomeArtist
+    queryFn: fetchSomeArtist,
+    staleTime: 60 * 60 * 1000,  // 1 hour → Data remains fresh for 1 hour
+    cacheTime: 2 * 60 * 60 * 1000, // 2 hours → Keep cached data for 2 hours
+    refetchOnWindowFocus: false, // No unnecessary refetching when switching tabs
+    refetchOnReconnect: false, // No refetching when network reconnects
+    keepPreviousData: true, // Keep old data while fetching new data
   });
-  
+
   const setSongHandler = (song) => {
-    if(songs){
-      playSong(song,songs)
+    if (songs) {
+      playSong(song, songs)
     }
   }
 
   if (loadingSongs || loadingPlaylists || loadingArtist) return <div className='w-full h-full flex justify-center items-center'><Loader /></div>
-  if (errorSongs || errorPlaylists|| errorArtist) return <div className='w-full h-full flex justify-center items-center'> <Error errors={[errorArtist,errorPlaylists,errorSongs]} /> </div>
+  if (errorSongs || errorPlaylists || errorArtist) return <div className='w-full h-full flex justify-center items-center'> <Error errors={[errorArtist, errorPlaylists, errorSongs]} /> </div>
 
   return (
     <>
@@ -55,8 +70,8 @@ export const Explore = () => {
         <div className="artistcards flex max-w-full overflow-x-auto items-center md:gap-2 p-4 justify-start">
 
           {
-            artists.map((artist)=>{
-              return <ArtistCard key={artist._id}  id={artist._id} imgSrc={artist.image} name={artist.name} />
+            artists.map((artist) => {
+              return <ArtistCard key={artist._id} id={artist._id} imgSrc={artist.image} name={artist.name} />
             })
           }
         </div>
@@ -73,11 +88,11 @@ export const Explore = () => {
         {/* Enable horizontal scroll */}
         <div className="songscards flex max-w-full overflow-x-auto items-center gap-4 p-4 justify-start">
           {
-            songs.map((song)=>{
-              return  <SongCard key={song._id} song={song} setSongHandler={setSongHandler} />
+            songs.map((song) => {
+              return <SongCard key={song._id} song={song} setSongHandler={setSongHandler} />
             })
           }
-       </div>
+        </div>
       </div>
 
       {/* Playlist Card  */}

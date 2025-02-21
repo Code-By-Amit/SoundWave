@@ -24,7 +24,12 @@ export const PlaylistPage = () => {
     const { data: playlist, isLoading, error, isError } = useQuery({
         queryKey: [`playlist/${id}`],
         queryFn: () => fetchPlaylistById(id),
-        enabled: !!id
+        enabled: !!id,
+        staleTime: 60 * 60 * 1000,  // 1 hour → Data remains fresh for 1 hour
+        cacheTime: 2 * 60 * 60 * 1000, // 2 hours → Keep cached data for 2 hours
+        refetchOnWindowFocus: false, // No unnecessary refetching when switching tabs
+        refetchOnReconnect: false, // No refetching when network reconnects
+        keepPreviousData: true, // Keep old data while fetching new data
     })
 
     useEffect(() => {
@@ -82,10 +87,10 @@ export const PlaylistPage = () => {
     }
 
     const setSongHandler = (song) => {
-        if(playlist?.songs){
-          playSong(song,playlist?.songs)
+        if (playlist?.songs) {
+            playSong(song, playlist?.songs)
         }
-      }
+    }
 
     if (isLoading) return <div className='w-full h-full flex justify-center items-center'><Loader /></div>
     if (isError) return <div className='w-full h-full flex justify-center items-center'> <Error errors={[error]} /> </div>

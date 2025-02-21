@@ -13,7 +13,12 @@ export const Favourates = () => {
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['favourates'],
     queryFn: () => fetchFavourates(token),
-    enabled: !!token
+    enabled: !!token,
+    staleTime: 60 * 60 * 1000,  // 1 hour → Data remains fresh for 1 hour
+    cacheTime: 2 * 60 * 60 * 1000, // 2 hours → Keep cached data for 2 hours
+    refetchOnWindowFocus: false, // No unnecessary refetching when switching tabs
+    refetchOnReconnect: false, // No refetching when network reconnects
+    keepPreviousData: true, // Keep old data while fetching new data
   })
 
   

@@ -84,7 +84,7 @@ export const CreateEditPlaylist = () => {
                             placeholder="Enter playlist name"
                             value={playlistName}
                             onChange={(e) => setPlaylistName(e.target.value)}
-                            className="w-full px-4 py-2 text-gray-900 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            className="w-full px-4 py-1 md:py-2 text-gray-900 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                             required
                         />
                     </div>
@@ -92,16 +92,34 @@ export const CreateEditPlaylist = () => {
 
                     <div className="flex items-center justify-between">
                         <label className="inline-flex items-center cursor-pointer">
-                            <input type="checkbox" checked={isPrivate} onChange={(e) => setIsPrivate(e.target.checked)} className="sr-only peer" />
-                            <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-[var(--primary-color)] rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[var(--primary-color)] dark:peer-checked:bg-[var(--primary-color)]"></div>
-                            <div className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">is Private</div>
+                            <input
+                                type="checkbox"
+                                checked={isPrivate}
+                                onChange={(e) => setIsPrivate(e.target.checked)}
+                                className="sr-only peer"
+                            />
+                            <div
+                                className="relative w-9 h-5 md:w-11 md:h-6 bg-gray-200 peer-focus:outline-none 
+                                            peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-[var(--primary-color)] 
+                                            rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full 
+                                            rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white 
+                                            after:content-[''] after:absolute after:top-[2px] after:start-[2px] 
+                                            after:bg-white after:border-gray-300 after:border after:rounded-full 
+                                            after:h-4 after:w-4 md:after:h-5 md:after:w-5 after:transition-all 
+                                            dark:border-gray-600 peer-checked:bg-[var(--primary-color)] 
+                                            dark:peer-checked:bg-[var(--primary-color)]"
+                            ></div>
+                            <div className="ms-2 md:ms-3 text-xs md:text-sm font-medium text-gray-900 dark:text-gray-300">
+                                is Private
+                            </div>
                         </label>
                     </div>
 
 
+
                     <button
                         type="submit"
-                        className="w-full py-2 px-4 bg-[var(--primary-color)] hover:opacity-80 text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 transition-all"
+                        className="w-full py-1 md:py-2 px-4 bg-[var(--primary-color)] hover:opacity-80 text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 transition-all"
                     >
                         {mutation.isPending ? (<> Creating Playlist<LoadingDots /></>) : "Create Playlist"}
                     </button>

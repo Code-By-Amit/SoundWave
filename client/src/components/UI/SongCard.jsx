@@ -3,17 +3,9 @@ import { FaPlay } from "react-icons/fa6";
 import { useSong } from '../../context/SongContext';
 import { FaPause } from 'react-icons/fa';
 
-export const SongCard = ({ song }) => {
+export const SongCard = ({ song ,setCurrentSongHandler}) => {
   const { setCurrentSong, currentSong, isPlaying } = useSong()
-  const setCurrentSongHandler = () => {
-    setCurrentSong({
-      title: song.title,
-      songImg: song.image,
-      url: song.songUrl,
-      _id: song._id,
-      artist: song?.artist?.name || null
-    })
-  }
+
   return (
     <div onClick={setCurrentSongHandler} className="card w-25 min-h-40 md:w-34 md:min-w-[8rem] md:min-h-50 group rounded-lg hover:scale-105 transition ease-in-out duration-200 group overflow-hidden shrink-0">
 

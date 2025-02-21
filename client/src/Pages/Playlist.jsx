@@ -13,7 +13,12 @@ export const Playlist = () => {
   const { data, isLoading: loadingPlaylists, isError: errorPlaylists } = useQuery({
     queryKey: ["user-Created/Saved-Playlist"],
     queryFn: () => fetchUserCreatedSavedPlaylist(token),
-    enabled: !!token
+    enabled: !!token,
+    staleTime: 60 * 60 * 1000,  // 1 hour → Data remains fresh for 1 hour
+    cacheTime: 2 * 60 * 60 * 1000, // 2 hours → Keep cached data for 2 hours
+    refetchOnWindowFocus: false, // No unnecessary refetching when switching tabs
+    refetchOnReconnect: false, // No refetching when network reconnects
+    keepPreviousData: true, // Keep old data while fetching new data
   });
 
   if (loadingPlaylists) return <div className='w-full h-full flex justify-center items-center'><Loader /></div>
@@ -75,7 +80,7 @@ export const Playlist = () => {
 
           <div className=' mx-7 mb-19'>
             <Link to='/create-playlist'>
-              <button className='text-white rounded shadow-md py-2.5 px-3 text-base md:text-md font-semibold bg-[var(--primary-color)] flex items-center gap-3 hover:opacity-75 active:opacity-75'>
+              <button className='text-white rounded shadow-md py-2 md:py-2.5 px-3 text-base md:text-md font-semibold bg-[var(--primary-color)] flex items-center gap-3 hover:opacity-75 active:opacity-75'>
                 <MdOutlineCreateNewFolder className='text-2xl md:text-3xl' />
                 Create a Playlist
               </button>

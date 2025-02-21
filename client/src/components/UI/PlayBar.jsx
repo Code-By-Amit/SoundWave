@@ -24,8 +24,8 @@ export const PlayBar = () => {
                         <img className='w-full h-full object-cover' src={currentSong?.songImg} alt={currentSong?.title} />
                     </div>
                     <div className='flex'>
-                        <div className='h-full align-text-top leading-1 md:w-44'>
-                            <h1 className='font-bold text-sm text-nowrap overflow-clip'>{currentSong?.title}</h1>
+                        <div className='h-full align-text-top leading-1 flex-1 md:w-44'>
+                            <h1 className='font-bold text-sm line-clamp-1 bg-black overflow-clip'>{currentSong?.title}</h1>
                             <p className='text-xs w-16 overflow-clip text-nowrap'>{currentSong?.artist ? currentSong?.artist : '-'}</p>
                         </div>
                     </div>
@@ -33,7 +33,7 @@ export const PlayBar = () => {
 
                 {/* Controls  */}
                 <div className="flex flex-col items-center flex-1">
-                    <div className='flex md:gap-4 gap-9 flex-1 text-xl mb-2 text-white justify-center items-center'>
+                    <div className='flex md:gap-4 gap-5 mx-2 flex-1 text-xl mb-2 text-white justify-center items-center'>
                         <IoPlaySkipBackSharp onClick={playPrevious} className='cursor-pointer' />
                         {isPlaying ?
                             <button onClick={() => setIsPlaying(false)} className="flex items-center rounded-[50%] bg-white  justify-center p-2" >

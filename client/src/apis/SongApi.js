@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-    baseURL: "http://localhost:3000/songs"
+    baseURL: `${import.meta.env.VITE_BACKEND_URL}/songs`
 })
 
 export const fetchSong = () => api.get('/').then(res => res.data.songs);

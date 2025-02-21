@@ -10,17 +10,22 @@ export const AllSongs = () => {
     let navigate = useNavigate()
     const { playSong } = useSong()
 
-    const { data:songs, isError, isLoading, error } = useQuery({
+    const { data: songs, isError, isLoading, error } = useQuery({
         queryKey: ['allSongs'],
         queryFn: fetchSong,
-        staleTime: 1000 * 60 * 15
+        staleTime: 1000 * 60 * 15,
+        staleTime: 60 * 60 * 1000,  // 1 hour → Data remains fresh for 1 hour
+        cacheTime: 2 * 60 * 60 * 1000, // 2 hours → Keep cached data for 2 hours
+        refetchOnWindowFocus: false, // No unnecessary refetching when switching tabs
+        refetchOnReconnect: false, // No refetching when network reconnects
+        keepPreviousData: true, // Keep old data while fetching new data
     })
 
     const setSongHandler = (song) => {
-        if(songs){
-          playSong(song,songs)
+        if (songs) {
+            playSong(song, songs)
         }
-      }
+    }
 
     if (isLoading) return <div className='w-full h-full flex justify-center items-center'><Loader /></div>
     if (isError) return <div className='w-full h-full flex justify-center items-center'> <Error errors={[error]} /> </div>
@@ -45,6 +50,6 @@ export const AllSongs = () => {
             {songs.map((song) => {
                 return <SongBar key={song._id} song={song} setSongHandler={setSongHandler} />
             })}
-             </div>
+        </div>
     )
 }

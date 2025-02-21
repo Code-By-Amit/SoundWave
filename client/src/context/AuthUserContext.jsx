@@ -12,7 +12,11 @@ export const UserContextProvider = ({ children }) => {
     const { data: user, isLoading } = useQuery({
         queryKey: ['authUser'],
         queryFn: () => fetchAuthUser(),
-        staleTime:Infinity
+        staleTime: Infinity,
+        cacheTime: 2 * 60 * 60 * 1000, // 2 hours → Keep cached data for 2 hours
+        refetchOnWindowFocus: false, // No unnecessary refetching when switching tabs
+        refetchOnReconnect: false, // No refetching when network reconnects
+        keepPreviousData: true, // Keep old data while fetching new data
     })
 
     const loginMutation = useMutation({

@@ -162,7 +162,7 @@ export const EditUserProfile = () => {
           })}
           <button
             type="submit"
-            className="w-full py-2 px-4 bg-[var(--primary-color)] hover:opacity-80 text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 transition-all"
+            className="w-full py-1 md:py-2 px-4 bg-[var(--primary-color)] hover:opacity-80 text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 transition-all"
           >
             {profileMutation.isPending ? (<> Updating Profile<LoadingDots /></>) : "Update"}
           </button>

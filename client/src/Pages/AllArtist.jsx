@@ -9,11 +9,16 @@ export const AllArtist = () => {
 
     const { data: artists, isLoading: loadingArtist, isError: errorArtist } = useQuery({
         queryKey: ["allArtist"],
-        queryFn: fetchAllArtist
-      });
+        queryFn: fetchAllArtist,
+        staleTime: 60 * 60 * 1000,  // 1 hour → Data remains fresh for 1 hour
+        cacheTime: 2 * 60 * 60 * 1000, // 2 hours → Keep cached data for 2 hours
+        refetchOnWindowFocus: false, // No unnecessary refetching when switching tabs
+        refetchOnReconnect: false, // No refetching when network reconnects
+        keepPreviousData: true, // Keep old data while fetching new data
+    });
 
-      if (loadingArtist) return <div className='w-full h-full flex justify-center items-center'><Loader /></div>
-      if (errorArtist) return <div className='w-full h-full flex justify-center items-center'> <Error errors={[errorArtist]} /> </div>
+    if (loadingArtist) return <div className='w-full h-full flex justify-center items-center'><Loader /></div>
+    if (errorArtist) return <div className='w-full h-full flex justify-center items-center'> <Error errors={[errorArtist]} /> </div>
 
     let navigate = useNavigate()
     return (
@@ -37,7 +42,7 @@ export const AllArtist = () => {
                 {/* Enable horizontal scroll */}
                 <div className="space-x-4 flex flex-wrap max-w-full items-center p-4 justify-center md:justify-start">
                     {
-                        artists.map((artist) => <ArtistCard key={artist._id} id={artist._id} imgSrc={artist.image} name={artist.name} /> )
+                        artists.map((artist) => <ArtistCard key={artist._id} id={artist._id} imgSrc={artist.image} name={artist.name} />)
                     }
                 </div>
             </div>

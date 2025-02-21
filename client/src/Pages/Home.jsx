@@ -19,13 +19,23 @@ export const Home = () => {
   // Fetch Top Songs
   const { data: songs, isLoading: loadingSongs, isError: errorSongs } = useQuery({
     queryKey: ["topSongs"],
-    queryFn: fetchTopSongs
+    queryFn: fetchTopSongs,
+    staleTime: 60 * 60 * 1000,  // 1 hour → Data remains fresh for 1 hour
+    cacheTime: 2 * 60 * 60 * 1000, // 12 hours → Keep cached data for 2 hours
+    refetchOnWindowFocus: false, // No unnecessary refetching when switching tabs
+    refetchOnReconnect: false, // No refetching when network reconnects
+    keepPreviousData: true, // Keep old data while fetching new data
   });
 
   // Fetch Playlists
   const { data: playlists, isLoading: loadingPlaylists, isError: errorPlaylists } = useQuery({
     queryKey: ["playlists"],
-    queryFn: fetchTopPlaylists
+    queryFn: fetchTopPlaylists,
+    staleTime: 60 * 60 * 1000,  // 1 hour → Data remains fresh for 1 hour
+    cacheTime: 2 * 60 * 60 * 1000, // 2 hours → Keep cached data for 2 hours
+    refetchOnWindowFocus: false, // No unnecessary refetching when switching tabs
+    refetchOnReconnect: false, // No refetching when network reconnects
+    keepPreviousData: true, // Keep old data while fetching new data
   });
 
   const setSongHandler = (song) => {
@@ -41,7 +51,7 @@ export const Home = () => {
       {/* Playlist Card  */}
       <div className="Playlist my-4">
         <div className='flex justify-between px-3 items-center'>
-          <h1 className='font-bold text-2xl mx-4 dark:text-white'>Top Playlist</h1>
+          <h1 className='font-bold text-xl md:text-2xl mx-2 md:mx-4 dark:text-white'>Top Playlist</h1>
           <SeeAllButton to="/all-playlist" />
         </div>
 
@@ -58,11 +68,11 @@ export const Home = () => {
 
       {/* Top Songs  */}
       <div className="songs min-h-96 p-4 mb-20">
-        <h1 className="text-2xl font-bold md:mx-4 my-2 dark:text-white">Top Songs</h1>
+        <h1 className="text-xl md:text-2xl font-bold md:mx-4 my-1 md:my-2 dark:text-white">Top listen</h1>
 
         {/* Heading for songs  */}
-        <div className="song p-3 py-1  pr-1 rounded flex mx-2 md:mx-4 mb-1 transition ease-in-out duration-300 justify-between items-center space-x-4 ">
-          <p className="line-clamp-1 text-gray-400 text-md ">Track/Artist</p>
+        <div className="song p-3 py-1 pr-1 rounded flex mx-2 md:mx-4 mb-1 transition ease-in-out duration-300 justify-between items-center space-x-4 ">
+          {/* <p className="line-clamp-1 text-gray-400 text-md ">Track/Artist</p> */}
         </div>
         {
           songs.map((song) => {

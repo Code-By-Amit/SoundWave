@@ -11,25 +11,27 @@ const app = express()
 require("dotenv/config")
 
 const PORT = process.env.PORT || 4000;
+console.log(process.env.Frontend_URL)
+// app.use(cors())
 app.use(cors({
-    origin:['http://localhost:5173'],
-    credentials:true
+    origin: [process.env.Frontend_URL, "http://localhost:5173"],
+    credentials: true
 }))
 app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
-app.use(express.json()) 
+app.use(express.json())
 app.use(cookieParser())
 
-app.use('/auth',authRoute)
-app.use("/artists",aritstRoute)
-app.use("/songs",songRoute)
-app.use("/playlist",playlistRoute)
+app.use('/auth', authRoute)
+app.use("/artists", aritstRoute)
+app.use("/songs", songRoute)
+app.use("/playlist", playlistRoute)
 
 app.get("/", (req, res) => {
     res.send("Server is Running")
 })
 
-const server = app.listen(PORT,'0.0.0.0', (err) => {
+const server = app.listen(PORT, '0.0.0.0', (err) => {
     if (err) throw err
     connectToDB()
     console.log(`The Server is Running on http://localhost:${PORT}`)

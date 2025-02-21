@@ -51,10 +51,10 @@ export const SongBar = ({ song, setSongHandler }) => {
     const { data: playlists, isLoading } = useQuery({
         queryKey: ['playlistNameAndId'],
         queryFn: fetchUserPlaylistNameAndID,
-        staleTime: Infinity,
-        cacheTime: 10 * 60 * 1000, // ✅ Cache results for 10 minutes
-        refetchOnWindowFocus: false, // ✅ Prevent refetch when user switches tabs
-        refetchOnMount: false
+        staleTime: 60 * 60 * 1000,  // 1 hour → Data remains fresh for 1 hour
+        cacheTime: 2 * 60 * 60 * 1000, // 12 hours → Keep cached data for 2 hours
+        refetchOnWindowFocus: false, // No unnecessary refetching when switching tabs
+        refetchOnReconnect: false, // No refetching when network reconnects
     })
 
 
@@ -74,20 +74,20 @@ export const SongBar = ({ song, setSongHandler }) => {
     return (
         <div onClick={() => setSongHandler(song)} className={`song shadow-md md:p-3 md:pr-2 p-2  rounded flex  mb-2 group  hover:bg-[var(--primary-color)] transition ease-in-out duration-300 hover:shadow-2xl justify-between ${isPlaying ? "bg-[var(--primary-color)]" : "bg-white dark:hover:bg-gray-500 hover:bg-gray-200 dark:bg-gray-600"} items-center space-x-4 `}>
             {/* image and title */}
-            <div className="flex items-center gap-3 w-1/2 sm:w-auto group flex-1 max-w-84">
+            <div className="flex items-center gap-3 sm:w-auto group flex-1">
 
-                <img className="w-10 h-10 rounded-full ring-1 ring-offset-1 ring-[var(--primary-color)]" src={song.image} alt={song.title} />
+                <img className="w-8 h-8 md:w-10 md:h-10 rounded-full ring-1 ring-offset-1 ring-[var(--primary-color)]" src={song.image} alt={song.title} />
                 <div className="flex flex-col w-full h-full justify-start items-start text-sm ">
-                    <p className={`font-bold line-clamp-1 text-gray-600  ${isPlaying ? "text-white" : ""}   dark:text-white`}>{song.title}</p>
+                    <p className={`font-bold line-clamp-1 text-gray-600 flex-1 ${isPlaying ? "text-white" : ""}   dark:text-white`}>{song.title}</p>
                     {song.artist && <p className={`line-clamp-1 text-gray-400  ${isPlaying ? "text-white" : ""}   dark:text-white`}>{song.artist?.name}</p>}
                 </div>
             </div>
 
             {/* time, play, and Add to Favorites */}
-            <div className={`flex sm:mr-5 *:mx-3 w-44 text-gray-500 gap-4 justify-between  ${isPlaying ? "text-white" : ""} dark:text-white items-center text-xs sm:text-sm`}>
+            <div className={`flex sm:mr-5 md:*:mx-3 gap-5 sm:gap-9 md:gap-44 text-gray-500 justify-between  ${isPlaying ? "text-white" : ""} dark:text-white items-center text-xs sm:text-sm`}>
                 {/* <p>{song.duration}</p> */}
                 <p>4:13</p>
-                <div className='flex items-center justify-between gap-4'>
+                <div className='flex items-center  justify-between gap-0 sm:gap-4 md:gap-8'>
                     <div className="relative">
                         <MdPlaylistAdd
                             onClick={(e) => {

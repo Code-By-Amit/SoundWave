@@ -21,6 +21,7 @@ import { CreateEditPlaylist } from './components/CreateEditPlaylist'
 import { UploadEditSong } from './components/uploadEditSong'
 import { EditUserProfile } from './components/EditUserProfile'
 import { CreateArtistForm } from './components/CreateArtistForm'
+import { RequestForm } from './components/RequestForm'
 
 function App() {
 
@@ -46,6 +47,7 @@ function App() {
             <Route path='/upload-song' element={<UploadEditSong />} />
             <Route path='/edit-profile' element={<EditUserProfile />} />
             <Route path='/create-artist' element={<CreateArtistForm />} />
+            <Route path='/request-form' element={<RequestForm />} />
           </Route>
         </Route>
       </Routes>
