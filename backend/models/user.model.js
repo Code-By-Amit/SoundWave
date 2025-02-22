@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
     },
     profileImg: {
         type: String,
-        default: "https://img.freepik.com/free-psd/contact-icon-illustration-isolated_23-2151903337.jpg"
+        default: "https://res.cloudinary.com/dqelb5apq/image/upload/v1740225861/yqztjrl6oysxwztvduce.avif"
     },
     username: {
         type: String,

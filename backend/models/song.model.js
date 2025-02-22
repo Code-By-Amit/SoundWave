@@ -16,7 +16,7 @@ const songSchema = new mongoose.Schema({
     },
     image: {
         type: String,
-        default: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSA8vl-PcTa5Euv40E7cHNeNfc8XYTJ7lDA5KLB7NCJ1w-QIyS0Jx7Fb7l0qDcd1R2wx2I&usqp=CAU"
+        default: "https://res.cloudinary.com/dqelb5apq/image/upload/v1740229987/default_ei8j1n.png"
     },
     noOfPlays: {
         type: Number,
