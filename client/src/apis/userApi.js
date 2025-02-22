@@ -1,10 +1,10 @@
 import axios from 'axios'
 
 const api = axios.create({
-    baseURL: `${import.meta.env.VITE_BACKEND_URL}/auth`
+    baseURL: `${import.meta.env.VITE_BACKEND_URL}/auth`,
+    withCredentials:true
 })
 
-axios.defaults.withCredentials = true
 
 export const loginUser = (data) => api.post('/login', data,{withCredentials:true}).then(res => res.data)
 export const signupUser = (data) => api.post('/signup', data,{withCredentials:true}).then(res => res.data)
