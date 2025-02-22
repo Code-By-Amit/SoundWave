@@ -4,7 +4,7 @@ const api = axios.create({
     baseURL: `${import.meta.env.VITE_BACKEND_URL}/songs`
 })
 
-export const fetchSong = () => api.get('/').then(res => res.data.songs);
+export const fetchSong = () => api.get('/?all=true').then(res => res.data.songs);
 export const fetchTopSongs = () => api.get('/?top=true').then(res => res.data.songs)
 export const fetchSomeSongs = () => api.get('/?some=true').then(res => res.data.songs)
 export const addtoRecentPlays = (id, token) =>
