@@ -3,15 +3,15 @@ import { FaPlay } from "react-icons/fa6";
 import { useSong } from '../../context/SongContext';
 import { FaPause } from 'react-icons/fa';
 
-export const SongCard = ({ song ,setCurrentSongHandler}) => {
+export const SongCard = ({ song ,setSongHandler}) => {
   const { setCurrentSong, currentSong, isPlaying } = useSong()
 
   return (
-    <div onClick={setCurrentSongHandler} className="card w-25 min-h-40 md:w-34 md:min-w-[8rem] md:min-h-50 group rounded-lg hover:scale-105 transition ease-in-out duration-200 group overflow-hidden shrink-0">
+    <div onClick={()=>setSongHandler(song)} className="card w-25 min-h-40 md:w-34 md:min-w-[8rem] md:min-h-50 group rounded-md hover:scale-105 transition ease-in-out duration-200 group overflow-hidden shrink-0">
 
       {/* Image Section */}
       <div className='relative group '>
-        <div className="w-full h-25 md:w-full md:h-32 overflow-hidden flex justify-center items-center relative bg-gray-300">
+        <div className=" w-full h-25 md:w-full md:h-32 overflow-hidden flex justify-center items-center relative bg-gray-300">
           <img className="h-full w-full object-cover object-center transform transition-all duration-300 group-hover:scale-105" src={song.image} alt={song.title} />
         </div>
 

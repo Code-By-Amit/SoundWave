@@ -5,21 +5,48 @@ import toast from 'react-hot-toast'
 import { LoadingDots } from '../components/LoadingDots'
 
 export const LoginPage = () => {
+    const [crediantials, setCrediantials] = useState({ username: "", password: "" })
     let navigate = useNavigate()
     const { loginMutation } = authUser()
+    let [errors, setErrors] = useState([])
 
-    const [crediantials, setCrediantials] = useState({ username: "", password: "" })
+    const validation = () => {
+        let validationErrors = [];
+
+        // Username Validation
+        if (crediantials.username == "") {
+            validationErrors.push("Username Required.");
+        }
+
+        // Password Length Validation
+        if (crediantials.password.length < 6) {
+            validationErrors.push("Password must be at least 6 characters long.");
+        }
+
+        setErrors(validationErrors);
+
+        return validationErrors.length === 0; // Return true if no errors
+    };
+
+
+
     const handleSubmit = (e) => {
         e.preventDefault()
-        loginMutation.mutate(crediantials,{
-            onSuccess:()=>{
+        if (!validation()) return;
+        loginMutation.mutate(crediantials, {
+            onSuccess: () => {
                 navigate('/')
                 toast.success("Login Sucessful")
                 setCrediantials({ username: "", password: "" })
             },
-            onError:(error)=>{
-                toast.error(`Error: ${error.message}`)
-                setCrediantials({ username: "", password: "" })
+            onError: (error) => {
+                if (error.response && error.response.data.errors) {
+                    const backendErrors = error.response.data.errors.map(err => err.msg);
+                    setErrors(backendErrors);
+                    backendErrors.forEach(msg => toast.error(msg));
+                } else {
+                    toast.error("An unexpected error occurred");
+                }
             }
         })
     }
@@ -56,11 +83,19 @@ export const LoginPage = () => {
 
                     <form onSubmit={handleSubmit}>
                         <div className='flex flex-col gap-4 *:bg-gray-100 *:p-3 *:rounded'>
-                            <input type="text" placeholder='username' value={crediantials.username} name="username" onChange={(e) => setCrediantials({...crediantials,username:e.target.value})} />
-                            <input type="text" placeholder='password' value={crediantials.password} name="password" onChange={(e) => setCrediantials({...crediantials,password:e.target.value})} />
+                            <input type="text" placeholder='username' value={crediantials.username} name="username" onChange={(e) => setCrediantials({ ...crediantials, username: e.target.value })} />
+                            <input type="text" placeholder='password' value={crediantials.password} name="password" onChange={(e) => setCrediantials({ ...crediantials, password: e.target.value })} />
                         </div>
-                        <button className='bg-[var(--primary-color)] w-full text-white font-bold py-2 rounded-md mt-9 hover:opacity-85' type='submit'>{loginMutation.isPending ?( <>Logging in<LoadingDots /></>)  : "Login"}</button>
-                        {loginMutation.isError && <p>Error: {loginMutation.error.message}</p>}
+                        <button className='bg-[var(--primary-color)] w-full text-white font-bold py-2 rounded-md mt-9 hover:opacity-85' type='submit'>{loginMutation.isPending ? (<>Logging in<LoadingDots /></>) : "Login"}</button>
+                        {errors.length > 0 && (
+                            <div className="bg-red-100 mt-4 border border-red-400 text-red-700 px-4 py-3 rounded">
+                                <ul className="list-disc pl-5">
+                                    {errors.map((error, index) => (
+                                        <li key={index}>{error}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
                     </form>
                 </div>
             </div>

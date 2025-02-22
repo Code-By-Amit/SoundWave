@@ -6,12 +6,13 @@ import { fetchAuthUser, loginUser, logoutUser, signupUser } from "../apis/userAp
 const UserContext = createContext();
 
 export const UserContextProvider = ({ children }) => {
-
+    const [token, setToken] = useState(localStorage.getItem("token") || null)
     const queryClient = useQueryClient()
 
     const { data: user, isLoading } = useQuery({
         queryKey: ['authUser'],
         queryFn: () => fetchAuthUser(),
+        enabled:!!token,
         staleTime: Infinity,
         cacheTime: 2 * 60 * 60 * 1000, // 2 hours → Keep cached data for 2 hours
         refetchOnWindowFocus: false, // No unnecessary refetching when switching tabs

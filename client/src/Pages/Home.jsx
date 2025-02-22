@@ -68,7 +68,7 @@ export const Home = () => {
 
       {/* Top Songs  */}
       <div className="songs min-h-96 p-4 mb-20">
-        <h1 className="text-xl md:text-2xl font-bold md:mx-4 my-1 md:my-2 dark:text-white">Top listen</h1>
+        <h1 className="text-xl md:text-2xl font-bold md:mx-4 my-1 md:my-2 dark:text-white">Top Listened</h1>
 
         {/* Heading for songs  */}
         <div className="song p-3 py-1 pr-1 rounded flex mx-2 md:mx-4 mb-1 transition ease-in-out duration-300 justify-between items-center space-x-4 ">

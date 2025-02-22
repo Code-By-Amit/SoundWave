@@ -6,6 +6,7 @@ import { fetchAllArtist } from '../apis/artistApi'
 import { Loader } from '../components/UI/Loader'
 
 export const AllArtist = () => {
+    let navigate = useNavigate()
 
     const { data: artists, isLoading: loadingArtist, isError: errorArtist } = useQuery({
         queryKey: ["allArtist"],
@@ -20,7 +21,6 @@ export const AllArtist = () => {
     if (loadingArtist) return <div className='w-full h-full flex justify-center items-center'><Loader /></div>
     if (errorArtist) return <div className='w-full h-full flex justify-center items-center'> <Error errors={[errorArtist]} /> </div>
 
-    let navigate = useNavigate()
     return (
         <>
 

@@ -13,7 +13,6 @@ export const AllSongs = () => {
     const { data: songs, isError, isLoading, error } = useQuery({
         queryKey: ['allSongs'],
         queryFn: fetchSong,
-        staleTime: 1000 * 60 * 15,
         staleTime: 60 * 60 * 1000,  // 1 hour → Data remains fresh for 1 hour
         cacheTime: 2 * 60 * 60 * 1000, // 2 hours → Keep cached data for 2 hours
         refetchOnWindowFocus: false, // No unnecessary refetching when switching tabs

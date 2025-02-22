@@ -22,8 +22,12 @@ import { UploadEditSong } from './components/uploadEditSong'
 import { EditUserProfile } from './components/EditUserProfile'
 import { CreateArtistForm } from './components/CreateArtistForm'
 import { RequestForm } from './components/RequestForm'
+import { SearchPage } from './components/UI/SearchPage'
+import { authUser } from './context/AuthUserContext'
+import { NotLoggedInPage } from './components/NotLoggedInPage'
 
 function App() {
+  const { user } = authUser();
 
   return (
     <>
@@ -33,21 +37,22 @@ function App() {
         <Route path='/' element={<MainLayout />}>
           <Route element={<RightLayout />} >
             <Route index element={<Home />} />
-            <Route path='/playlist' element={<Playlist />} />
+            <Route path='/playlist' element={user ? <Playlist /> : <NotLoggedInPage />} />
             <Route path='/explore' element={<Explore />} />
-            <Route path='/favourites' element={<Favourates />} />
-            <Route path='/recent' element={<RecentPlaysPage />} />
-            <Route path='/uploads' element={<UploadSongPage />} />
+            <Route path='/favourites' element={user ? <Favourates /> : <NotLoggedInPage />} />
+            <Route path='/recent' element={user ? <RecentPlaysPage /> : <NotLoggedInPage />} />
+            <Route path='/uploads' element={user ? <UploadSongPage /> : <NotLoggedInPage />} />
             <Route path='/all-songs' element={<AllSongs />} />
             <Route path='/all-playlist' element={<AllPlaylist />} />
             <Route path='/all-artist' element={<AllArtist />} />
             <Route path='/playlist-page/:id' element={<PlaylistPage />} />
             <Route path='/artist-page/:id' element={<ArtistPage />} />
-            <Route path='/create-playlist' element={<CreateEditPlaylist />} />
-            <Route path='/upload-song' element={<UploadEditSong />} />
-            <Route path='/edit-profile' element={<EditUserProfile />} />
-            <Route path='/create-artist' element={<CreateArtistForm />} />
+            <Route path='/create-playlist' element={user ? <CreateEditPlaylist /> : <NotLoggedInPage />} />
+            <Route path='/upload-song' element={user ? <UploadEditSong /> : <NotLoggedInPage />} />
+            <Route path='/edit-profile' element={user ? <EditUserProfile /> : <NotLoggedInPage />} />
+            <Route path='/create-artist' element={user ? <CreateArtistForm /> : <NotLoggedInPage />} />
             <Route path='/request-form' element={<RequestForm />} />
+            <Route path='/search/:search' element={<SearchPage />} />
           </Route>
         </Route>
       </Routes>

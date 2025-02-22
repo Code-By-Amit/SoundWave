@@ -89,6 +89,8 @@ async function uploadSong(req, res, next) {
         const { title, artist, duration } = req.body;
         const userId = req.userId;
 
+        console.log(req.body)
+
         const user = await USER.findById(userId);
 
         const songFile = req.files?.song?.[0];

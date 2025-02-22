@@ -25,7 +25,7 @@ export const PlayBar = () => {
                     </div>
                     <div className='flex'>
                         <div className='h-full align-text-top leading-1 flex-1 md:w-44'>
-                            <h1 className='font-bold text-sm line-clamp-1 bg-black overflow-clip'>{currentSong?.title}</h1>
+                            <h1 className='font-bold text-sm line-clamp-1 overflow-clip'>{currentSong?.title}</h1>
                             <p className='text-xs w-16 overflow-clip text-nowrap'>{currentSong?.artist ? currentSong?.artist : '-'}</p>
                         </div>
                     </div>

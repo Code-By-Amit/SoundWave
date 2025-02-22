@@ -7,7 +7,7 @@ import { useSong } from '../context/SongContext'
 import { Loader } from '../components/UI/Loader'
 
 export const Favourates = () => {
-  const [token, setToken] = useState(localStorage.getItem('token') || null)
+  const [token, setToken] = useState(localStorage.getItem('token') || false)
   const { playSong } = useSong()
 
   const { data, isLoading, isError, error } = useQuery({
@@ -24,8 +24,8 @@ export const Favourates = () => {
   
   if (isLoading) return <div className='w-full h-full flex justify-center items-center'><Loader /></div>
   if (isError) return <div className='w-full h-full flex justify-center items-center'> <Error errors={[error]} /> </div>
-  
-  const { songsLiked } = data;
+
+    const { songsLiked } = data;
   
   const setSongHandler = (song) => {
     if (songsLiked) {

@@ -21,3 +21,4 @@ export const likeUnlikeSong = (id, token) => api.post(`/like/${id}`,{}, { withCr
 export const uploadSong = (data) => api.post('/',data,{withCredentials:true}).then(res=>res.data.message)
 export const fetchUserUploads = () => api.get('/useruploads',{withCredentials:true}).then(res=>res.data.userUploads)
 export const deleteSong = (id) => api.delete(`/delete/${id}`,{withCredentials:true}).then(res=>res.data.message)
+export const searchSong = (search) => api.get(`/?search=${search}`).then(res=>res.data)

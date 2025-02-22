@@ -1,19 +1,29 @@
 import React, { useEffect, useState } from 'react'
 import { DarkLightToggleButton } from './DarkLightToggleButton'
 import { IoSearch } from 'react-icons/io5'
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { authUser } from '../../context/AuthUserContext';
 import { ColorPiker } from './ColorPicker';
 
 export const TopBar = () => {
     const [isDarkMode, setIsDarkMode] = useState(() => localStorage.getItem("theme") === "dark");
     const [isOpen, setIsOpen] = useState(false);
-
+    const [search,setSearch] = useState("");
     const { user, logout } = authUser();
+
+    const navigate = useNavigate()
 
     const toggleDarkMode = () => {
         setIsDarkMode(!isDarkMode)
     }
+
+    useEffect(()=>{
+        if(search !== ""){
+            navigate(`/search/${search}`)
+        }else{
+            navigate('/')
+        }
+    },[search])
 
     useEffect(() => {
         let theme = localStorage.getItem('theme');
@@ -48,6 +58,8 @@ export const TopBar = () => {
             <div className="flex-1 max-w-md relative hidden sm:block">
                 <input className="w-full py-1.5 md:py-2 px-4 ml-3 shadow-sm dark:bg-gray-700 text-gray-800 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 border border-gray-300 dark:border-gray-600 outline-none rounded-md focus:ring-2 focus:ring-cyan-400 transition-all" type="text"
                     placeholder="Search..."
+                    value={search}
+                    onChange={(e)=>setSearch(e.target.value)}
                 /> <IoSearch className='absolute top-2.5 right-2  md:top-3 md:right-3 dark:text-white text-gray-500 text-xl' />
             </div>
 

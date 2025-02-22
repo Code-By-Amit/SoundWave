@@ -35,7 +35,7 @@ export const PlaylistPage = () => {
     useEffect(() => {
         if (playlist) {
 
-            if (playlist.author === user._id) {
+            if (playlist?.author === user?._id) {
                 setDisplaySaveUnsave(false);
             }
 
@@ -43,7 +43,7 @@ export const PlaylistPage = () => {
                 setIsSaved(true);
             }
         }
-    }, [playlist, user.playlist, id, user._id]);
+    }, [playlist, user?.playlist, id, user?._id]);
 
 
     const saveUnsaveMutation = useMutation({
@@ -82,7 +82,6 @@ export const PlaylistPage = () => {
     })
 
     const toggleSave = (e) => {
-        e.stopPropagation()
         saveUnsaveMutation.mutate(id)
     }
 
@@ -116,8 +115,15 @@ export const PlaylistPage = () => {
                     <p>{playlist.name}</p>
                 </div>
                 {
-                    displaySaveUnsave ?
-                        <div onClick={toggleSave} className={`likes cursor-pointer w-fit hover:scale-105 md:m-4 px-2 transition ease-in-out duration-300 bg-[var(--primary-color)] text-white p-1 rounded`}>
+                    user &&
+
+                    (displaySaveUnsave ?
+                        <div onClick={(e) => {
+                            e.preventDefault()
+                            if (user) {
+                                toggleSave()
+                            }
+                        }} className={`likes cursor-pointer w-fit hover:scale-105 md:m-4 px-2 transition ease-in-out duration-300 bg-[var(--primary-color)] text-white p-1 rounded`}>
                             <p>
                                 {isSaved ? (
                                     <>
@@ -141,10 +147,10 @@ export const PlaylistPage = () => {
                                 <p className='flex items-center gap-2'>
                                     Delete <RiDeleteBin6Line />
                                 </p>
-
                             </div>
 
-                        </>)
+                        </>))
+
                 }
 
                 {/* Top Songs  */}

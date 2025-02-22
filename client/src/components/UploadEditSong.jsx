@@ -49,7 +49,9 @@ export const UploadEditSong = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-
+        console.log(song
+            ,title
+        )
         if (!song || !title) {
             toast.error("Please provide all required fields!");
             return;
@@ -66,11 +68,12 @@ export const UploadEditSong = () => {
             formData.append('title', title);
             formData.append('duration', formattedDuration);
             if (selectedArtistID) {
-                formData.append('aritst', selectedArtistID);
+                formData.append('artist', selectedArtistID);
             }
+
             console.log([...formData.entries()]);
 
-            // mutation.mutate(formData);
+            mutation.mutate(formData);
 
             URL.revokeObjectURL(audioUrl);
         });
@@ -103,7 +106,7 @@ export const UploadEditSong = () => {
                 <span className="text-gray-700 font-medium dark:text-white">Go Back</span>
             </button>
 
-            <h1 className='text-center text-xl mt-10 font-semibold my-3 dark:text-white'>Upload Your Song</h1>
+            <h1 className='text-center text-xl mt-10 font-semibold my-3 text-gray-800 dark:text-gray-200'>Upload Your Song</h1>
             <div className="max-w-md mx-auto mt-3 bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg mb-20">
                 <form className="space-y-3 md:space-y-6" onSubmit={handleSubmit}>
                     {/* <!-- File Input --> */}
@@ -127,6 +130,7 @@ export const UploadEditSong = () => {
                                 name='song'
                                 onChange={handleSongChange}
                                 accept='audio/*'
+                                required
                                 className="block w-full p-1 md:p-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                             />
                         </div>
@@ -149,7 +153,7 @@ export const UploadEditSong = () => {
                                     }}
                                     autoComplete='off'
                                     onFocus={() => setIsDropdownOpen(true)}
-                                    placeholder="Select a Artist..."
+                                    placeholder="Search a Artist..."
                                     className="w-full px-4 py-1 md:py-2 text-gray-900 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                 />
                                 <LuChevronsUpDown onClick={() => setIsDropdownOpen(!isDropdownOpen)} className='absolute right-4 text-gray-700 dark:text-white' />
@@ -160,7 +164,7 @@ export const UploadEditSong = () => {
                         {isDropdownOpen && (
                             <div className="absolute z-50 w-full max-h-60 mt-1 p-1 bg-white border dark:bg-gray-700 border-gray-300 rounded-lg overflow-y-auto shadow-lg">
                                 <div
-                                    className="cursor-pointer p-1 md:p-2 px-4 text-sm dark:text-gray-200 text-gray-800 dark:bg-gray-700  hover:bg-gray-600 rounded-lg"
+                                    className="cursor-pointer p-1 md:p-2 px-4 text-sm dark:text-gray-200 text-gray-800 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg"
                                     onClick={() => {
                                         setSelectedArtistID(null);
                                         setIsDropdownOpen(false);
@@ -173,7 +177,7 @@ export const UploadEditSong = () => {
                                     artists.map((artist) => (
                                         <div
                                             key={artist._id}
-                                            className="cursor-pointer py-1 md:py-2 px-4 text-sm dark:text-gray-200 text-gray-800 dark:bg-gray-700  hover:bg-gray-600 rounded-lg"
+                                            className="cursor-pointer py-1 md:py-2 px-4 text-sm dark:text-gray-200 text-gray-800 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg"
                                             onClick={() => {
                                                 setSelectedArtistID(artist._id);
                                                 setSearchTerm(artist.name);

@@ -87,7 +87,7 @@ const NavItem = ({ to, text, icon, isOpen }) => {
         <div className="w-7 h-7 min-w-[28px] min-h-[28px] flex justify-center items-center">
           {icon}
         </div>
-        <span className={`text-sm transition-all duration-300 overflow-hidden whitespace-nowrap 
+        <span className={`text-sm transition-all duration-75 overflow-hidden whitespace-nowrap 
                         ${isOpen ? "opacity-100 max-w-full" : "opacity-0 max-w-0"}`}>
           {text}
         </span>

@@ -108,7 +108,7 @@ export const EditUserProfile = () => {
 
       <h1 className='text-center text-xl md:text-3xl font-bold text-gray-800 my-2'>Update Your Profile.</h1>
 
-      <div className="max-w-md mx-auto mt-3 bg-white dark:bg-gray-800 p-4 md:p-6 rounded-lg shadow-lg">
+      <div className="max-w-md mx-auto mt-3 bg-white dark:bg-gray-900 p-4 md:p-6 rounded-lg shadow-lg">
         <form className="space-y-3" onSubmit={handleSubmit}>
 
           {/* <!-- File Input --> */}

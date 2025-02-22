@@ -60,18 +60,18 @@ export const CreateEditPlaylist = () => {
                 </svg>
                 <span className="text-gray-700 font-medium dark:text-white">Go Back</span>
             </button>
-            <h1 className='text-center text-xl mt-10 font-semibold my-3'>Create Your Playlist</h1>
-            <div className="max-w-md mx-auto mt-3 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+            <h1 className='text-center text-xl mt-10 dark:text-white font-semibold my-3'>Create Your Playlist</h1>
+            <div className="max-w-md mx-auto mt-3 bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg">
                 <form className="space-y-6" onSubmit={handleSubmit}>
                     {/* <!-- File Input --> */}
                     <div className="flex flex-col">
-                        <label htmlFor="playlistImage" className="text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Playlist Image</label>
+                        <label htmlFor="playlistImage" className="text-sm font-medium text-gray-700 dark:text-white mb-2">Playlist Image</label>
                         <input
                             type="file"
                             id="playlistImage"
                             name='image'
                             onChange={handleFileChange}
-                            className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            className="block w-full text-sm p-1 md:p-2 text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         />
                     </div>
 

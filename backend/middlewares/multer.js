@@ -6,10 +6,14 @@ const fs = require('fs');
 // Get __dirname (natively available in CommonJS)
 const uploadDir = path.join(__dirname, '../uploads');
 
-// Create uploads directory if it doesn't exist
-if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir);
-}
+(async () => {
+    try {
+        await fs.promises.mkdir(uploadDir, { recursive: true });
+    } catch (err) {
+        console.error("❌ Failed to create upload directory:", err);
+    }
+})();
+
 
 // Configure Multer storage
 const storage = multer.diskStorage({
@@ -21,7 +25,11 @@ const storage = multer.diskStorage({
     }
 });
 
-const upload = multer({ storage });
+const upload = multer({ 
+    storage, 
+    limits: { fileSize: 10 * 1024 * 1024 } // 10MB limit
+});
+
 
 // CommonJS export
 module.exports = upload;

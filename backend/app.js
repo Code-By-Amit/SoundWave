@@ -12,7 +12,7 @@ require("dotenv/config")
 
 const PORT = process.env.PORT || 4000;
 console.log(process.env.Frontend_URL)
-// app.use(cors())
+
 app.use(cors({
     origin: [process.env.Frontend_URL, "http://localhost:5173"],
     credentials: true

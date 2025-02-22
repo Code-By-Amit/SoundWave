@@ -9,36 +9,65 @@ export const SignUpPage = () => {
     let [errors, setErrors] = useState([])
 
     const [formData, setFormData] = useState({ firstName: "", lastName: "", username: "", password: "", confirmPswd: "" })
+    // ✅ FORM VALIDATION FUNCTION
+    const validation = () => {
+        let validationErrors = [];
+
+        // Username Validation
+        if (!/^[a-z0-9]+$/.test(formData.username)) {
+            validationErrors.push("Username should only contain lowercase letters and numbers.");
+        }
+
+        // Password Length Validation
+        if (formData.password.length < 6) {
+            validationErrors.push("Password must be at least 6 characters long.");
+        }
+
+        // Password Match Validation
+        if (formData.password !== formData.confirmPswd) {
+            validationErrors.push("Passwords do not match.");
+        }
+
+        setErrors(validationErrors);
+
+        return validationErrors.length === 0; // Return true if no errors
+    };
+
+
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        if (formData.password !== formData.confirmPswd) {
-            setErrors([{msg:"Password and Confirm Password must be Same"}]);
-            return
+        if (!validation()) {
+            return; // Stop form submission if validation fails
         }
 
         signupMutation.mutate(formData, {
-            onSuccess:()=>{
+            onSuccess: () => {
                 navigate('/')
                 toast.success("Signup Sucessful")
                 setFormData({ firstName: "", lastName: "", username: "", password: "", confirmPswd: "" })
+                setErrors([]);
             },
-            onError:(error)=>{
-                toast.error(`Error: ${error.message}`)
-                setFormData({ firstName: "", lastName: "", username: "", password: "", confirmPswd: "" })
+            onError: (error) => {
+                if (error.response && error.response.data.errors) {
+                    const backendErrors = error.response.data.errors.map(err => err.msg);
+                    setErrors(backendErrors);
+                    backendErrors.forEach(msg => toast.error(msg));
+                } else {
+                    toast.error("An unexpected error occurred");
+                }
             }
         })
     }
-    
+
+    // ✅ HANDLE INPUT CHANGES
     const handleInputChange = (e) => {
         let { name, value } = e.target;
-        setFormData((prev) => (
-            {
-                ...prev, [name]: value
-            }))
-            setErrors([])
-        }
+        setFormData((prev) => ({ ...prev, [name]: value }));
 
+        // Clear error for this field when user starts typing
+        setErrors(errors.filter((err) => err.path !== name));
+    };
     return (
         <>
             {/* Go Back */}
@@ -77,9 +106,16 @@ export const SignUpPage = () => {
                             <input className='bg-gray-100 p-3 rounded' type="text" placeholder='Password' name='password' value={formData.password} onChange={handleInputChange} />
                             <input className='bg-gray-100 p-3 rounded' type="text" placeholder='Confirm Password' name='confirmPswd' value={formData.confirmPswd} onChange={handleInputChange} />
                         </div>
-                        <button className={`bg-[var(--primary-color)] w-full text-white font-bold py-2 rounded-md mt-13 ${signupMutation.isPending ? "disabled:opacity-50":""} hover:opacity-85`} type='submit'>{signupMutation.isPending ? ( <>Signing<LoadingDots /></>)  : "Sign Up"}</button>
-                        {errors &&  <p  className="text-sm text-red-600"> {errors} </p> }
-                        {signupMutation.isError && <p className='text-sm text-red-600'>Error: {signupMutation.error.message}</p>}
+                        <button className={`bg-[var(--primary-color)] w-full text-white font-bold py-2 rounded-md mt-13 ${signupMutation.isPending ? "disabled:opacity-50" : ""} hover:opacity-85`} type='submit'>{signupMutation.isPending ? (<>Signing<LoadingDots /></>) : "Sign Up"}</button>
+                        {errors.length > 0 && (
+                            <div className="bg-red-100 mt-4 border border-red-400 text-red-700 px-4 py-3 rounded">
+                                <ul className="list-disc pl-5">
+                                    {errors.map((error, index) => (
+                                        <li key={index}>{error}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
                     </form>
                 </div>
             </div>

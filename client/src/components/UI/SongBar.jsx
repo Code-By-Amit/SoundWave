@@ -72,19 +72,21 @@ export const SongBar = ({ song, setSongHandler }) => {
     })
 
     return (
-        <div onClick={() => setSongHandler(song)} className={`song shadow-md md:p-3 md:pr-2 p-2  rounded flex  mb-2 group  hover:bg-[var(--primary-color)] transition ease-in-out duration-300 hover:shadow-2xl justify-between ${isPlaying ? "bg-[var(--primary-color)]" : "bg-white dark:hover:bg-gray-500 hover:bg-gray-200 dark:bg-gray-600"} items-center space-x-4 `}>
+        <div onClick={() => setSongHandler(song)} className={`song shadow-md md:py-2 md:px-3 md:pr-2 py-2 px-3  rounded flex  mb-2 group  hover:bg-[var(--primary-color)] transition ease-in-out duration-300 hover:shadow-2xl justify-between ${isPlaying ? "bg-[var(--primary-color)]" : "bg-white dark:hover:bg-gray-500 hover:bg-gray-200 dark:bg-gray-600"} items-center space-x-4 `}>
             {/* image and title */}
             <div className="flex items-center gap-3 sm:w-auto group flex-1">
 
-                <img className="w-8 h-8 md:w-10 md:h-10 rounded-full ring-1 ring-offset-1 ring-[var(--primary-color)]" src={song.image} alt={song.title} />
+                <img className="w-8 h-8 md:w-10 md:h-10 rounded-full ring-1 ring-offset-2 ring-[var(--primary-color)]" src={song.image} alt={song.title} />
                 <div className="flex flex-col w-full h-full justify-start items-start text-sm ">
                     <p className={`font-bold line-clamp-1 text-gray-600 flex-1 ${isPlaying ? "text-white" : ""}   dark:text-white`}>{song.title}</p>
                     {song.artist && <p className={`line-clamp-1 text-gray-400  ${isPlaying ? "text-white" : ""}   dark:text-white`}>{song.artist?.name}</p>}
                 </div>
             </div>
 
+            
+
             {/* time, play, and Add to Favorites */}
-            <div className={`flex sm:mr-5 md:*:mx-3 gap-5 sm:gap-9 md:gap-44 text-gray-500 justify-between  ${isPlaying ? "text-white" : ""} dark:text-white items-center text-xs sm:text-sm`}>
+            <div className={`flex sm:mr-5 md:*:mx-3 gap-5 sm:gap-9 text-gray-500 justify-between  ${isPlaying ? "text-white" : ""} dark:text-white items-center text-xs sm:text-sm`}>
                 {/* <p>{song.duration}</p> */}
                 <p>4:13</p>
                 <div className='flex items-center  justify-between gap-0 sm:gap-4 md:gap-8'>
@@ -92,7 +94,11 @@ export const SongBar = ({ song, setSongHandler }) => {
                         <MdPlaylistAdd
                             onClick={(e) => {
                                 e.stopPropagation();
-                                setIsOpen(!isOpen);
+                                if(user){
+                                    setIsOpen(!isOpen);
+                                }else{
+                                    toast.error("Please Login to Add Song to Playlist")
+                                }
 
                             }}
                             className="text-3xl hover:scale-110 active:scale-110 rounded-[0.35rem] p-1"
@@ -110,7 +116,9 @@ export const SongBar = ({ song, setSongHandler }) => {
                                                     <button key={playlist._id}
                                                         onClick={(e) => {
                                                             e.stopPropagation()
-                                                            addToPlaylistMutation.mutate({ id: playlist?._id, songId: song?._id })
+
+                                                                addToPlaylistMutation.mutate({ id: playlist?._id, songId: song?._id })
+                                                           
                                                         }}
                                                         className={`w-full text-start px-4 py-1.5 text-md md:text-md font-semibold text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white`}>
                                                         {playlist.name}

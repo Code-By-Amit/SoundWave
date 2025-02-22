@@ -13,7 +13,7 @@ export const RightLayout = () => {
             {/* Content Area */}
             <div className='right-pannel-scrollbar h-full overflow-auto'>
             <Outlet />
-            <Toaster position='top-center'/>
+            <Toaster containerStyle={{marginTop:'95px'}} position='top-center'/>
             </div>
         </div>
     )
