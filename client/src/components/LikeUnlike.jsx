@@ -15,7 +15,7 @@ export const LikeUnlike = ({ toggleLike, isLiked, isPlaying }) => {
         toast.error("Please Login to Like Song")
       }
     }} className={`likes select-none flex flex-col justify-center items-center hover:scale-110 active:scale-110 transition ease-in-out duration-300 gap-1 p-2 md:p-4 cursor-pointer`}>
-      <p>{isLiked ? <FaHeart size={30} fill='red' color='red' /> : <FaRegHeart className={` ${isPlaying ? 'text-white' : 'text-gray-400' } dark:text-gray-50`} size={30} />}</p>
+      <p>{isLiked ? <FaHeart className={`text-xl md:text-2xl dark:text-gray-50`} fill='red' color='red' /> : <FaRegHeart className={` ${isPlaying ? 'text-white' : 'text-gray-400' } text-xl md:text-2xl dark:text-gray-50`} />}</p>
     </div>
   )
 }

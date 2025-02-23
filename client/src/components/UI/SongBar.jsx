@@ -35,14 +35,25 @@ export const SongBar = ({ song, setSongHandler }) => {
     const likeUnlike = useMutation({
         mutationKey: ['likeUnlike'],
         mutationFn: ({ id, token }) => likeUnlikeSong(id, token),
-        onSuccess: () => {
-            setIsLiked((prev) => !prev)
-            queryClient.invalidateQueries(['favourates'])
+    
+        onMutate: () => {
+            // Show pending toast
+            const toastId = toast.loading("Processing like/unlike...");
+            return { toastId };
         },
-        onError: (error) => {
-            console.error('Error liking/unliking song:', error)
+    
+        onSuccess: (_, __, context) => {
+            toast.success("Updated successfully!", { id: context.toastId }); // Replace pending with success
+            setIsLiked((prev) => !prev);
+            queryClient.invalidateQueries(['favourates']);
+        },
+    
+        onError: (error, _, context) => {
+            toast.error(`Error: ${error.message}`, { id: context.toastId }); // Replace pending with error
+            console.error('Error liking/unliking song:', error);
         }
-    })
+    });
+    
 
     const toggleLike = () => {
         likeUnlike.mutate({ id: song._id, token })
@@ -61,15 +72,25 @@ export const SongBar = ({ song, setSongHandler }) => {
     const addToPlaylistMutation = useMutation({
         mutationKey: ['addToSongPlaylist', song._id],
         mutationFn: ({ id, songId }) => addOrRemoveToPlaylist(id, songId),
-        onSuccess: (data) => {
-            toast.success(data.message)
-            setIsOpen(false)
+    
+        onMutate: () => {
+            // Show pending toast
+            const toastId = toast.loading("Adding to playlist...");
+            return { toastId };
         },
-        onError: (error) => {
-            toast.error(`Error: ${error.message}`)
-            setIsOpen(false)
+    
+        onSuccess: (data, _, context) => {
+            toast.success(data.message, { id: context.toastId }); // Replace pending with success toast
+            setIsOpen(false);
+            queryClient.invalidateQueries(["playlists", "allPlaylist"]);
+        },
+    
+        onError: (error, _, context) => {
+            toast.error(`Error: ${error.message}`, { id: context.toastId }); // Replace pending with error toast
+            setIsOpen(false);
         }
-    })
+    });
+    
 
     return (
         <div onClick={() => setSongHandler(song)} className={`song shadow-md md:py-2 md:px-3 md:pr-2 py-2 px-3  rounded flex  mb-2 group  hover:bg-[var(--primary-color)] transition ease-in-out duration-300 hover:shadow-2xl justify-between ${isPlaying ? "bg-[var(--primary-color)]" : "bg-white dark:hover:bg-gray-500 hover:bg-gray-200 dark:bg-gray-600"} items-center space-x-4 `}>

@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import React, { useState } from 'react'
 import { createPlaylist } from '../apis/playlistApi'
 import toast from 'react-hot-toast'
@@ -7,9 +7,10 @@ import { useNavigate } from 'react-router-dom'
 
 export const CreateEditPlaylist = () => {
     const [coverImage, setCoverImage] = useState(null)
-    const [playlistName, setPlaylistName] = useState()
+    const [playlistName, setPlaylistName] = useState("")
     const [isPrivate, setIsPrivate] = useState(false)
     const navigate = useNavigate()
+    const queryClient = useQueryClient()
 
     const mutation = useMutation({
         mutationKey: ['createPlaylist'],
@@ -17,13 +18,14 @@ export const CreateEditPlaylist = () => {
         onSuccess: () => {
             toast.success("Playlist Created")
             setCoverImage(null)
-            setPlaylistName(null)
+            setPlaylistName("")
             setIsPrivate(false)
+            queryClient.invalidateQueries(['user-Created/Saved-Playlist'])
         },
         onError: (error) => {
             toast.error(`Error: ${error.message}`)
             setCoverImage(null)
-            setPlaylistName(null)
+            setPlaylistName("")
             setIsPrivate(false)
         }
     })
