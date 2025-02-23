@@ -29,7 +29,6 @@ async function getSongs(req, res, next) {
                         as: "artist", // Output field name
                     },
                 },
-                { $unwind: "$artist" }, // Flatten artist array (if needed)
             ]);
 
             return res.status(200).json({ message: "some Songs", songs })

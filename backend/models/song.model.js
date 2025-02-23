@@ -28,7 +28,10 @@ const songSchema = new mongoose.Schema({
             type: mongoose.Schema.ObjectId,
             ref: "User"
         }
-    ]
+    ],
+    duration: {
+        type: String
+    }
 }, {
     timestamps: true,
 })
