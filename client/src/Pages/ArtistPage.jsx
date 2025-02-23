@@ -33,7 +33,7 @@ export const ArtistPage = () => {
 
     return (
         <>
-            <button onClick={() => navigate(-1)} className="mx-5 absolute my-5 flex items-center gap-2 bg-white px-2.5 py-1.5 md:px-4 md:py-2 rounded-full text-sm md:text-base shadow-md  hover:bg-gray-100 dark:hover:bg-gray-500 active:bg-gray-200 dark:bg-gray-600 transition-all" aria-label="Go back">
+            <button onClick={() => navigate(-1)} className="mx-3 md:mx-5 absolute my-3 md:my-5 flex items-center gap-2 bg-white px-2.5 py-1.5 md:px-4 md:py-2 rounded-full text-sm md:text-base shadow-md  hover:bg-gray-100 dark:hover:bg-gray-500 active:bg-gray-200 dark:bg-gray-600 transition-all" aria-label="Go back">
                 {/* Left Arrow SVG */}
                 <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-gray-700 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} >
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -41,8 +41,8 @@ export const ArtistPage = () => {
                 <span className="text-gray-700 font-medium dark:text-white">Go Back</span>
             </button>
 
-            <div className='p-4'>
-                <div className='mx-auto w-50 mt-18 h-50 overflow-hidden rounded-full ring-[var(--primary-color)] ring-3 ring-offset-4 dark:shadow-black hover:scale-105 transition ease-in-out duration-300 shadow-2xl'>
+            <div className='p-4 pb-25'>
+                <div className='mx-auto w-30 h-30 md:w-50 mt-18 md:h-50 overflow-hidden rounded-full ring-[var(--primary-color)] ring-3 ring-offset-4 dark:shadow-black hover:scale-105 transition ease-in-out duration-300 shadow-2xl'>
                     <img className='w-full h-full object-cover hover:scale-105 transition ease-in-out duration-300' src={artist.image} alt="" />
                 </div>
                 <div className='text-center text-md my-4 font-semibold dark:text-white text-gray-800'>

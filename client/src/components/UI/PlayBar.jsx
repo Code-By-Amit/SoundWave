@@ -13,7 +13,7 @@ export const PlayBar = () => {
         const seconds = Math.floor(time % 60);
         return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
     };
-
+    
     return (
         <div className={`absolute bottom-1.5 w-[99%]  rounded-t-lg z-50 bg-[var(--primary-color)] m-1 mb-0 p-3 pt-4 h-22 md:flex justify-between transition-transform ease-in-out duration-1000 items-center ${currentSong ? "translate-y-0" : "translate-y-full"} `}>
             <div className='flex w-full items-center'>
@@ -25,8 +25,8 @@ export const PlayBar = () => {
                     </div>
                     <div className='flex'>
                         <div className='h-full align-text-top leading-1 flex-1 md:w-44'>
-                            <h1 className='font-bold text-sm line-clamp-1 overflow-clip'>{currentSong?.title}</h1>
-                            <p className='text-xs w-16 overflow-clip text-nowrap'>{currentSong?.artist ? currentSong?.artist : '-'}</p>
+                            <h1 className='font-bold text-sm w-fit line-clamp-1 overflow-clip'>{currentSong?.title}</h1>
+                            <p className='text-xs w-fit overflow-clip text-nowrap'>{currentSong?.artist ? currentSong?.artist : '-'}</p>
                         </div>
                     </div>
                 </div>

@@ -3,7 +3,7 @@ const Artist = require("../models/artist.model");
 const Songs = require("../models/song.model");
 const USER = require("../models/user.model");
 const { uploadOnCloudinary, deleteFromCloudinary } = require("../services/uploadOnCloudinary");
-const {uploadMusicFile,deleteMusicFromSuperbase} = require("../services/uploadOnSuperBase");
+const { uploadMusicFile, deleteMusicFromSuperbase } = require("../services/uploadOnSuperBase");
 
 async function getSongs(req, res, next) {
     try {
@@ -11,18 +11,30 @@ async function getSongs(req, res, next) {
         const query = search ? { title: RegExp(search, 'i') } : {};
 
         if (all == "true") {
-            const songs = await Songs.find({})
+            const songs = await Songs.find({}).populate('artist')
             return res.status(200).json({ message: "All Songs", songs })
         }
         if (top == 'true') {
-            const songs = await Songs.find().sort({ noOfPlays: -1 }).limit(Number(limit))
+            const songs = await Songs.find().sort({ noOfPlays: -1 }).limit(Number(limit)).populate('artist')
             return res.status(200).json({ message: "Top Songs", songs })
         }
         if (some == 'true') {
-            const songs = await Songs.aggregate([{ $sample: { size: limit } }])
+            const songs = await Songs.aggregate([
+                { $sample: { size: limit } }, // Get random 'limit' songs
+                {
+                    $lookup: {
+                        from: "artists", // Name of the artist collection in MongoDB
+                        localField: "artist", // The field in 'Songs' referencing 'Artists'
+                        foreignField: "_id", // The primary key in 'Artists'
+                        as: "artist", // Output field name
+                    },
+                },
+                { $unwind: "$artist" }, // Flatten artist array (if needed)
+            ]);
+
             return res.status(200).json({ message: "some Songs", songs })
         }
-        const songs = await Songs.find(query).skip((page - 1) * limit).limit(Number(limit))
+        const songs = await Songs.find(query).skip((page - 1) * limit).limit(Number(limit)).populate('artist')
 
         if (!songs) {
             return res.status(404).json({ message: "Failed to Get songs" })
@@ -156,7 +168,7 @@ async function deleteSong(req, res, next) {
             deleteFromCloudinary(song.image)
         }
         if (song.songUrl) {
-           deleteMusicFromSuperbase(song.songUrl)
+            deleteMusicFromSuperbase(song.songUrl)
         }
 
         const user = await USER.findById(userId)

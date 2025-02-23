@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 export const UploadSongPage = () => {
     return (
         <>
-            <div className='p-5 md:mx-4'>
+            <div className='p-5 md:mx-4 pb-25'>
                 <h1 className='dark:text-white text-2xl font-bold my-5'>Your Uploads</h1>
                 <SongTable />
                 <div className='my-9'>

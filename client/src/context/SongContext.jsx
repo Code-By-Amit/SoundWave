@@ -81,6 +81,7 @@ export const SongProvider = ({ children }) => {
             artist: song?.artist?.name || null
         })
         setSongList(songs)
+        console.log(song)
         const index = songs.findIndex(s => s._id.toString() === song._id.toString())
         setCurrentSongIndex(index)
     }

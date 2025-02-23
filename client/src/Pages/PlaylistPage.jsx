@@ -107,7 +107,7 @@ export const PlaylistPage = () => {
                 <span className="text-gray-700 font-medium dark:text-white">Go Back</span>
             </button>
 
-            <div className='p-4'>
+            <div className='p-4 pb-25'>
                 <div className='mx-auto w-50 h-50 md:w-60 mt-18 md:h-60 overflow-hidden rounded dark:shadow-black hover:scale-105 transition ease-in-out duration-300 shadow-2xl'>
                     <img className='w-full h-full object-cover ' src={playlist.image} alt="" />
                 </div>

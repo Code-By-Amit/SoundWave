@@ -71,7 +71,7 @@ export const TopBar = () => {
             {/* Login Button */}
             <div className="ml-4 flex gap-2 md:gap-4 items-center">
             <ColorPiker />
-                <DarkLightToggleButton toggleDarkMode={toggleDarkMode} />
+                <DarkLightToggleButton toggleDarkMode={toggleDarkMode} isDarkMode={isDarkMode} />
 
                 {
                     user ? (

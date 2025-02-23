@@ -2,11 +2,16 @@ import React, { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { authUser } from '../context/AuthUserContext';
 import { LoadingDots } from '../components/LoadingDots';
+import { TbLockPassword } from "react-icons/tb";
+import { FaEyeSlash, FaEye, FaUser } from "react-icons/fa";
+import { MdOutlinePassword } from "react-icons/md";
 
 export const SignUpPage = () => {
     let navigate = useNavigate();
     const { signupMutation } = authUser()
     let [errors, setErrors] = useState([])
+    let [toggleView, setToggleView] = useState(false)
+    let [togglePasswordView, setTogglePasswordView] = useState(false)
 
     const [formData, setFormData] = useState({ firstName: "", lastName: "", username: "", password: "", confirmPswd: "" })
     // ✅ FORM VALIDATION FUNCTION
@@ -90,23 +95,40 @@ export const SignUpPage = () => {
                 {/* Form Container  */}
                 <div className="formContainer bg-white p-7 md:p-10  rounded-md shadow-xl m-4">
 
-                    <p className='font-bold text-gray-400 mb-3'>Start From Here.</p>
-                    <h1 className='text-3xl text-black font-bold'>Create an Account <span className='text-[var(--primary-color)]'>!</span></h1>
-                    <div className='text-sm text-gray-400 my-2 mb-9'>
+                    <p className='font-bold text-sm md:text-base text-gray-400 mb-3'>Start From Here.</p>
+                    <h1 className='text-xl md:text-3xl text-black font-bold'>Create an Account <span className='text-[var(--primary-color)]'>!</span></h1>
+                    <div className='text-xs md:text-sm text-gray-400 my-2 mb-9'>
                         <span className=' font-semibold'>Already Have Account? </span><NavLink to="/login" className="text-blue-500">Login Here</NavLink>
                     </div>
 
                     <form onSubmit={handleSubmit}>
-                        <div className='flex flex-col gap-4 '>
+                        <div className='flex flex-col gap-2 md:gap-4 '>
                             <div className='flex gap-4 *:w-full'>
-                                <input className='bg-gray-100 p-3 rounded' type="text" placeholder='First Name' name='firstName' value={formData.firstName} onChange={handleInputChange} />
-                                <input className='bg-gray-100 p-3 rounded' type="text" placeholder='Last Name' name='lastName' value={formData.lastName} onChange={handleInputChange} />
+                                <input className='bg-gray-100 p-2 md:p-3 rounded' type="text" placeholder='First Name' name='firstName' value={formData.firstName} onChange={handleInputChange} />
+                                <input className='bg-gray-100 p-2 md:p-3 rounded' type="text" placeholder='Last Name' name='lastName' value={formData.lastName} onChange={handleInputChange} />
                             </div>
-                            <input className='bg-gray-100 p-3 rounded' type="text" placeholder='Username' name='username' value={formData.username} onChange={handleInputChange} />
-                            <input className='bg-gray-100 p-3 rounded' type="text" placeholder='Password' name='password' value={formData.password} onChange={handleInputChange} />
-                            <input className='bg-gray-100 p-3 rounded' type="text" placeholder='Confirm Password' name='confirmPswd' value={formData.confirmPswd} onChange={handleInputChange} />
+
+                            <div className='flex items-center gap-4 p-2 md:p-3 bg-gray-100 relative  rounded'>
+                                <FaUser size={24} />
+                                <input className=' w-full h-full outline-none ' type="text" placeholder='Username' name='username' value={formData.username} onChange={handleInputChange} />
+                            </div>
+
+                            <div className='flex relative bg-gray-100 items-center gap-3 p-2 md:p-3 rounded'>
+                                <TbLockPassword size={27} />
+                                <input className=' w-full h-full outline-none  ' type={!togglePasswordView ? 'password' : 'text'} placeholder='Password' name='password' value={formData.password} onChange={handleInputChange} />
+                                <div onClick={(e) => setTogglePasswordView(!togglePasswordView)} className='absolute cursor-pointer right-5'>
+                                    {togglePasswordView ? <FaEye /> : <FaEyeSlash size={27} />}
+                                </div>
+                            </div>
+                            <div className='flex relative bg-gray-100 items-center gap-3 p-2 md:p-3 rounded'>
+                                <MdOutlinePassword />
+                                <input className='bg-gray-100 w-full h-full outline-none' type={!toggleView ? 'password' : 'text'} placeholder='Confirm Password' name='confirmPswd' value={formData.confirmPswd} onChange={handleInputChange} />
+                                <div onClick={(e) => setToggleView(!toggleView)} className='absolute cursor-pointer right-5'>
+                                    {toggleView ? <FaEye /> : <FaEyeSlash size={27} />}
+                                </div>
+                            </div>
                         </div>
-                        <button className={`bg-[var(--primary-color)] w-full text-white font-bold py-2 rounded-md mt-13 ${signupMutation.isPending ? "disabled:opacity-50" : ""} hover:opacity-85`} type='submit'>{signupMutation.isPending ? (<>Signing<LoadingDots /></>) : "Sign Up"}</button>
+                        <button className={`bg-[var(--primary-color)] w-full text-white font-bold py-1 md:py-2 rounded-md mt-5 md:mt-13 ${signupMutation.isPending ? "disabled:opacity-50" : ""} hover:opacity-85`} type='submit'>{signupMutation.isPending ? (<>Signing<LoadingDots /></>) : "Sign Up"}</button>
                         {errors.length > 0 && (
                             <div className="bg-red-100 mt-4 border border-red-400 text-red-700 px-4 py-3 rounded">
                                 <ul className="list-disc pl-5">

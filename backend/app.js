@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 4000;
 console.log(process.env.Frontend_URL)
 
 app.use(cors({
-    origin: ["https://amitsoundwave.netlify.app"],
+    origin: ["https://amitsoundwave.netlify.app","http://localhost:5173"],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],  // ✅ Allow required headers
     methods: ["GET", "POST", "PATCH", "DELETE"] // ✅ Allow all necessary methods

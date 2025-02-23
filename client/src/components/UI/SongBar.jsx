@@ -87,8 +87,7 @@ export const SongBar = ({ song, setSongHandler }) => {
 
             {/* time, play, and Add to Favorites */}
             <div className={`flex sm:mr-5 md:*:mx-3 gap-5 sm:gap-9 text-gray-500 justify-between  ${isPlaying ? "text-white" : ""} dark:text-white items-center text-xs sm:text-sm`}>
-                {/* <p>{song.duration}</p> */}
-                <p>4:13</p>
+                <p>{song?.duration ? song?.duration : "-"}</p>
                 <div className='flex items-center  justify-between gap-0 sm:gap-4 md:gap-8'>
                     <div className="relative">
                         <MdPlaylistAdd
@@ -135,7 +134,7 @@ export const SongBar = ({ song, setSongHandler }) => {
                     </div>
 
 
-                    <LikeUnlike isLiked={isLiked} toggleLike={toggleLike} />
+                    <LikeUnlike isLiked={isLiked} isPlaying={isPlaying} toggleLike={toggleLike} />
                 </div>
             </div>
         </div>

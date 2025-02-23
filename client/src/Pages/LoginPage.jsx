@@ -3,12 +3,16 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import { authUser } from '../context/AuthUserContext'
 import toast from 'react-hot-toast'
 import { LoadingDots } from '../components/LoadingDots'
+import { FaUser } from "react-icons/fa6";
+import { TbLockPassword } from "react-icons/tb";
+import { FaEyeSlash, FaEye } from "react-icons/fa";
 
 export const LoginPage = () => {
     const [crediantials, setCrediantials] = useState({ username: "", password: "" })
     let navigate = useNavigate()
     const { loginMutation } = authUser()
     let [errors, setErrors] = useState([])
+    let [toggleView, setToggleView] = useState(false)
 
     const validation = () => {
         let validationErrors = [];
@@ -75,18 +79,29 @@ export const LoginPage = () => {
                 {/* Form Container  */}
                 <div className="formContainer bg-white p-10 w-[27rem] rounded-md shadow-xl m-4">
 
-                    <p className='font-bold text-gray-400 mb-3'>Glad to See you Again.</p>
-                    <h1 className='text-3xl text-black font-bold'>Welcome Back<span className='text-[var(--primary-color)]'>!</span></h1>
-                    <div className='text-sm text-gray-400 my-2 mb-9'>
+                    <p className='font-bold text-sm md:text-base text-gray-400 mb-3'>Glad to See you Again.</p>
+                    <h1 className='text-xl md:text-3xl text-black font-bold'>Welcome Back<span className='text-[var(--primary-color)]'>!</span></h1>
+                    <div className='text-xs md:text-sm text-gray-400 my-2 mb-9'>
                         <span className=' font-semibold'>New here? </span><NavLink to="/signup" className="text-blue-500">Create an Account</NavLink>
                     </div>
 
                     <form onSubmit={handleSubmit}>
-                        <div className='flex flex-col gap-4 *:bg-gray-100 *:p-3 *:rounded'>
-                            <input type="text" placeholder='username' value={crediantials.username} name="username" onChange={(e) => setCrediantials({ ...crediantials, username: e.target.value })} />
-                            <input type="text" placeholder='password' value={crediantials.password} name="password" onChange={(e) => setCrediantials({ ...crediantials, password: e.target.value })} />
+                        <div className='flex flex-col gap-4 *:bg-gray-100  *:p-2 md:*:p-3 *:rounded'>
+
+                            <div className='flex items-center gap-3 '>
+                                <FaUser className='w-4' />
+                                <input type="text" placeholder='username' className='w-full h-full outline-none' value={crediantials.username} name="username" onChange={(e) => setCrediantials({ ...crediantials, username: e.target.value })} />
+                            </div>
+
+                            <div className='flex items-center gap-2 relative'>
+                                <TbLockPassword className='w-5' size={30} />
+                                <input type={!toggleView ? 'password' : 'text'} className='w-full h-full outline-none' placeholder="password" value={crediantials.password} name="password" onChange={(e) => setCrediantials({ ...crediantials, password: e.target.value })} />
+                                <div onClick={(e) => setToggleView(!toggleView)} className='absolute right-5'>
+                                    {toggleView ? <FaEye /> : <FaEyeSlash size={27} />}
+                                </div>
+                            </div>
                         </div>
-                        <button className='bg-[var(--primary-color)] w-full text-white font-bold py-2 rounded-md mt-9 hover:opacity-85' type='submit'>{loginMutation.isPending ? (<>Logging in<LoadingDots /></>) : "Login"}</button>
+                        <button className='bg-[var(--primary-color)] w-full text-white font-bold py-1 md:py-2 rounded-md mt-5 md:mt-9 hover:opacity-85' type='submit'>{loginMutation.isPending ? (<>Logging in<LoadingDots /></>) : "Login"}</button>
                         {errors.length > 0 && (
                             <div className="bg-red-100 mt-4 border border-red-400 text-red-700 px-4 py-3 rounded">
                                 <ul className="list-disc pl-5">
