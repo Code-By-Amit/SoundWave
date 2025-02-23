@@ -36,7 +36,7 @@ export const Favourates = () => {
   return (
     <>
       {/* Favourate Songs  */}
-      <div className="songs min-h-96 p-3">
+      <div className="songs min-h-96 p-3 pb-25">
 
         <h1 className="text-2xl font-bold  md:mx-7 my-4 dark:text-white">Favourate Songs</h1>
         {songsLiked.length === 0 && (<p className='dark:text-white text-center my-9 text-md'>No Favourate Song</p>)}

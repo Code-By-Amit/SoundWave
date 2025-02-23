@@ -75,7 +75,7 @@ export const SongBar = ({ song, setSongHandler }) => {
     
         onMutate: () => {
             // Show pending toast
-            const toastId = toast.loading("Adding to playlist...");
+            const toastId = toast.loading("Adding/Removing to playlist...");
             return { toastId };
         },
     

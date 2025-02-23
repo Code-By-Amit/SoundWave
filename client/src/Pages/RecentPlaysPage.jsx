@@ -28,7 +28,7 @@ export const RecentPlaysPage = () => {
   return (
     <>
       {/* Favourate Songs  */}
-      <div className="songs min-h-96 p-3 pb-25">
+      <div className="songs min-h-96 p-3 pb-30">
 
         <h1 className="text-2xl font-bold  md:mx-7 my-4 dark:text-white">Recent play's</h1>
 
