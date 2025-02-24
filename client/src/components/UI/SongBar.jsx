@@ -127,7 +127,7 @@ export const SongBar = ({ song, setSongHandler }) => {
                         {isOpen && (
                             <div onClick={(e) => e.stopPropagation()} className="z-10 absolute bottom-full right-4 transition ease-in-out bg-white divide-y dark:bg-gray-600 divide-gray-100 rounded-lg shadow-md w-fit">
                                 <div className="py-0.5 md:py-1">
-                                    <p className='w-full text-start px-4 py-1 text-base md:text-md font-semibold text-gray-900'>Your Playlists</p>
+                                    <p className='w-full text-start px-4 py-1 text-base md:text-md font-semibold dark:text-gray-100  text-gray-900'>Your Playlists</p>
                                     <div className='w-[90%] mx-auto border-gray-300 mb-2 rounded-full border'></div>
                                     {
                                         playlists.length > 0 ?
@@ -140,7 +140,7 @@ export const SongBar = ({ song, setSongHandler }) => {
                                                             e.stopPropagation()
                                                             addToPlaylistMutation.mutate({ id: playlist?._id, songId: song?._id, token })
                                                         }}
-                                                        className={`w-full ${isExistsInPlaylist ? 'text-red-600' : ''} text-start whitespace-nowrap flex gap-5 justify-between items-center px-4 py-1.5 text-md md:text-md font-semibold text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white`}>
+                                                        className={`w-full ${isExistsInPlaylist ? 'text-red-600' : 'dark:text-gray-100 '} text-start whitespace-nowrap flex gap-5 justify-between items-center px-4 py-1.5 text-md md:text-md font-semibold text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white`}>
                                                         {playlist.name} {isExistsInPlaylist ? <MdPlaylistRemove className='text-base md:text-xl' /> : <MdOutlinePlaylistAdd className='text-base md:text-xl' />}
                                                     </button>
                                                 </>
