@@ -1,5 +1,5 @@
-import { useMutation, useQueries, useQuery } from '@tanstack/react-query'
-import React, { useState } from 'react'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import React, { useRef, useState } from 'react'
 import toast from 'react-hot-toast'
 import { uploadSong } from '../apis/SongApi'
 import { LoadingDots } from './LoadingDots'
@@ -20,24 +20,44 @@ export const UploadEditSong = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [token, setToken] = useState(localStorage.getItem('token') || null)
 
+    const imageInputRef = useRef(null);
+    const songInputRef = useRef(null)
+
     const navigate = useNavigate()
 
     const mutation = useMutation({
         mutationKey: ['uploadSong'],
         mutationFn: (data) => uploadSong(data, token),
-        onSuccess: () => {
-            toast.success("Song Uploaded")
-            setSong(null)
-            setTitle('')
-            setImage(null)
-            setDuration(0)
+        onMutate: () => {
+            // Show pending toast
+            const toastId = toast.loading("Uploading Song...");
+            return { toastId };
         },
-        onError: (error) => {
-            toast.error(`Error: ${error.message}`)
+        onSuccess: (data, _, context) => {
+            toast.success(data.message, { id: context.toastId });
             setSong(null)
             setTitle('')
             setImage(null)
             setDuration(0)
+            if (imageInputRef.current) {
+                imageInputRef.current.value = ""; // ✅ Reset the input field
+            }
+            if(songInputRef.current){
+                songInputRef.current.value = "";
+            }
+        },
+        onError: (error, _, context) => {
+            toast.error(`Error: ${error.message}`, { id: context.toastId });
+            setSong(null)
+            setTitle('')
+            setImage(null)
+            setDuration(0)
+            if (imageInputRef.current) {
+                imageInputRef.current.value = ""; // ✅ Reset the input field
+            }
+            if(songInputRef.current){
+                songInputRef.current.value = "";
+            }
         }
     })
 
@@ -107,7 +127,7 @@ export const UploadEditSong = () => {
                 <span className="text-gray-700 font-medium dark:text-white">Go Back</span>
             </button>
 
-            <h1 className='text-center text-xl mt-10 font-semibold my-3 text-gray-800 md:pb-30 dark:text-gray-200'>Upload Your Song</h1>
+            <h1 className='text-center text-xl mt-10 font-semibold my-3 text-gray-800 dark:text-gray-200'>Upload Your Song</h1>
             <div className="max-w-md mx-auto mt-3 bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg mb-20">
                 <form className="space-y-3 md:space-y-6" onSubmit={handleSubmit}>
                     {/* <!-- File Input --> */}
@@ -118,6 +138,7 @@ export const UploadEditSong = () => {
                             <input
                                 type="file"
                                 name='songImage'
+                                ref={imageInputRef}
                                 onChange={handleImageChange}
                                 accept='image/*'
                                 className="block w-full p-1 md:p-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -129,6 +150,7 @@ export const UploadEditSong = () => {
                             <input
                                 type="file"
                                 name='song'
+                                ref={songInputRef}
                                 onChange={handleSongChange}
                                 accept='audio/*'
                                 required

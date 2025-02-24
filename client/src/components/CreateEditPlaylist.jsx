@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { createPlaylist } from '../apis/playlistApi'
 import toast from 'react-hot-toast'
 import { LoadingDots } from './LoadingDots'
@@ -13,6 +13,8 @@ export const CreateEditPlaylist = () => {
     const queryClient = useQueryClient()
     const [token, setToken] = useState(localStorage.getItem('token') || null)
 
+    const imageInputRef = useRef(null)
+
     const mutation = useMutation({
         mutationKey: ['createPlaylist'],
         mutationFn: ({ data, token }) => createPlaylist(data, token),
@@ -21,6 +23,9 @@ export const CreateEditPlaylist = () => {
             setCoverImage(null)
             setPlaylistName("")
             setIsPrivate(false)
+            if (imageInputRef.current) {
+                imageInputRef.current.value = ""
+            }
             queryClient.invalidateQueries(['user-Created/Saved-Playlist'])
         },
         onError: (error) => {
@@ -28,6 +33,9 @@ export const CreateEditPlaylist = () => {
             setCoverImage(null)
             setPlaylistName("")
             setIsPrivate(false)
+            if (imageInputRef.current) {
+                imageInputRef.current.value = ""
+            }
         }
     })
 
@@ -73,6 +81,7 @@ export const CreateEditPlaylist = () => {
                             type="file"
                             id="playlistImage"
                             name='image'
+                            ref={imageInputRef}
                             onChange={handleFileChange}
                             className="block w-full text-sm p-1 md:p-2 text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         />
