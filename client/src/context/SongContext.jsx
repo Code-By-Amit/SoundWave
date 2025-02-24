@@ -32,7 +32,14 @@ export const SongProvider = ({ children }) => {
 
             const audio = audioRef.current
             const handelMetaData = () => setDuration(audio.duration)
-            const handelTimeUpdate = () => setCurrentTime(audio.currentTime)
+            const handelTimeUpdate = () =>{
+                setCurrentTime(audio.currentTime)
+                if(audio.currentTime===audio.duration){
+                    setTimeout(()=>{
+                        playForward()
+                    },1500)
+                }
+            }
 
             audio.addEventListener('loadedmetadata', handelMetaData);
             audio.addEventListener('timeupdate', handelTimeUpdate);
