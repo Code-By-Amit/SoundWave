@@ -31,11 +31,12 @@ async function uploadMusicFile(filePath) {
 
         // Get Public URL (Fixed)
         const publicUrl = supabase.storage.from(bucketName).getPublicUrl(storagePath);
+        const songUrl = publicUrl.publicUrl;
 
         // Delete file locally after 2 seconds
         setTimeout(() => fs.unlink(filePath, () => {}), 2000);
 
-        return publicUrl;
+        return songUrl;
     } catch (err) {
         console.error('⚠️ Unexpected error:', err);
         return null;

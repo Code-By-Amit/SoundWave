@@ -24,7 +24,7 @@ export const UploadEditSong = () => {
 
     const mutation = useMutation({
         mutationKey: ['uploadSong'],
-        mutationFn: ({ data, token }) => uploadSong(data, token),
+        mutationFn: (data) => uploadSong(data, token),
         onSuccess: () => {
             toast.success("Song Uploaded")
             setSong(null)
@@ -74,7 +74,7 @@ export const UploadEditSong = () => {
 
             console.log([...formData.entries()]);
 
-            mutation.mutate({ formData, token });
+            mutation.mutate(formData);
 
             URL.revokeObjectURL(audioUrl);
         });
@@ -107,7 +107,7 @@ export const UploadEditSong = () => {
                 <span className="text-gray-700 font-medium dark:text-white">Go Back</span>
             </button>
 
-            <h1 className='text-center text-xl mt-10 font-semibold my-3 text-gray-800 pb-30 dark:text-gray-200'>Upload Your Song</h1>
+            <h1 className='text-center text-xl mt-10 font-semibold my-3 text-gray-800 md:pb-30 dark:text-gray-200'>Upload Your Song</h1>
             <div className="max-w-md mx-auto mt-3 bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg mb-20">
                 <form className="space-y-3 md:space-y-6" onSubmit={handleSubmit}>
                     {/* <!-- File Input --> */}

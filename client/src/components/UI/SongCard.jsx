@@ -7,7 +7,7 @@ export const SongCard = ({ song ,setSongHandler}) => {
   const { setCurrentSong, currentSong, isPlaying } = useSong()
 
   return (
-    <div onClick={()=>setSongHandler(song)} className="card w-23  min-h-40 md:w-34 md:min-w-[8rem] md:min-h-50 group rounded-md hover:scale-105 transition ease-in-out duration-200 group overflow-hidden shrink-0">
+    <div onClick={()=>setSongHandler(song)} className="card w-23 cursor-pointer min-h-40 md:w-34 md:min-w-[8rem] md:min-h-50 group rounded-md hover:scale-105 transition ease-in-out duration-200 group overflow-hidden shrink-0">
 
       {/* Image Section */}
       <div className='relative group '>

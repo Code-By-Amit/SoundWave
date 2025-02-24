@@ -93,9 +93,9 @@ export const CreateArtistForm = () => {
             </button>
 
 
-            <h1 className='text-center text-xl md:text-3xl font-bold text-gray-800 my-2'>Create Artist.</h1>
+            <h1 className='text-center text-xl md:text-3xl dark:text-gray-50 font-bold text-gray-800 my-2'>Create Artist.</h1>
 
-            <div className="max-w-md mx-auto mt-3 bg-white dark:bg-gray-800 p-4 md:p-6 rounded-lg shadow-lg">
+            <div className="max-w-md mx-auto mt-3 bg-white dark:bg-gray-900 p-4 md:p-6 rounded-lg shadow-lg">
                 <form className="space-y-3" onSubmit={handleSubmit}>
 
                     {/* <!-- File Input --> */}
@@ -124,7 +124,7 @@ export const CreateArtistForm = () => {
                     })}
                     <button
                         type="submit"
-                        className="w-full py-2 px-4 bg-[var(--primary-color)] hover:opacity-80 text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 transition-all"
+                        className="w-full py-1 md:py-2 px-4 bg-[var(--primary-color)] hover:opacity-80 text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 transition-all"
                     >
                         {createArtistMutation.isPending ? (<> Creating<LoadingDots /></>) : "Create"}
                     </button>

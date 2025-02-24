@@ -16,7 +16,7 @@ export const ColorPiker = () => {
     <>
     <div className='flex'>
     {/* <label htmlFor="hs-color-input" className="block text-sm font-medium mb-2 dark:text-white">Color picker</label> */}
-    <input type="color" className="md:p-1 p-0.5 h-6 w-8 md:h-8 md:w-11 block bg-white border border-gray-200 cursor-pointer rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700" id="hs-color-input" value={color} onChange={(e)=>setColor(e.target.value)} title="Choose your color" />
+    <input type="color" className="md:p-1 p-0.5 h-6.5 w-8 md:h-8 md:w-11 block bg-white border border-gray-200 cursor-pointer rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700" id="hs-color-input" value={color} onChange={(e)=>setColor(e.target.value)} title="Choose your color" />
     </div>
     </>
   )
