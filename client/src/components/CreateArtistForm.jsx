@@ -11,6 +11,7 @@ export const CreateArtistForm = () => {
     const [name, setName] = useState('')
     const [image, setImage] = useState(null)
     const [previewImg, setPreviewImg] = useState()
+    const [token, setToken] = useState(localStorage.getItem('token') || null)
 
     const [errors, setErrors] = useState([])
 
@@ -38,7 +39,7 @@ export const CreateArtistForm = () => {
 
     const createArtistMutation = useMutation({
         mutationKey: ['createArtist'],
-        mutationFn: (formdata) => createArtist(formdata),
+        mutationFn: ({formdata, token}) => createArtist(formdata, token),
         onSuccess: (data) => {
             toast.success(data.message)
             setName('')
@@ -78,7 +79,7 @@ export const CreateArtistForm = () => {
         console.log(name, image)
         console.log(formData.entries())
 
-        createArtistMutation.mutate(formData)
+        createArtistMutation.mutate({formData, token})
     }
 
     return (

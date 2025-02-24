@@ -49,7 +49,7 @@ async function getSongs(req, res, next) {
 async function getFavourates(req, res, next) {
     try {
         const userId = req.userId;
-        const favourates = await USER.findById(userId).populate('songsLiked').select('songsLiked')
+        const favourates = await USER.findById(userId).populate({ path: 'songsLiked', populate: { path: 'artist' } }).select('songsLiked')
         if (!favourates) {
             res.status(404).json({ message: 'User Not Found' })
         }
@@ -231,7 +231,7 @@ async function addSongToRecentPlays(req, res, next) {
 async function getRecentPlays(req, res, next) {
     try {
         const userId = req.userId;
-        const user = await USER.findById(userId).populate('recentPlays').select('-password');
+        const user = await USER.findById(userId).populate({ path: 'recentPlays', populate: { path: 'artist' } }).select('-password');
 
         if (!user) {
             return res.status(404).json({ message: "User Not Found" })

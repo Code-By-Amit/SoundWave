@@ -1,14 +1,15 @@
 import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query'
-import React from 'react'
+import React, { useState } from 'react'
 import { deleteSong } from '../../../apis/SongApi'
 import toast from 'react-hot-toast'
 
 export const SongRow = ({ song }) => {
     const queryClient = useQueryClient()
+    const [token, setToken] = useState(localStorage.getItem('token') || null)
 
     const deleteMutation = useMutation({
         mutationKey:['deleteSong'],
-        mutationFn:(id)=>deleteSong(id),
+        mutationFn:(id)=>deleteSong(id,token),
         onSuccess:()=>{
             queryClient.invalidateQueries(['userUploads'])
             toast.success("Song Deleted Sucessfully")

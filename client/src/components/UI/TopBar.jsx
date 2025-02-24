@@ -48,7 +48,7 @@ export const TopBar = () => {
         setIsOpen(!isOpen);
     };
     const handleLogout = async () => {
-        const res = await logout()
+        await logout()
         navigate('/')
         toggleDropdown()
     }
@@ -63,9 +63,9 @@ export const TopBar = () => {
                 /> <IoSearch className='absolute top-2.5 right-2  md:top-3 md:right-3 dark:text-white text-gray-500 text-xl' />
             </div>
 
-            <div className="flex items-center gap-1 sm:hidden text-lg">
+            <div className="flex items-center gap-2 sm:hidden text-lg">
                 <img className={`dark:invert w-6 md:w-10 transition-all duration-300 `} src="/logo.png" alt="Logo" />
-                <span className={`font-bold transition-all text-base md:text-md duration-300 text-[var(--primary-color)]`}> SoundWave </span>
+                <span className={`font-bold transition-all text-md duration-300 text-[var(--primary-color)]`}> SoundWave </span>
             </div>
 
             {/* Login Button */}
@@ -77,10 +77,10 @@ export const TopBar = () => {
                     user ? (
                         <div className='relative'>
                             <button
-                                className="flex text-sm items-center p-0.5 md:p-1 rounded-full ring-4 ring-[var(--primary-color)] hover:scale-105"
+                                className="flex text-sm items-center p-0.5 md:p-1 rounded-full ring-2 md:ring-3 ring-[var(--primary-color)] hover:scale-105"
                                 type="button"
                                 onClick={toggleDropdown} >
-                                <div className="w-6 h-6 md:w-7 md:h-7 rounded-full overflow-hidden">
+                                <div className="w-7 h-7 rounded-full overflow-hidden">
                                     <img className="w-full h-full object-cover" src={user.profileImg} alt="user photo" crossOrigin="anonymous" />
                                 </div>
                                 <div className='whitespace-nowrap mx-1 text-xs hidden sm:block md:text-base dark:text-white'>{user.firstName}</div>

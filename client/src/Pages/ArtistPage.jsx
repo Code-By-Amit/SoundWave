@@ -43,10 +43,10 @@ export const ArtistPage = () => {
 
             <div className='p-4 pb-25'>
                 <div className='mx-auto w-30 h-30 md:w-50 mt-18 md:h-50 overflow-hidden rounded-full ring-[var(--primary-color)] ring-3 ring-offset-4 dark:shadow-black hover:scale-105 transition ease-in-out duration-300 shadow-2xl'>
-                    <img className='w-full h-full object-cover hover:scale-105 transition ease-in-out duration-300' src={artist.image} alt="" />
+                    <img className='w-full h-full object-cover hover:scale-105 transition ease-in-out duration-300' src={artist?.image} alt={artist?.name} />
                 </div>
                 <div className='text-center text-md my-4 font-semibold dark:text-white text-gray-800'>
-                    <p>{artist.name}</p>
+                    <p>{artist?.name}</p>
                 </div>
 
                 {/* Top Songs  */}

@@ -46,7 +46,15 @@ export const SignUpPage = () => {
             return; // Stop form submission if validation fails
         }
 
-        signupMutation.mutate(formData, {
+        const trimmedData = {
+            firstName: formData.firstName.trim(),
+            lastName: formData.lastName.trim(),
+            username: formData.username.trim(),
+            password: formData.password.trim(),
+            confirmPswd: formData.confirmPswd.trim()
+          };
+
+        signupMutation.mutate(trimmedData, {
             onSuccess: () => {
                 navigate('/')
                 toast.success("Signup Sucessful")

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { SongRow } from './SongRow'
 import { useQuery } from '@tanstack/react-query'
 import { fetchUserUploads } from '../../../apis/SongApi'
@@ -6,9 +6,10 @@ import toast from 'react-hot-toast'
 import { Loader } from '../Loader'
 
 export const SongTable = () => {
+  const [token, setToken] = useState(localStorage.getItem('token') || null)
   const { data, isLoading, isError,error } = useQuery({
     queryKey: ['userUploads'],
-    queryFn: () => fetchUserUploads(),
+    queryFn: () => fetchUserUploads(token),
     onError:(error)=>{
       toast.error(`Error: ${error.message}`)
   }

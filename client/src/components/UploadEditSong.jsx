@@ -18,12 +18,13 @@ export const UploadEditSong = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedArtistID, setSelectedArtistID] = useState(null);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [token, setToken] = useState(localStorage.getItem('token') || null)
 
     const navigate = useNavigate()
 
     const mutation = useMutation({
         mutationKey: ['uploadSong'],
-        mutationFn: (data) => uploadSong(data),
+        mutationFn: ({ data, token }) => uploadSong(data, token),
         onSuccess: () => {
             toast.success("Song Uploaded")
             setSong(null)
@@ -50,7 +51,7 @@ export const UploadEditSong = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         console.log(song
-            ,title
+            , title
         )
         if (!song || !title) {
             toast.error("Please provide all required fields!");
@@ -65,15 +66,15 @@ export const UploadEditSong = () => {
             const formData = new FormData();
             formData.append('image', image);
             formData.append('song', song);
-            formData.append('title', title);
-            formData.append('duration', formattedDuration);
+            formData.append('title', title.trim());
+            formData.append('duration', formattedDuration.trim());
             if (selectedArtistID) {
                 formData.append('artist', selectedArtistID);
             }
 
             console.log([...formData.entries()]);
 
-            mutation.mutate(formData);
+            mutation.mutate({ formData, token });
 
             URL.revokeObjectURL(audioUrl);
         });
@@ -81,7 +82,7 @@ export const UploadEditSong = () => {
 
     const { data } = useQuery({
         queryKey: ['artistSelection', searchTerm],
-        queryFn: () => fetchArtistNameAndID(searchTerm),
+        queryFn: () => fetchArtistNameAndID(searchTerm, token),
         enabled: !!searchTerm,
         staleTime: 60 * 60 * 1000,  // 1 hour → Data remains fresh for 1 hour
         cacheTime: 2 * 60 * 60 * 1000, // 12 hours → Keep cached data for 2 hours
@@ -206,10 +207,10 @@ export const UploadEditSong = () => {
                             required
                         />
                     </div>
-                    <p className='text-xs text-gray-500 text-center'>Note: Select from admin-approved artists. 
+                    <p className='text-xs text-gray-500 text-center'>Note: Select from admin-approved artists.
                         <p>
-                        Need one? 
-                        <Link to='/request-form' className='underline text-blue-600'> Request here</Link>.
+                            Need one?
+                            <Link to='/request-form' className='underline text-blue-600'> Request here</Link>.
                         </p>
                     </p>
 

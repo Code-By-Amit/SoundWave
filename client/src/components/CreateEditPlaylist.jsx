@@ -11,10 +11,11 @@ export const CreateEditPlaylist = () => {
     const [isPrivate, setIsPrivate] = useState(false)
     const navigate = useNavigate()
     const queryClient = useQueryClient()
+    const [token, setToken] = useState(localStorage.getItem('token') || null)
 
     const mutation = useMutation({
         mutationKey: ['createPlaylist'],
-        mutationFn: (data) => createPlaylist(data),
+        mutationFn: ({ data, token }) => createPlaylist(data, token),
         onSuccess: () => {
             toast.success("Playlist Created")
             setCoverImage(null)
@@ -40,10 +41,10 @@ export const CreateEditPlaylist = () => {
 
         const formData = new FormData();
         formData.append('image', coverImage); // This must match 'image' in upload.single('image')
-        formData.append('name', playlistName);
+        formData.append('name', playlistName.trim());
         formData.append('isPrivate', isPrivate);
 
-        mutation.mutate(formData)
+        mutation.mutate({ formData, token })
     }
 
     const handleFileChange = (event) => {

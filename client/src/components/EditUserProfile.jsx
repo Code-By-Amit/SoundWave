@@ -15,6 +15,7 @@ export const EditUserProfile = () => {
   const [image, setImage] = useState(user?.profileImg)
   const [previewImg, setPreviewImg] = useState(null)
   const [errors, setErrors] = useState([])
+  const [token, setToken] = useState(localStorage.getItem('token') || null)
 
   const queryClient = useQueryClient()
 
@@ -51,7 +52,7 @@ export const EditUserProfile = () => {
 
   const profileMutation = useMutation({
     mutationKey: ['updateProfile'],
-    mutationFn: (data) => updateUserProfile(data),
+    mutationFn: ({ data, token }) => updateUserProfile(data, token),
     onSuccess: (data) => {
       toast.success(data.message)
       queryClient.invalidateQueries(['authUser'])
@@ -89,10 +90,10 @@ export const EditUserProfile = () => {
 
     const formData = new FormData();
     formData.append('profileImg', image);
-    formData.append('firstName', name.firstName);
-    formData.append('lastName', name.lastName);
-    formData.append('username', username);
-    profileMutation.mutate(formData)
+    formData.append('firstName', name.firstName.trim());
+    formData.append('lastName', name.lastName.trim());
+    formData.append('username', username.trim());
+    profileMutation.mutate({ formData, token })
   }
 
   return (

@@ -11,7 +11,7 @@ export const UserContextProvider = ({ children }) => {
 
     const { data: user, isLoading } = useQuery({
         queryKey: ['authUser'],
-        queryFn: () => fetchAuthUser(),
+        queryFn: () => fetchAuthUser(token),
         enabled:!!token,
         staleTime: Infinity,
         cacheTime: 2 * 60 * 60 * 1000, // 2 hours → Keep cached data for 2 hours
