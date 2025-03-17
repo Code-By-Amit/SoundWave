@@ -5,13 +5,14 @@ Welcome to **SoundWave**, a Music platform built using the **MERN Stack**. This 
 SoundWave provides a seamless experience for Listning Your Favorite Songs 🎼❤️
 
 ## Features
-
-### 1. **User Authentication** 🔐 
-### 2. **Create/Delete Playlist** 📚
-### 3. **User Profile Updation** 👤
-### 4. **Add/Remove Songs From Playlist**
-### 5. **Like/Unlike Songs**
-### 6. **Upload/Delete Songs**
+- ✅ Create & Delete Playlists 🎵
+- ✅ Like & Unlike Songs ❤️
+- ✅ Upload & Delete Your Favorite Songs ⬆️
+- ✅ Add & Remove Songs from Playlists 📂
+- ✅ View Favorite Songs & Recently Played Songs 🎶
+- ✅ Search Functionality 🔍
+- ✅ Secure Authentication using JWT 🔐
+- ✅ Fully Responsive Design for Cross-Platform Accessibility 📱💻
 
 ---
 
